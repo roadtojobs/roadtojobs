@@ -1,8 +1,8 @@
-import { initSurrealDbConnection } from '@db';
+import { initSurrealDbRootConnection } from '@db';
 
 async function main(): Promise<void> {
   console.info('Connecting to DB...');
-  await initSurrealDbConnection();
+  await initSurrealDbRootConnection();
   console.info('DB connected.');
 }
 

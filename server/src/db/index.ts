@@ -3,7 +3,10 @@ import env from '../env';
 
 export const db = new Surreal(env.surrealDbEndpoint);
 
-export const initSurrealDbConnection = async (): Promise<void> => {
+/**
+ * Full power root user
+ */
+export const initSurrealDbRootConnection = async (): Promise<void> => {
   await db.signin({
     user: env.surrealDbUser,
     pass: env.surrealDbPass,

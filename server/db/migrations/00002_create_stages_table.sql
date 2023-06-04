@@ -1,4 +1,6 @@
-DEFINE TABLE stage SCHEMAFULL;
+DEFINE TABLE stage SCHEMAFULL
+  PERMISSIONS
+    FOR create, delete, update NONE;
 
 DEFINE FIELD name ON TABLE stage TYPE string ASSERT $value != NONE;
 DEFINE FIELD is_initial_stage ON TABLE stage TYPE bool VALUE $value OR false;

@@ -1,6 +1,6 @@
 import { readdir as readDirectory, readFileSync } from 'fs';
 import * as path from 'path';
-import { initSurrealDbConnection, db } from '@db';
+import { initSurrealDbRootConnection, db } from '@db';
 import { md5 } from 'shared/utils/md5';
 
 const migrationFolderPath = './db/migrations/';
@@ -18,7 +18,7 @@ readDirectory(migrationFolderPath, async (err, files) => {
     return;
   }
 
-  await initSurrealDbConnection();
+  await initSurrealDbRootConnection();
   await createMigrationTable();
 
   // Filter out non-SQL files and sort them by filename
