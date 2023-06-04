@@ -1,6 +1,6 @@
 {
-  "name": "interview-journey",
-  "version": "1.0.0",
+  "name": "road-to-jobs",
+  "version": "0.0.1",
   "author": "Seth Phat (me@sethphat.com)",
   "scripts": {
     "format": "npx prettier --write './server' './web' './shared'"
