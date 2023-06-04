@@ -1,0 +1,13 @@
+/node_modules
+/storage/*.key
+/vendor
+.env
+.env.backup
+.env.production
+auth.json
+npm-debug.log
+yarn-error.log
+/.fleet
+/.idea
+/.vscode
+*.iml

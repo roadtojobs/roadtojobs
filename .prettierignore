@@ -1,0 +1,10 @@
+.docker
+generated
+dist
+build
+node_modules
+.gitignore
+shared/.gitignore
+bin
+.idea
+*.md

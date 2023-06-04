@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "module": "commonjs",
+    "rootDirs": ["./", "../../shared/"],
+    "target": "es6",
+    "allowJs": false,
+    "typeRoots": ["node_modules/@types", "src/@types"],
+    "paths": {
+      "shared/*": ["../../shared/src/*"],
+      "@db": ["../src/db/index.ts"]
+    }
+  },
+  "include": ["src/**/*", "db/migrate.ts"],
+  "exclude": ["node_modules", "**/node_modules/**"]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "interview-journey",
+  "version": "1.0.0",
+  "author": "Seth Phat (me@sethphat.com)",
+  "scripts": {
+    "format": "npx prettier --write './server' './web' './shared'"
+  },
+  "devDependencies": {
+    "prettier": "2.8.8"
+  }
+}
