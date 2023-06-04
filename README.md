@@ -1,8 +1,6 @@
 # Road To Jobs - The open-source Interview Tracking app
 
-Every journey has its meaning, the same goes for Interview Journey.
-
-Road To Jobs is an OSS software for single & self-hosted usage.
+Every journey has its meaning, the same goes for your Interview & Road to your new Jobs.
 
 Note: this is still heavily under development. Stays tuned!!!
 
@@ -20,6 +18,8 @@ Road To Jobs helps you to:
 We are all human, and we can't remember everything from the past, so we should have an appropriate platform to assist us.
 
 Road To Jobs aims to be your companion, helping you document every detail of your job-seeking journey.
+
+Road To Jobs is an OSS application for single & self-hosted usage.
 
 ## Technology
 - NodeJS 18 x TypeScript
