@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "vue": "3.2.47",
-    "vue-router": "4.1.6"
+    "vue-router": "4.1.6",
+    "shared": "file:../shared"
   },
   "devDependencies": {
     "@headlessui/vue": "^1.7.13",
