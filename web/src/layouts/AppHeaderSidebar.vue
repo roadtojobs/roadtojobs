@@ -61,7 +61,11 @@
   </TransitionRoot>
 
   <!-- Static sidebar for desktop -->
-  <DesktopSidebar :menu-items="menuItems" :active-menu-item="activeMenuItem" />
+  <DesktopSidebar
+    :menu-items="menuItems"
+    :active-menu-item="activeMenuItem"
+    :user="user"
+  />
 
   <div
     class="sticky top-0 z-40 flex items-center gap-x-6 bg-white px-4 py-4 shadow-sm sm:px-6 lg:hidden"
@@ -80,9 +84,9 @@
     <a href="#">
       <span class="sr-only">Your profile</span>
       <img
-        class="h-8 w-8 rounded-full bg-gray-50"
-        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-        alt=""
+        class="h-8 w-8 rounded-full border bg-gray-50"
+        src="@/assets/images/logo.png"
+        :alt="user?.name"
       />
     </a>
   </div>
@@ -106,9 +110,11 @@ import DesktopSidebar from '@/layouts/DesktopSidebar.vue';
 import MobileSidebar from '@/layouts/MobileSidebar.vue';
 import { MenuItem } from '@/types/layout';
 import { useRouter } from 'vue-router';
+import { User, userRepo } from '@/repositories/user.repo';
 
 const router = useRouter();
 const sidebarOpen = ref(false);
+const user = ref<User | null>(null);
 
 const activeMenuItem = ref<MenuItem | null>(null);
 
@@ -143,5 +149,8 @@ onMounted(async () => {
 
     activeMenuItem.value = { ...menuItem };
   });
+
+  const currentUser = await userRepo.getLoggedInUser();
+  user.value = currentUser || null;
 });
 </script>

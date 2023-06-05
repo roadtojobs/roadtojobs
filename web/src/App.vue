@@ -13,7 +13,12 @@
 import AppHeaderSidebar from '@/layouts/AppHeaderSidebar.vue';
 import { signIn } from '@/libraries/surreal';
 
-onMounted(() => {
-  signIn('admin', 'admin');
+onMounted(async () => {
+  // for single usage, use the default hardcoded pass here
+  const result = await signIn('admin', 'admin');
+
+  if (!result) {
+    window.location.href = window.location.href;
+  }
 });
 </script>
