@@ -1,5 +1,9 @@
 # Road To Jobs - The open-source Interview Tracking app
 
+<p align="center">
+    <img src="https://raw.githubusercontent.com/roadtojobs/roadtojobs/main/web/src/assets/images/logo.png" />
+</p>
+
 Every journey has its meaning, the same goes for your Interview & Road to your new Jobs.
 
 Note: this is still heavily under development. Stays tuned!!!
