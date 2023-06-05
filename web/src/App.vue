@@ -11,4 +11,9 @@
 
 <script setup>
 import AppHeaderSidebar from '@/layouts/AppHeaderSidebar.vue';
+import { signIn } from '@/libraries/surreal';
+
+onMounted(() => {
+  signIn('admin', 'admin');
+});
 </script>

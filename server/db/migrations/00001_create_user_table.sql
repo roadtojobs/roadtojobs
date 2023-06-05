@@ -34,8 +34,12 @@ DEFINE SCOPE roadtojobsusers
     CREATE user
       SET username = $user,
         email = $email,
-        password = crypto::argon2::generate($pass),
+        password = crypto::argon2::generate($pass)
   )
   SIGNIN (
-    SELECT * FROM user WHERE (username = $user OR email = $user) AND crypto::argon2::compare(pass, $pass)
+    SELECT *
+    FROM user
+    WHERE
+      (username = $user OR email = $user) AND
+      crypto::argon2::compare(password, $pass)
   )

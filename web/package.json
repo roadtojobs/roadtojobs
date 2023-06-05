@@ -10,9 +10,10 @@
     "type-check": "vue-tsc --noEmit --composite false"
   },
   "dependencies": {
+    "shared": "file:../shared",
+    "surrealdb.js": "^0.7.3",
     "vue": "3.2.47",
-    "vue-router": "4.1.6",
-    "shared": "file:../shared"
+    "vue-router": "4.1.6"
   },
   "devDependencies": {
     "@headlessui/vue": "^1.7.13",
