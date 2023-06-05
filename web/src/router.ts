@@ -7,7 +7,7 @@ import {
 const routes = [
   {
     path: '/',
-    name: 'home-page',
+    name: 'dashboard',
     component: (): Promise<RouteComponent> =>
       import('./screens/Home/HomeScreen.vue'),
   },

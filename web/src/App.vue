@@ -1,9 +1,14 @@
 <template>
-  <div class="min-h-full">
-    <main>
-      <router-view></router-view>
+  <div>
+    <AppHeaderSidebar />
+    <main class="py-10 lg:pl-72">
+      <div class="px-4 sm:px-6 lg:px-8">
+        <router-view />
+      </div>
     </main>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import AppHeaderSidebar from '@/layouts/AppHeaderSidebar.vue';
+</script>
