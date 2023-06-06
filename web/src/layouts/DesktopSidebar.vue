@@ -41,18 +41,19 @@
               </li>
             </ul>
           </li>
-          <li v-if="user" class="-mx-6 mt-auto">
+          <li class="-mx-6 mt-auto">
             <a
-              href="#"
+              href="https://github.com/roadtojobs/roadtojobs"
+              target="_blank"
               class="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
             >
               <img
                 class="h-8 w-8 rounded-full border bg-gray-50"
-                src="@/assets/images/logo.png"
-                :alt="user.name"
+                src="@/assets/images/github.svg"
+                alt="RoadToJobs GitHub"
               />
-              <span class="sr-only">Your profile</span>
-              <span aria-hidden="true">{{ user.name }}</span>
+              <span class="sr-only">GitHub</span>
+              <span aria-hidden="true"> RoadToJobs/RoadToJobs </span>
             </a>
           </li>
         </ul>
@@ -63,13 +64,11 @@
 
 <script setup lang="ts">
 import { MenuItem } from '@/types/layout';
-import { User } from '@/repositories/user.repo';
 import useMenuItemClick from '@/layouts/components/useMenuItemClick';
 
 defineProps<{
   menuItems: MenuItem[];
   activeMenuItem: MenuItem | null;
-  user: User | null;
 }>();
 
 const emit = defineEmits<{

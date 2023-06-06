@@ -5,6 +5,8 @@
       <div class="px-4 sm:px-6 lg:px-8">
         <router-view />
       </div>
+
+      <AppFooter />
     </main>
   </div>
 </template>
@@ -12,6 +14,7 @@
 <script setup>
 import AppHeaderSidebar from '@/layouts/AppHeaderSidebar.vue';
 import { signIn } from '@/libraries/surreal';
+import AppFooter from '@/layouts/AppFooter.vue';
 
 onMounted(async () => {
   // for single usage, use the default hardcoded pass here

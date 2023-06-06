@@ -65,7 +65,6 @@
   <DesktopSidebar
     :menu-items="menuItems"
     :active-menu-item="activeMenuItem"
-    :user="user"
     @selected="onSelectedMenuItem"
   />
 
@@ -83,12 +82,12 @@
     <div class="flex-1 text-sm font-semibold leading-6 text-gray-900">
       Road To Jobs
     </div>
-    <a href="#">
+    <a href="https://github.com/roadtojobs/roadtojobs">
       <span class="sr-only">Your profile</span>
       <img
         class="h-8 w-8 rounded-full border bg-gray-50"
-        src="@/assets/images/logo.png"
-        :alt="user?.name"
+        src="@/assets/images/github.svg"
+        alt="RoadToJobs GitHub"
       />
     </a>
   </div>
@@ -112,11 +111,9 @@ import DesktopSidebar from '@/layouts/DesktopSidebar.vue';
 import MobileSidebar from '@/layouts/MobileSidebar.vue';
 import { MenuItem } from '@/types/layout';
 import { useRouter } from 'vue-router';
-import { User, userRepo } from '@/repositories/user.repo';
 
 const router = useRouter();
 const sidebarOpen = ref(false);
-const user = ref<User | null>(null);
 
 const activeMenuItem = ref<MenuItem | null>(null);
 
@@ -151,9 +148,6 @@ onMounted(async () => {
 
     activeMenuItem.value = { ...menuItem };
   });
-
-  const currentUser = await userRepo.getLoggedInUser();
-  user.value = currentUser || null;
 });
 
 const onSelectedMenuItem = (menuItem: MenuItem) => {
