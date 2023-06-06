@@ -52,6 +52,7 @@ import {
   XMarkIcon,
   DocumentIcon,
 } from '@heroicons/vue/24/outline';
+import { setPageTitle } from '@/libraries/pageTitle';
 
 const features = [
   {
@@ -99,4 +100,6 @@ const features = [
     icon: PaperAirplaneIcon,
   },
 ];
+
+setPageTitle('Dashboard');
 </script>

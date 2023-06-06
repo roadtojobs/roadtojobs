@@ -1,4 +1,4 @@
-const SITE_NAME = 'Road To Jobs - Your Interview Tracking App';
+const SITE_NAME = 'Road To Jobs | Your Interview Tracking App';
 
 export const setPageTitle = (title: string | null) => {
   if (!title) {

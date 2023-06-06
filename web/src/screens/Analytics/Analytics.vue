@@ -26,6 +26,7 @@
 
 <script setup lang="ts">
 import AppPage from '@/components/AppPage/AppPage.vue';
+import { setPageTitle } from '@/libraries/pageTitle';
 
 const stats = [
   { id: 1, name: 'Creators on the platform', value: '8,000+' },
@@ -33,4 +34,6 @@ const stats = [
   { id: 3, name: 'Uptime guarantee', value: '99.9%' },
   { id: 4, name: 'Paid out to creators', value: '$70M' },
 ];
+
+setPageTitle('Analytics');
 </script>

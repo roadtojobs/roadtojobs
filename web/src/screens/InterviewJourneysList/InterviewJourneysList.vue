@@ -70,6 +70,7 @@
 
 <script setup>
 import AppPage from '@/components/AppPage/AppPage.vue';
+import { setPageTitle } from '@/libraries/pageTitle';
 
 const people = [
   {
@@ -80,4 +81,6 @@ const people = [
   },
   // More people...
 ];
+
+setPageTitle('Interview Journeys');
 </script>
