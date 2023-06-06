@@ -1,11 +1,11 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
-
+  <AppPage header-title="Header Here" description="Description here"
+    >aa</AppPage
+  >
 </template>
 
-<style scoped>
+<script setup lang="ts">
+import AppPage from '@/components/AppPage/AppPage.vue';
+</script>
 
-</style>
+<style scoped></style>
