@@ -1,4 +1,4 @@
-CREATE user
+CREATE user:admin
 SET
   email = 'admin@sethphat.com',
   username = 'admin',

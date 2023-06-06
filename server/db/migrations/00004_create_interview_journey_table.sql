@@ -3,7 +3,7 @@ DEFINE TABLE inteview_journey SCHEMAFULL
     FOR create, update, select WHERE user_id = $auth.id
     FOR delete NONE;
 
-DEFINE FIELD user_id ON TABLE inteview_journey TYPE record (user)
+DEFINE FIELD user ON TABLE inteview_journey TYPE record (user)
   ASSERT $value != NONE;
 
 DEFINE FIELD name ON TABLE inteview_journey
@@ -22,8 +22,7 @@ DEFINE FIELD started_at ON TABLE inteview_journey
   VALUE $value OR time::now();
 
 DEFINE FIELD ended_at ON TABLE inteview_journey
-  TYPE datetime
-  VALUE $value OR time::now();
+  TYPE datetime;
 
 DEFINE FIELD started_reason ON TABLE inteview_journey TYPE string;
 DEFINE FIELD ended_reason ON TABLE inteview_journey TYPE string;
