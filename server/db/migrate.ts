@@ -2,6 +2,7 @@ import { readdir as readDirectory, readFileSync } from 'fs';
 import * as path from 'path';
 import { initSurrealDbRootConnection, db } from '@db';
 import { md5 } from 'shared/utils/md5';
+import env from '../src/env';
 
 const migrationFolderPath = './db/migrations/';
 
@@ -9,6 +10,8 @@ type MigrationFile = {
   filename: string;
   fullPath: string;
 };
+
+const args = process.argv.slice(2);
 
 readDirectory(migrationFolderPath, async (err, files) => {
   console.log('Running migration...');
@@ -57,7 +60,15 @@ readDirectory(migrationFolderPath, async (err, files) => {
 });
 
 async function createMigrationTable() {
+  let additionalSql = '';
+  if (args.includes('--fresh')) {
+    additionalSql += `REMOVE DATABASE ${env.surrealDbName};`;
+    console.log('Freshly clear the database and run the migration...');
+  }
+
   await db.query(`
+    ${additionalSql}
+
     DEFINE TABLE migration SCHEMAFULL;
     DEFINE FIELD file ON TABLE migration TYPE string;
     DEFINE FIELD created_at ON TABLE migration TYPE datetime VALUE time::now();

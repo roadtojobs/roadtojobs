@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "nodemon",
     "prod": "ts-node --transpile-only -r tsconfig-paths/register ./src/index.ts interviewJourneyServer",
-    "migrate": "ts-node --transpile-only -r tsconfig-paths/register ./db/migrate.ts"
+    "migrate": "ts-node --transpile-only -r tsconfig-paths/register ./db/migrate.ts",
+    "migrate:fresh": "ts-node --transpile-only -r tsconfig-paths/register ./db/migrate.ts --fresh"
   },
   "devDependencies": {
     "@types/node": "^20.2.5",

@@ -11,7 +11,10 @@ DEFINE FIELD username ON user TYPE string
   ASSERT $value != NONE;
 
 DEFINE FIELD password ON TABLE user TYPE string
-  ASSERT $value != NONE;
+  ASSERT $value != NONE
+  PERMISSIONS
+    FOR update WHERE id = $auth.id
+    FOR create, select, delete NONE;
 
 DEFINE FIELD name ON TABLE user TYPE string
   ASSERT $value != NONE;
@@ -23,7 +26,8 @@ DEFINE FIELD locked ON TABLE user TYPE bool VALUE $value OR false;
 DEFINE FIELD created_at ON TABLE user TYPE datetime VALUE $value OR time::now();
 DEFINE FIELD updated_at ON TABLE user TYPE datetime VALUE time::now();
 DEFINE FIELD email_verified_at ON TABLE user TYPE datetime;
-DEFINE FIELD deleted_at ON TABLE user TYPE datetime;
+DEFINE FIELD deleted_at ON TABLE user TYPE datetime
+  PERMISSIONS NONE;
 
 DEFINE INDEX unq_email ON TABLE user COLUMNS email UNIQUE;
 DEFINE INDEX unq_username ON TABLE user COLUMNS username UNIQUE;
