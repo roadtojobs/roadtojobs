@@ -20,6 +20,7 @@
                     : 'text-gray-700 hover:text-rose-600 hover:bg-gray-50',
                   'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
                 ]"
+                @click="onMenuItemClick(item)"
               >
                 <component
                   :is="item.icon"
@@ -43,9 +44,20 @@
 
 <script setup lang="ts">
 import { MenuItem } from '@/types/layout';
+import useMenuItemClick from '@/layouts/components/useMenuItemClick';
 
 defineProps<{
   menuItems: MenuItem[];
   activeMenuItem: MenuItem | null;
 }>();
+
+const emit = defineEmits<{
+  (e: 'selected', menuItem: MenuItem): void;
+}>();
+
+const { onMenuItemClick } = useMenuItemClick({
+  onBeforeHandle(menuItem: MenuItem) {
+    emit('selected', menuItem);
+  },
+});
 </script>

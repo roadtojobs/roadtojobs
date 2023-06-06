@@ -53,6 +53,7 @@
             <MobileSidebar
               :menu-items="menuItems"
               :active-menu-item="activeMenuItem"
+              @selected="onSelectedMenuItem"
             />
           </DialogPanel>
         </TransitionChild>
@@ -65,6 +66,7 @@
     :menu-items="menuItems"
     :active-menu-item="activeMenuItem"
     :user="user"
+    @selected="onSelectedMenuItem"
   />
 
   <div
@@ -153,4 +155,10 @@ onMounted(async () => {
   const currentUser = await userRepo.getLoggedInUser();
   user.value = currentUser || null;
 });
+
+const onSelectedMenuItem = (menuItem: MenuItem) => {
+  activeMenuItem.value = {
+    ...menuItem,
+  };
+};
 </script>
