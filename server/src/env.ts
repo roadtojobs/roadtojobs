@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 
 const environmentVariables = z.object({
   appName: z.string(),
+  appEnv: z.string(),
   appPort: z.string(),
   surrealDbEndpoint: z.string(),
   surrealDbNamespace: z.string(),
@@ -26,6 +27,7 @@ function getEnvironmentVariables(): EnvironmentVariables {
 
   return environmentVariables.parse({
     appName: envVars.APP_NAME,
+    appEnv: envVars.APP_ENV,
     appPort: envVars.APP_PORT,
     surrealDbEndpoint: envVars.SURREAL_DB_ENDPOINT,
     surrealDbNamespace: envVars.SURREAL_DB_NAMESPACE,

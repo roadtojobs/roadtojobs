@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "author": "Seth Phat (me@sethphat.com)",
   "scripts": {
+    "bootstrap": "sh ./bin/bootstrap.sh",
     "format": "npx prettier --write './server' './web' './shared'"
   },
   "devDependencies": {

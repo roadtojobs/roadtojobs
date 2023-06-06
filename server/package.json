@@ -4,11 +4,14 @@
   "author": "Seth Phat (me@sethphat.com)",
   "scripts": {
     "dev": "nodemon",
-    "prod": "ts-node --transpile-only -r tsconfig-paths/register ./src/index.ts interviewJourneyServer",
-    "migrate": "ts-node --transpile-only -r tsconfig-paths/register ./db/migrate.ts",
-    "migrate:fresh": "ts-node --transpile-only -r tsconfig-paths/register ./db/migrate.ts --fresh"
+    "prod": "npm run tsnode ./src/index.ts interviewJourneyServer",
+    "migrate": "npm run tsnode ./db/migrate.ts",
+    "migrate:fresh": "ts-node --transpile-only -r tsconfig-paths/register ./db/migrate.ts --fresh",
+    "db:seed": "npm run tsnode ./db/seeder.ts",
+    "tsnode": "ts-node --transpile-only -r tsconfig-paths/register"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@types/node": "^20.2.5",
     "jest": "^29.5.0",
     "nodemon": "^2.0.22",

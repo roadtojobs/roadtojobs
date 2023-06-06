@@ -9,9 +9,10 @@
     "typeRoots": ["node_modules/@types", "src/@types"],
     "paths": {
       "shared/*": ["../../shared/src/*"],
-      "@db": ["../src/db/index.ts"]
+      "@db": ["../src/db/index.ts"],
+      "@appEnv": ["../src/env.ts"]
     }
   },
-  "include": ["src/**/*", "db/migrate.ts"],
+  "include": ["src/**/*", "db/**/*"],
   "exclude": ["node_modules", "**/node_modules/**"]
 }
