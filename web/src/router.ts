@@ -11,6 +11,24 @@ const routes = [
     component: (): Promise<RouteComponent> =>
       import('./screens/Home/HomeScreen.vue'),
   },
+  {
+    path: '/interview-journeys',
+    name: 'interview-journey',
+    component: (): Promise<RouteComponent> =>
+      import('./screens/InterviewJourneysList/InterviewJourneysList.vue'),
+  },
+  {
+    path: '/interview-journeys/:id',
+    name: 'interview-journey-view',
+    component: (): Promise<RouteComponent> =>
+      import('./screens/InterviewJourneyView/InterviewJourneyView.vue'),
+  },
+  {
+    path: '/analytics',
+    name: 'analytics',
+    component: (): Promise<RouteComponent> =>
+      import('./screens/Analytics/Analytics.vue'),
+  },
 ];
 
 const router = createRouter({

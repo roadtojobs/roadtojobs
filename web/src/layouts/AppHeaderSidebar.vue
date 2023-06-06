@@ -126,14 +126,14 @@ const menuItems = ref<MenuItem[]>([
   },
   {
     id: 'interview-journey',
-    name: 'Interview Journey',
+    name: 'Interview Journeys',
     routeName: 'interview-journey',
     icon: ClipboardDocumentCheckIcon,
   },
   {
     id: 'analytics',
     name: 'Analytics',
-    routeName: 'interview-journey',
+    routeName: 'analytics',
     icon: ChartPieIcon,
   },
 ]);
