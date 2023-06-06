@@ -39,37 +39,9 @@ Road To Jobs is a monorepo which contains:
 - `shared`: Stuff that can be used from both `server` & `web`
 - `tests-e2e`: E2E test cases to test the Deployed Application.
 
-## Development
+## Documentation
 
-Check out this project (on `main` (not stable) or on latest tag (stable))
-
-### Booting up the projects
-
-```bash
-# From root path
-sh ./bin/bootstrap.sh
-```
-
-Note: to run SurrealDB, check [this](https://surrealdb.com/install). We also add the `docker-compose.yml` if 
-you are using Docker.
-
-### Start the development mode
-
-```bash
-# From root path
-npm run start
-```
-
-### Run the tests
-
-```bash
-# From root path
-npm run test
-```
-
-## Production
-
-Checkout [Deployment](./README.md) for more information.
+Check out [RoadToJobs Documentation](https://docs.roadtojobs.io) for: Installation & Deployment.
 
 ## Contributing
 Thank you for considering contributing to the Road To Jobs! 
