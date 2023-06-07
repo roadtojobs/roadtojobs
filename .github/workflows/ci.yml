@@ -19,5 +19,6 @@ jobs:
           node-version: 18
       - run: |
           sh ./bin/bootstrap.sh
+          sh ./bin/type-check.sh
 
 
