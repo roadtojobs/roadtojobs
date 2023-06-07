@@ -48,5 +48,6 @@ DEFINE SCOPE roadtojobsusers
     FROM user
     WHERE
       (username = $user OR email = $user) AND
-      crypto::argon2::compare(password, $pass)
+      crypto::argon2::compare(password, $pass) AND
+      email_verified_at != NONE
   )

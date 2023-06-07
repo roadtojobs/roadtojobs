@@ -11,10 +11,10 @@ export type InterviewJourney = {
 
 export const interviewJourneyRepo = {
   async getAll() {
-    const results = await dbClient.query(`SELECT * FROM interview_journey`);
+    const result = await dbClient.query(`SELECT * FROM interview_journey`);
 
-    console.log(results);
+    console.log(result[0].result);
 
-    return results as InterviewJourney[];
+    return result[0].result as InterviewJourney[];
   },
 };

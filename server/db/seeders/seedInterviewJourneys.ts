@@ -2,7 +2,7 @@ import { db } from '@db';
 import { fakerEN_US as faker } from '@faker-js/faker';
 
 export default async function seedInterviewJourneys() {
-  const total = 1;
+  const total = 5;
   const userId = 'user:admin';
   const promises = [];
 
@@ -11,14 +11,14 @@ export default async function seedInterviewJourneys() {
     promises.push(
       db.create('interview_journey', {
         user: userId,
-        name: 'This is my new interview journey',
+        name: `This is my interview journey ${i}`,
         description: 'Find new job for the Senior Software Engineer',
         note: 'Goal: big earning, best benefits,...',
-        started_at: new Date('2023-01-01'),
+        started_at: new Date(`2023-01-0${i}`),
       })
     );
   }
 
-  await Promise.allSettled(promises);
+  await Promise.all(promises);
   console.log(`Created ${total} interview journey.`);
 }

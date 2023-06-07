@@ -16,6 +16,6 @@ export default async function seedCompanies() {
     );
   }
 
-  await Promise.allSettled(promises);
+  await Promise.all(promises);
   console.log(`Created ${total} companies.`);
 }
