@@ -1,0 +1,9 @@
+{
+    "verbose": true,
+    "ignore": ["*.test.ts"],
+    "watch": ["src/**", ".env", "../../shared/**"],
+    "delay": 1000,
+    "execMap": {
+        "ts": "ts-node --transpile-only -r tsconfig-paths/register src/index.ts roadToJobsServer"
+    }
+}

@@ -14,3 +14,11 @@ export const initSurrealDbRootConnection = async (): Promise<void> => {
 
   await db.use(env.surrealDbNamespace, env.surrealDbName);
 };
+
+export const createSurrealUserConnection = (): Surreal => {
+  return new Surreal(env.surrealDbEndpoint, {
+    async prepare(connection) {
+      await connection.use(env.surrealDbNamespace, env.surrealDbName);
+    },
+  });
+};
