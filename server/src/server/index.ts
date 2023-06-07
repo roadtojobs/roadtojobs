@@ -2,6 +2,7 @@ import express from 'express';
 import env from '@appEnv';
 import authMiddleware from './middlewares/auth.middleware';
 import protectedRoutes from './routes';
+import closeUserClientMiddleware from './middlewares/closeUserClient.middleware';
 
 export default async function initServer() {
   const app = express();
@@ -19,7 +20,7 @@ export default async function initServer() {
     res.status(200).json({ ok: true });
   });
 
-  app.use('/', authMiddleware, protectedRoutes);
+  app.use('/', authMiddleware, protectedRoutes, closeUserClientMiddleware);
 
   await app.listen(port);
   console.log(

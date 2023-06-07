@@ -2,9 +2,11 @@ import { initSurrealDbRootConnection } from '@db';
 import initServer from './server';
 
 async function main(): Promise<void> {
-  console.log('\x1b[36mThe Road To Jobs Application [Self-Hosted / FREE]');
   console.log(
-    '\x1b[35mPowered by RoadToJobs x Seth Phat (@sethsandaru on GitHub)'
+    '\x1b[36mThe Road To Jobs Application [Self-Hosted / FREE / Open-sourced Software]'
+  );
+  console.log(
+    '\x1b[35mPowered by RoadToJobs x Seth Phat (@roadtojobs @sethsandaru on GitHub)'
   );
   console.log('\x1b[35mHave a great interview ahead and best of lucks.');
 
