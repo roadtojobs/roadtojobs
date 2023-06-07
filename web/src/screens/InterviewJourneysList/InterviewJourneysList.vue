@@ -51,25 +51,24 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="person in []" :key="person.email">
-          <td class="relative py-4 pr-3 text-sm font-medium text-gray-900">
-            {{ person.name }}
+        <tr v-for="row in table.getRowModel().rows.slice(0, 10)" :key="row.id">
+          <td
+            v-for="(cell, index) in row.getVisibleCells()"
+            :key="cell.id"
+            class="relative py-4 pr-3 text-sm font-medium text-gray-900"
+          >
+            <FlexRender
+              :render="cell.column.columnDef.cell"
+              :props="cell.getContext()"
+            />
             <div
+              v-if="index === 0"
               class="absolute bottom-0 right-full h-px w-screen bg-gray-100"
             />
-            <div class="absolute bottom-0 left-0 h-px w-screen bg-gray-100" />
-          </td>
-          <td class="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">
-            {{ person.title }}
-          </td>
-          <td class="hidden px-3 py-4 text-sm text-gray-500 md:table-cell">
-            {{ person.email }}
-          </td>
-          <td class="px-3 py-4 text-sm text-gray-500">{{ person.role }}</td>
-          <td class="relative py-4 pl-3 text-right text-sm font-medium">
-            <a href="#" class="text-indigo-600 hover:text-indigo-900"
-              >Edit<span class="sr-only">, {{ person.name }}</span></a
-            >
+            <div
+              v-if="index === 0"
+              class="absolute bottom-0 left-0 h-px w-screen bg-gray-100"
+            />
           </td>
         </tr>
       </tbody>
@@ -110,14 +109,18 @@ const table = useVueTable<InterviewJourney>({
     columnHelper.accessor('description', {
       header: 'Description',
     }),
-    columnHelper.accessor('started_at', {
+    columnHelper.accessor('startedAt', {
       header: 'Started At',
       cell: (info) => dayjs(info.getValue()).format(DATE_FORMAT),
     }),
-    columnHelper.accessor('ended_at', {
+    columnHelper.accessor('endedAt', {
       header: 'Ended At',
       cell: (info) =>
         info.getValue() ? dayjs(info.getValue()).format(DATE_FORMAT) : '-',
+    }),
+    columnHelper.accessor('createdAt', {
+      header: 'Created At',
+      cell: (info) => dayjs(info.getValue()).format(DATE_FORMAT),
     }),
   ],
   get data() {
@@ -141,6 +144,6 @@ const table = useVueTable<InterviewJourney>({
 setPageTitle('Interview Journeys');
 
 onMounted(async () => {
-  console.log(await interviewJourneyRepo.getAll());
+  interviewJourneys.value = [...(await interviewJourneyRepo.getAll())];
 });
 </script>

@@ -11,7 +11,7 @@ export default async function seedInterviewJourneys() {
     promises.push(
       db.create('interview_journey', {
         user: userId,
-        name: `This is my interview journey ${i}`,
+        name: `This is my interview journey ${faker.internet.emoji()}`,
         description: 'Find new job for the Senior Software Engineer',
         note: 'Goal: big earning, best benefits,...',
         started_at: new Date(`2023-01-0${i}`),
