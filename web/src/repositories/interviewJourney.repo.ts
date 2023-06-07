@@ -5,13 +5,15 @@ export type InterviewJourney = {
   name: string;
   description: string;
   note: string | null;
+  startedAt: Date;
+  endedAt: Date | null;
 };
 
 export const interviewJourneyRepo = {
   async getAll() {
-    const results = await dbClient.select<InterviewJourney[], string>(
-      'interview_journey'
-    );
+    const results = await dbClient.query(`SELECT * FROM interview_journey`);
+
+    console.log(results);
 
     return results as InterviewJourney[];
   },

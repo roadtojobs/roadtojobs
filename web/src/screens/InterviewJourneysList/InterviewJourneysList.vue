@@ -5,44 +5,53 @@
   >
     <table class="w-full text-left">
       <thead class="bg-white">
-        <tr>
+        <tr
+          v-for="headerGroup in table.getHeaderGroups()"
+          :key="headerGroup.id"
+        >
           <th
+            v-for="header in headerGroup.headers"
+            :key="header.id"
+            :colspan="header.colSpan"
+            :class="[
+              header.column.getCanSort() ? 'cursor-pointer select-none' : '',
+            ]"
             scope="col"
             class="relative isolate py-3.5 pr-3 text-left text-sm font-semibold text-gray-900"
+            @click="header.column.getToggleSortingHandler()?.($event)"
           >
-            Name
+            <div class="flex gap-1" v-if="!header.isPlaceholder">
+              <FlexRender
+                :render="header.column.columnDef.header"
+                :props="header.getContext()"
+              />
+
+              <span>
+                <component
+                  v-show="header.column.getIsSorted() === 'asc'"
+                  class="h-4 w-4 shrink-0"
+                  :is="ChevronUpIcon"
+                />
+                <component
+                  v-show="header.column.getIsSorted() === 'desc'"
+                  class="h-4 w-4 shrink-0"
+                  :is="ChevronDownIcon"
+                />
+              </span>
+            </div>
             <div
+              v-if="header.id === 'name'"
               class="absolute inset-y-0 right-full -z-10 w-screen border-b border-b-gray-200"
             />
             <div
+              v-if="header.id === 'name'"
               class="absolute inset-y-0 left-0 -z-10 w-screen border-b border-b-gray-200"
             />
-          </th>
-          <th
-            scope="col"
-            class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
-          >
-            Title
-          </th>
-          <th
-            scope="col"
-            class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 md:table-cell"
-          >
-            Email
-          </th>
-          <th
-            scope="col"
-            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-          >
-            Role
-          </th>
-          <th scope="col" class="relative py-3.5 pl-3">
-            <span class="sr-only">Edit</span>
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="person in people" :key="person.email">
+        <tr v-for="person in []" :key="person.email">
           <td class="relative py-4 pr-3 text-sm font-medium text-gray-900">
             {{ person.name }}
             <div
@@ -68,19 +77,70 @@
   </AppPage>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import AppPage from '@/components/AppPage/AppPage.vue';
 import { setPageTitle } from '@/libraries/pageTitle';
+import {
+  InterviewJourney,
+  interviewJourneyRepo,
+} from '@/repositories/interviewJourney.repo';
+import {
+  createColumnHelper,
+  FlexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  SortingState,
+  useVueTable,
+} from '@tanstack/vue-table';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/outline';
 
-const people = [
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
+const interviewJourneys = ref<InterviewJourney[]>([]);
+const sorting = ref<SortingState>([]);
+
+const columnHelper = createColumnHelper<InterviewJourney>();
+
+const table = useVueTable<InterviewJourney>({
+  columns: [
+    columnHelper.accessor('name', {
+      id: 'name',
+      header: 'Journey Name',
+    }),
+    columnHelper.accessor('description', {
+      header: 'Description',
+    }),
+    columnHelper.accessor('started_at', {
+      header: 'Started At',
+      cell: (info) => dayjs(info.getValue()).format(DATE_FORMAT),
+    }),
+    columnHelper.accessor('ended_at', {
+      header: 'Ended At',
+      cell: (info) =>
+        info.getValue() ? dayjs(info.getValue()).format(DATE_FORMAT) : '-',
+    }),
+  ],
+  get data() {
+    return interviewJourneys.value;
   },
-  // More people...
-];
+  state: {
+    get sorting() {
+      return sorting.value;
+    },
+  },
+  onSortingChange: (updaterOrValue) => {
+    sorting.value =
+      typeof updaterOrValue === 'function'
+        ? updaterOrValue(sorting.value)
+        : updaterOrValue;
+  },
+  getCoreRowModel: getCoreRowModel(),
+  getSortedRowModel: getSortedRowModel(),
+});
 
 setPageTitle('Interview Journeys');
+
+onMounted(async () => {
+  console.log(await interviewJourneyRepo.getAll());
+});
 </script>

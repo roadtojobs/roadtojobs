@@ -1,6 +1,6 @@
 DEFINE TABLE inteview_journey SCHEMAFULL
   PERMISSIONS
-    FOR create, update, select WHERE user_id = $auth.id
+    FOR create, update, select WHERE user = $auth.id
     FOR delete NONE;
 
 DEFINE FIELD user ON TABLE inteview_journey TYPE record (user)
