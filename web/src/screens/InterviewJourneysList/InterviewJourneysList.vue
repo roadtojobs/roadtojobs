@@ -108,8 +108,9 @@ import Button from '@/components/Button/Button.vue';
 import { useRouter } from 'vue-router';
 import { RenderFunction, VNode } from 'vue';
 
-const router = useRouter();
+setPageTitle('Interview Journeys');
 
+const router = useRouter();
 const interviewJourneys = ref<InterviewJourney[]>([]);
 const sorting = ref<SortingState>([]);
 
@@ -160,8 +161,6 @@ const table = useVueTable<InterviewJourney>({
   getCoreRowModel: getCoreRowModel(),
   getSortedRowModel: getSortedRowModel(),
 });
-
-setPageTitle('Interview Journeys');
 
 onMounted(async () => {
   interviewJourneys.value = [...(await interviewJourneyRepo.getAll())];
