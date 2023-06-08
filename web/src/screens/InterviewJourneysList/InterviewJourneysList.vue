@@ -1,7 +1,7 @@
 <template>
   <AppPage
     header-title="Interview Journeys"
-    description="All of your Interview Journeys are here"
+    description="Manage your Road To Jobs / Interview Journeys here"
   >
     <template #right-buttons>
       <Button :icon="PlusIcon">
