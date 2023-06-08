@@ -3,6 +3,11 @@
     header-title="Interview Journeys"
     description="All of your Interview Journeys are here"
   >
+    <template #right-buttons>
+      <Button :icon="PlusIcon">
+        <span>Create new Journey</span>
+      </Button>
+    </template>
     <table class="w-full text-left">
       <thead class="bg-white">
         <tr
@@ -84,6 +89,7 @@ import {
   interviewJourneyRepo,
 } from '@/repositories/interviewJourney.repo';
 import {
+  CellContext,
   createColumnHelper,
   FlexRender,
   getCoreRowModel,
@@ -93,7 +99,16 @@ import {
 } from '@tanstack/vue-table';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/outline';
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  PlusIcon,
+} from '@heroicons/vue/24/outline';
+import Button from '@/components/Button/Button.vue';
+import { useRouter } from 'vue-router';
+import { RenderFunction, VNode } from 'vue';
+
+const router = useRouter();
 
 const interviewJourneys = ref<InterviewJourney[]>([]);
 const sorting = ref<SortingState>([]);
@@ -122,6 +137,11 @@ const table = useVueTable<InterviewJourney>({
       header: 'Created At',
       cell: (info) => dayjs(info.getValue()).format(DATE_FORMAT),
     }),
+    columnHelper.display({
+      id: 'actions',
+      header: '',
+      cell: (info) => renderActionItems(info),
+    }),
   ],
   get data() {
     return interviewJourneys.value;
@@ -146,4 +166,41 @@ setPageTitle('Interview Journeys');
 onMounted(async () => {
   interviewJourneys.value = [...(await interviewJourneyRepo.getAll())];
 });
+
+function renderActionItems(
+  info: CellContext<InterviewJourney, unknown>
+): VNode {
+  const viewButton = h(
+    Button,
+    {
+      onClick: () =>
+        router.push({
+          name: 'interview-journey-view',
+          params: { id: info.row.getValue('name') },
+        }),
+    },
+    () => [h('span', 'View')]
+  );
+  const archiveButton = h(
+    Button,
+    {
+      onClick: () => console.log('TBI'),
+      type: 'warning',
+    },
+    () => [h('span', 'Archive')]
+  );
+
+  return h({
+    functional: true,
+    render() {
+      return h(
+        'div',
+        {
+          className: 'flex gap-1',
+        },
+        [viewButton, archiveButton]
+      );
+    },
+  });
+}
 </script>
