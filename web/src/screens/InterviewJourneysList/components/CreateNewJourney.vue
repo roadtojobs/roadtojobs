@@ -14,11 +14,15 @@
       />
       <Textarea
         v-model="interviewJourney.description"
-        id="journey_name"
         label="Description"
         rows="4"
       />
       <Input v-model="startDateComputed" type="date" label="Start Date" />
+      <Textarea
+        v-model="interviewJourney.note"
+        label="Personal Goal/Note (Optional)"
+        rows="4"
+      />
     </form>
     <template #bottom-buttons class="gap-2">
       <Button @click="onClickSubmit">Create</Button>
