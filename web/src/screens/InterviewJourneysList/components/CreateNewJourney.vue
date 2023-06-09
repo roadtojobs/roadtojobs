@@ -1,32 +1,52 @@
 <template>
-  <Button :icon="PlusIcon" @click="onClickCreate"> Create new Journey </Button>
+  <Button
+    :icon="PlusIcon"
+    @click="onClickCreate"
+  >
+    Create new Journey
+  </Button>
   <Modal
     :is-open="isOpen"
     title="Create new Interview Journey"
     width-size="2xl"
     @close="isOpen = false"
   >
-    <form @submit.prevent class="my-4 flex flex-col gap-3">
+    <form
+      @submit.prevent
+      class="my-4 flex flex-col gap-3"
+    >
       <Input
         v-model="interviewJourney.name"
         id="journey_name"
         label="Journey Name"
+        :error="errorsBag?.get('name')"
       />
       <Textarea
         v-model="interviewJourney.description"
-        label="Description"
+        label="Journey Description"
         rows="4"
       />
-      <Input v-model="startDateComputed" type="date" label="Start Date" />
+      <Input
+        v-model="startDateComputed"
+        type="date"
+        label="Journey Start Date"
+      />
       <Textarea
         v-model="interviewJourney.note"
         label="Personal Goal/Note (Optional)"
-        rows="4"
+        rows="2"
       />
     </form>
-    <template #bottom-buttons class="gap-2">
+    <template
+      #bottom-buttons
+      class="gap-2"
+    >
       <Button @click="onClickSubmit">Create</Button>
-      <Button type="secondary" @click="onClickCloseModal">Cancel</Button>
+      <Button
+        type="secondary"
+        @click="onClickCloseModal"
+        >Cancel</Button
+      >
     </template>
   </Modal>
 </template>
@@ -39,11 +59,17 @@ import { computed, ref } from 'vue';
 import Input from '@/components/Input/Input.vue';
 import {
   createBlankInterviewJourney,
+  createInterviewJourney,
   CreateInterviewJourney,
 } from '@/screens/InterviewJourneysList/InterviewJourneysList.methods';
 import Textarea from '@/components/Textarea/Textarea.vue';
 import dayjs from 'dayjs';
 import { SERVER_DATE_FORMAT } from '@/constants';
+import useValidation from '@/composable/useValidation';
+
+const { validate, errorsBag } = useValidation<CreateInterviewJourney>(
+  createInterviewJourney
+);
 
 const isOpen = ref<boolean>(false);
 
@@ -78,5 +104,13 @@ const onClickCloseModal = () => {
   interviewJourney.value = { ...createBlankInterviewJourney() };
 };
 
-const onClickSubmit = () => console.log(interviewJourney.value);
+const onClickSubmit = () => {
+  const validationResult = validate({
+    ...interviewJourney.value,
+  });
+
+  if (!validationResult.success) {
+    return;
+  }
+};
 </script>
