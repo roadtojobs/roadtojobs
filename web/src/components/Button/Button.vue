@@ -17,7 +17,7 @@ import { computed } from 'vue';
 import { VueComponent } from '@/types';
 
 type ButtonProps = {
-  type: 'primary' | 'neutral' | 'secondary' | 'success' | 'error' | 'warning';
+  type?: 'primary' | 'neutral' | 'secondary' | 'success' | 'error' | 'warning';
   disabled?: boolean;
   icon?: VueComponent;
 };

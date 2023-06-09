@@ -1,6 +1,6 @@
 <template>
   <TransitionRoot as="template" :show="isOpen">
-    <Dialog as="div" class="relative z-50">
+    <Dialog as="div" class="relative z-50" @close="handleClose(true)">
       <TransitionChild
         as="template"
         enter="ease-out duration-300"
@@ -17,7 +17,7 @@
 
       <div class="fixed inset-0 z-10 overflow-y-auto">
         <div
-          class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0"
+          class="flex min-h-full justify-center p-4 text-center items-center sm:p-0"
         >
           <TransitionChild
             as="template"
@@ -40,8 +40,18 @@
                 widthSize === 'max' ? 'sm:max-w-full' : '',
               ]"
             >
+              <div class="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
+                <button
+                  type="button"
+                  class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  @click="handleClose(false)"
+                >
+                  <span class="sr-only">Close</span>
+                  <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+                </button>
+              </div>
               <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                <div class="mt-3 sm:ml-4 sm:mt-0 text-left">
                   <DialogTitle
                     v-if="title"
                     as="h3"
@@ -55,7 +65,7 @@
                 </div>
               </div>
               <div
-                class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6"
+                class="bg-gray-50 px-4 py-3 flex gap-2 flex-row-reverse sm:px-6"
               >
                 <slot name="bottom-buttons" />
               </div>
@@ -75,15 +85,30 @@ import {
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue';
+import { XMarkIcon } from '@heroicons/vue/24/outline';
 
 type ModalProps = {
   isOpen: boolean;
   title?: string;
-  widthSize: 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | 'max';
+  widthSize?: 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | 'max';
+  wantsCloseOnClickOutside?: boolean;
 };
 
-withDefaults(defineProps<ModalProps>(), {
+const props = withDefaults(defineProps<ModalProps>(), {
   isOpen: false,
   widthSize: 'lg',
+  wantsCloseOnClickOutside: true,
 });
+
+const emits = defineEmits<{
+  (e: 'close');
+}>();
+
+const handleClose = (isOutsideClick: boolean) => {
+  if (isOutsideClick && !props.wantsCloseOnClickOutside) {
+    return;
+  }
+
+  emits('close');
+};
 </script>

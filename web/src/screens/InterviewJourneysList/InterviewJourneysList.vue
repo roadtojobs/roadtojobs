@@ -4,11 +4,9 @@
     description="Manage your Road To Jobs / Interview Journeys here"
   >
     <template #right-buttons>
-      <Button :icon="PlusIcon">
-        <span>Create new Journey</span>
-      </Button>
+      <CreateNewJourney />
     </template>
-    <table class="w-full text-left">
+    <table class="min-w-full">
       <thead class="bg-white">
         <tr
           v-for="headerGroup in table.getHeaderGroups()"
@@ -99,14 +97,11 @@ import {
 } from '@tanstack/vue-table';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
-import {
-  ChevronDownIcon,
-  ChevronUpIcon,
-  PlusIcon,
-} from '@heroicons/vue/24/outline';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/outline';
 import Button from '@/components/Button/Button.vue';
 import { useRouter } from 'vue-router';
-import { RenderFunction, VNode } from 'vue';
+import { VNode } from 'vue';
+import CreateNewJourney from '@/screens/InterviewJourneysList/components/CreateNewJourney.vue';
 
 setPageTitle('Interview Journeys');
 
