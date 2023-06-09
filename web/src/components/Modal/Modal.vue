@@ -101,7 +101,7 @@ const props = withDefaults(defineProps<ModalProps>(), {
 });
 
 const emits = defineEmits<{
-  (e: 'close');
+  (e: 'close'): void;
 }>();
 
 const handleClose = (isOutsideClick: boolean) => {
