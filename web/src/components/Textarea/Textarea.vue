@@ -56,7 +56,7 @@ type EmitActions = {
 
 const emits = defineEmits<EmitActions>();
 
-const onInput = (event: InputEvent) => {
+const onInput = (event: Event) => {
   emits(
     'update:modelValue',
     (event.target as HTMLInputElement).value || undefined
