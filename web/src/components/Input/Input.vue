@@ -12,9 +12,11 @@
         :type="type || 'text'"
         :value="modelValue"
         :class="[
+          'block w-full pl-3 rounded-md border-0 py-1.5 sm:text-sm sm:leading-6',
+          'ring-1 ring-inset focus:ring-2 focus:ring-inset',
           error
-            ? 'block w-full px-2 rounded-md border-0 py-1.5 text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6'
-            : 'block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6',
+            ? 'text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500'
+            : 'text-gray-900 ring-gray-300 placeholder:text-gray-400 focus:ring-indigo-600 shadow-sm',
           type !== 'date' ? 'pr-10' : '',
         ]"
         @input="onInput"

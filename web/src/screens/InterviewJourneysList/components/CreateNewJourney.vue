@@ -9,7 +9,7 @@
     :is-open="isOpen"
     title="Create new Interview Journey"
     width-size="2xl"
-    @close="isOpen = false"
+    @close="onClickCloseModal"
   >
     <form
       @submit.prevent
@@ -19,17 +19,19 @@
         v-model="interviewJourney.name"
         id="journey_name"
         label="Journey Name"
-        :error="errorsBag?.get('name')"
+        :error="errorsBag.get('name')"
       />
       <Textarea
         v-model="interviewJourney.description"
         label="Journey Description"
         rows="4"
+        :error="errorsBag.get('description')"
       />
       <Input
         v-model="startDateComputed"
         type="date"
         label="Journey Start Date"
+        :error="errorsBag.get('startDate')"
       />
       <Textarea
         v-model="interviewJourney.note"
@@ -45,8 +47,9 @@
       <Button
         type="secondary"
         @click="onClickCloseModal"
-        >Cancel</Button
       >
+        Cancel
+      </Button>
     </template>
   </Modal>
 </template>
@@ -67,9 +70,11 @@ import dayjs from 'dayjs';
 import { SERVER_DATE_FORMAT } from '@/constants';
 import useValidation from '@/composable/useValidation';
 
-const { validate, errorsBag } = useValidation<CreateInterviewJourney>(
-  createInterviewJourney
-);
+const {
+  validate,
+  errorsBag,
+  reset: resetErrors,
+} = useValidation<CreateInterviewJourney>(createInterviewJourney);
 
 const isOpen = ref<boolean>(false);
 
@@ -101,6 +106,7 @@ const onClickCreate = () => {
 
 const onClickCloseModal = () => {
   isOpen.value = false;
+  resetErrors();
   interviewJourney.value = { ...createBlankInterviewJourney() };
 };
 

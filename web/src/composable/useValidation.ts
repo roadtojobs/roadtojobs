@@ -9,6 +9,7 @@ type ValidateResult<T> = {
 type UseValidationReturn<T> = {
   errorsBag: Ref<Map<keyof T, string | undefined>>;
   validate: (inputs: Record<string, unknown>) => ValidateResult<T>;
+  reset: () => void;
 };
 
 /**
@@ -47,8 +48,11 @@ export default function useValidation<T>(
     };
   };
 
+  const reset = () => (errorsBag.value = new Map());
+
   return {
     errorsBag,
     validate,
+    reset,
   };
 }
