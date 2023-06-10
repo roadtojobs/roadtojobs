@@ -34,7 +34,7 @@ export const interviewJourneyRepo = {
 
   async getAll(): Promise<InterviewJourney[]> {
     const result = await dbClient.query(`
-       SELECT * FROM interview_journey
+       SELECT * FROM ${interviewJourneyRepo.getTable()}
        ORDER BY started_at DESC, created_at DESC
     `);
 
@@ -44,7 +44,7 @@ export const interviewJourneyRepo = {
   },
 
   async create(inputs: CreateInterviewJourney): Promise<string | undefined> {
-    const result = await dbClient.create('interview_journey', {
+    const result = await dbClient.create(interviewJourneyRepo.getTable(), {
       name: inputs.name,
       note: inputs.note,
       started_at: inputs.startDate,
@@ -55,8 +55,6 @@ export const interviewJourneyRepo = {
     if (!result[0]) {
       return undefined;
     }
-
-    console.log(result[0]);
 
     return String(result[0].id);
   },
