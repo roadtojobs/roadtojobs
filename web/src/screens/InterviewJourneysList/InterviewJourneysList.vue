@@ -23,7 +23,10 @@
             class="relative isolate py-3.5 pr-3 text-left text-sm font-semibold text-gray-900"
             @click="header.column.getToggleSortingHandler()?.($event)"
           >
-            <div class="flex gap-1" v-if="!header.isPlaceholder">
+            <div
+              class="flex gap-1"
+              v-if="!header.isPlaceholder"
+            >
               <FlexRender
                 :render="header.column.columnDef.header"
                 :props="header.getContext()"
@@ -54,7 +57,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="row in table.getRowModel().rows.slice(0, 10)" :key="row.id">
+        <tr
+          v-for="row in table.getRowModel().rows.slice(0, 10)"
+          :key="row.id"
+        >
           <td
             v-for="(cell, index) in row.getVisibleCells()"
             :key="cell.id"
@@ -167,11 +173,14 @@ function renderActionItems(
   const viewButton = h(
     Button,
     {
-      onClick: () =>
+      onClick: () => {
+        const rawId = info.row.original.id;
+        const stringId = rawId.split(':')[1];
         router.push({
           name: 'interview-journey-view',
-          params: { id: info.row.getValue('name') },
-        }),
+          params: { id: stringId },
+        });
+      },
     },
     () => [h('span', 'View')]
   );

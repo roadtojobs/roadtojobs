@@ -127,11 +127,11 @@ const onClickSubmit = async () => {
     return;
   }
 
-  const result = await interviewJourneyRepo.create(
+  const createdId = await interviewJourneyRepo.create(
     validationResult.parsedObject
   );
 
-  if (!result) {
+  if (!createdId) {
     // show error
     return;
   }
@@ -139,7 +139,7 @@ const onClickSubmit = async () => {
   router.push({
     name: 'interview-journey-view',
     params: {
-      id: result,
+      id: createdId.split(':')[1],
     },
   });
 };
