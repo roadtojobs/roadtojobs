@@ -69,6 +69,12 @@ import Textarea from '@/components/Textarea/Textarea.vue';
 import dayjs from 'dayjs';
 import { SERVER_DATE_FORMAT } from '@/constants';
 import useValidation from '@/composable/useValidation';
+import { interviewJourneyRepo } from '@/repositories/interviewJourney.repo';
+import useCurrentUser from '@/composable/useCurrentUser';
+import { useRouter } from 'vue-router';
+
+const { user } = useCurrentUser();
+const router = useRouter();
 
 const {
   validate,
@@ -110,13 +116,31 @@ const onClickCloseModal = () => {
   interviewJourney.value = { ...createBlankInterviewJourney() };
 };
 
-const onClickSubmit = () => {
+const onClickSubmit = async () => {
   const validationResult = validate({
     ...interviewJourney.value,
+    user: user.value?.id,
   });
 
   if (!validationResult.success) {
+    // show error
     return;
   }
+
+  const result = await interviewJourneyRepo.create(
+    validationResult.parsedObject
+  );
+
+  if (!result) {
+    // show error
+    return;
+  }
+
+  router.push({
+    name: 'interview-journey-view',
+    params: {
+      id: result,
+    },
+  });
 };
 </script>

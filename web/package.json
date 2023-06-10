@@ -13,7 +13,7 @@
     "@tanstack/vue-table": "^8.9.1",
     "dayjs": "^1.11.8",
     "shared": "file:../shared",
-    "surrealdb.js": "^0.7.3",
+    "surrealdb.js": "^0.8.0",
     "vue": "3.2.47",
     "vue-router": "4.1.6",
     "zod": "^3.21.4"

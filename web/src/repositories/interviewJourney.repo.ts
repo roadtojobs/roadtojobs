@@ -1,4 +1,5 @@
 import { dbClient } from '@/libraries/surreal';
+import { CreateInterviewJourney } from '@/screens/InterviewJourneysList/InterviewJourneysList.methods';
 
 export type InterviewJourney = {
   id: string;
@@ -25,5 +26,21 @@ export const interviewJourneyRepo = {
       endedAt: record.endedAt ? new Date(record.ended_at) : null,
       createdAt: new Date(record.created_at),
     }));
+  },
+
+  async create(inputs: CreateInterviewJourney): Promise<string | undefined> {
+    const result = await dbClient.create('interview_journey', {
+      name: inputs.name,
+      note: inputs.note,
+      started_at: inputs.startDate,
+      description: inputs.description,
+      user: inputs.user,
+    });
+
+    if (!result[0]) {
+      return undefined;
+    }
+
+    return String(result[0].id);
   },
 };
