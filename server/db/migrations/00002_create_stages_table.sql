@@ -4,20 +4,76 @@ DEFINE TABLE stage SCHEMAFULL
     FOR select WHERE $auth.id != NONE;
 
 DEFINE FIELD name ON TABLE stage TYPE string ASSERT $value != NONE;
+DEFINE FIELD description ON TABLE stage TYPE string ASSERT $value != NONE;
 DEFINE FIELD is_initial_stage ON TABLE stage TYPE bool VALUE $value OR false;
 DEFINE FIELD is_final_stage ON TABLE stage TYPE bool VALUE $value OR false;
 DEFINE FIELD created_at ON TABLE stage TYPE datetime VALUE $value OR time::now();
+DEFINE FIELD position ON TABLE stage TYPE int VALUE $value OR 0;
 DEFINE FIELD updated_at ON TABLE stage TYPE datetime VALUE time::now()
   PERMISSIONS NONE;
 
-CREATE stage:inresting CONTENT {
-  name: 'Interesting Companies',
-  is_initial_stage: true
+CREATE stage:interested CONTENT {
+  name: 'Interested 👀',
+  description: 'Interesting companies that you possibly want to apply',
+  is_initial_stage: true,
+  position: 0
 };
 
-CREATE stage:applied SET name = 'Applied';
-CREATE stage:ghosted SET name = 'Ghosted/No reply', is_final_stage = true;
-CREATE stage:interviewing SET name = 'Interviewing';
-CREATE stage:waiting_for_offer SET name = 'Waiting for Offer';
-CREATE stage:offered SET name = 'Offered';
-CREATE stage:accepted SET name = 'Accepted Offer', is_final_stage = true;
+CREATE stage:applied CONTENT {
+  name: 'Applied 🥹',
+  description: 'Applied companies (via Email, Job Platforms,...)',
+  position: 10
+};
+
+CREATE stage:phone_screening CONTENT {
+  name: 'Phone screening ☎️',
+  description: 'Before or after phone screening session (with Hiring Managers or HR)',
+  position: 20
+};
+
+CREATE stage:interviewing CONTENT {
+  name: 'Interviewing ⚔️',
+  description: 'In the interview sessions. There might be several sessions.',
+  position: 30
+};
+
+CREATE stage:waiting_for_offer CONTENT {
+  name: 'Waiting for offer 🔥',
+  description:  'Finished the interview and you highly confident that you will receive the offer',
+  position: 40
+};
+
+CREATE stage:offered CONTENT {
+  name: 'Offer received 💎',
+  description: 'Received the offer but have not finalized the decision',
+  position: 50
+};
+
+
+CREATE stage:ghosted CONTENT {
+  name: 'Ghosted/No reply 😞',
+  description: 'Companies that did not response to your job application',
+  is_final_stage: true,
+  position: 60
+};
+
+CREATE stage:failed CONTENT {
+  name: 'Failed 😭',
+  description: 'Companies that you did not pass their interview sessions',
+  is_final_stage: true,
+  position: 70
+};
+
+CREATE stage:accepted_offer CONTENT {
+  name: 'Accepted Offer ✅',
+  description: 'Companies that you accepted their offers',
+  is_final_stage: true,
+  position: 80
+};
+
+CREATE stage:rejected_offer CONTENT {
+  name: 'Rejected Offer ❌',
+  description: 'Companies that you rejected their offers',
+  is_final_stage: true,
+  position: 90
+};
