@@ -28,10 +28,10 @@
               <td
                 class="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-0"
               >
-                {{ stage.name }}
+                <ViewStageDescription :stage="stage" />
               </td>
               <td class="whitespace-nowrap p-4 text-sm text-gray-500">
-                {{ stage.description }}
+                No company here 👀
               </td>
             </tr>
           </tbody>
@@ -45,6 +45,7 @@
 import { InterviewJourney } from '@/repositories/interviewJourney.repo';
 import { onMounted } from 'vue';
 import { Stage, stageRepo } from '@/repositories/stage.repo';
+import ViewStageDescription from '@/screens/InterviewJourneyView/components/ViewStageDescription.vue';
 
 type InfoViewProps = {
   interviewJourney: InterviewJourney;
