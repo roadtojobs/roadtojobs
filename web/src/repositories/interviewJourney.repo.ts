@@ -1,5 +1,6 @@
 import { dbClient } from '@/libraries/surreal';
 import { CreateInterviewJourney } from '@/screens/InterviewJourneysList/InterviewJourneysList.methods';
+import { generateId } from '@/utils/surrealThing';
 
 export type InterviewJourney = {
   id: string;
@@ -29,7 +30,7 @@ export const interviewJourneyRepo = {
   },
 
   getSingleThing(id: string) {
-    return interviewJourneyRepo.getTable().concat(':').concat(id);
+    return generateId(interviewJourneyRepo.getTable(), id);
   },
 
   async getAll(): Promise<InterviewJourney[]> {

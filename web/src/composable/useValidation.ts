@@ -1,10 +1,16 @@
 import { z, ZodError, ZodSchema } from 'zod';
 import { Ref, ref } from 'vue';
 
-type ValidateResult<T> = {
-  success: boolean;
-  parsedObject?: T;
+type ValidateOkResult<T> = {
+  success: true;
+  parsedObject: T;
 };
+
+type ValidateErrResult<T> = {
+  success: false;
+};
+
+type ValidateResult<T> = ValidateOkResult<T> | ValidateErrResult<T>;
 
 type UseValidationReturn<T> = {
   errorsBag: Ref<Map<keyof T, string | undefined>>;

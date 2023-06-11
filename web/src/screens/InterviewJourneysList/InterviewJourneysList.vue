@@ -108,6 +108,7 @@ import Button from '@/components/Button/Button.vue';
 import { useRouter } from 'vue-router';
 import { VNode } from 'vue';
 import CreateNewJourney from '@/screens/InterviewJourneysList/components/CreateNewJourney.vue';
+import { pickThingId } from '@/utils/surrealThing';
 
 setPageTitle('Interview Journeys');
 
@@ -173,14 +174,11 @@ function renderActionItems(
   const viewButton = h(
     Button,
     {
-      onClick: () => {
-        const rawId = info.row.original.id;
-        const stringId = rawId.split(':')[1];
+      onClick: () =>
         router.push({
           name: 'interview-journey-view',
-          params: { id: stringId },
-        });
-      },
+          params: { id: pickThingId(info.row.original.id) },
+        }),
     },
     () => [h('span', 'View')]
   );

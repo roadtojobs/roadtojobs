@@ -72,6 +72,7 @@ import useValidation from '@/composable/useValidation';
 import { interviewJourneyRepo } from '@/repositories/interviewJourney.repo';
 import useCurrentUser from '@/composable/useCurrentUser';
 import { useRouter } from 'vue-router';
+import { pickThingId } from '@/utils/surrealThing';
 
 const { user } = useCurrentUser();
 const router = useRouter();
@@ -139,7 +140,7 @@ const onClickSubmit = async () => {
   router.push({
     name: 'interview-journey-view',
     params: {
-      id: createdId.split(':')[1],
+      id: pickThingId(createdId),
     },
   });
 };
