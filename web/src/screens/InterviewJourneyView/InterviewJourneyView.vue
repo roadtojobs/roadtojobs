@@ -11,7 +11,7 @@
   <AppPage
     v-else
     :header-title="`My journey: ${interviewJourney.name}`"
-    :description="`Begin at ${formattedStartDate} ⭐️`"
+    :description="`It begins at ${formattedStartDate} ⭐️`"
     borderless
     body-margin="mt-1"
   >
@@ -19,7 +19,9 @@
       <template #info>
         <InfoView :interview-journey="interviewJourney" />
       </template>
-      <template #journey> hehe </template>
+      <template #journey>
+        <JourneyView :interview-journey="interviewJourney" />
+      </template>
     </Tabs>
   </AppPage>
 </template>
@@ -39,6 +41,7 @@ import { BookmarkIcon, BuildingOffice2Icon } from '@heroicons/vue/24/outline';
 import dayjs from 'dayjs';
 import { DISPLAY_DATE_FORMAT } from '@/constants';
 import InfoView from '@/screens/InterviewJourneyView/components/InfoView.vue';
+import JourneyView from '@/screens/InterviewJourneyView/components/JourneyView.vue';
 
 const route = useRoute();
 const interviewJourney = ref<InterviewJourney | null>();

@@ -5,5 +5,6 @@ export type MenuItem = {
   name: string;
   routeName?: string;
   icon?: Component;
+  childRoutes?: string[];
   onClick?: (menuItem: MenuItem) => void;
 };

@@ -1,5 +1,8 @@
 <template>
-  <TransitionRoot as="template" :show="sidebarOpen">
+  <TransitionRoot
+    as="template"
+    :show="sidebarOpen"
+  >
     <Dialog
       as="div"
       class="relative z-50 lg:hidden"
@@ -46,7 +49,10 @@
                   @click="sidebarOpen = false"
                 >
                   <span class="sr-only">Close sidebar</span>
-                  <XMarkIcon class="h-6 w-6 text-white" aria-hidden="true" />
+                  <XMarkIcon
+                    class="h-6 w-6 text-white"
+                    aria-hidden="true"
+                  />
                 </button>
               </div>
             </TransitionChild>
@@ -77,7 +83,10 @@
       @click="sidebarOpen = true"
     >
       <span class="sr-only">Open sidebar</span>
-      <Bars3Icon class="h-6 w-6" aria-hidden="true" />
+      <Bars3Icon
+        class="h-6 w-6"
+        aria-hidden="true"
+      />
     </button>
     <div class="flex-1 text-sm font-semibold leading-6 text-gray-900">
       Road To Jobs
@@ -129,6 +138,7 @@ const menuItems = ref<MenuItem[]>([
     name: 'Interview Journeys',
     routeName: 'interview-journey',
     icon: ClipboardDocumentCheckIcon,
+    childRoutes: ['interview-journey-view'],
   },
   {
     id: 'analytics',
@@ -140,13 +150,17 @@ const menuItems = ref<MenuItem[]>([
 
 onMounted(async () => {
   await router.isReady();
+  const currentRouteName = String(router.currentRoute.value.name);
 
   menuItems.value.forEach((menuItem) => {
-    if (router.currentRoute.value.name !== menuItem.routeName) {
+    if (
+      currentRouteName !== menuItem.routeName &&
+      !menuItem.childRoutes?.includes(currentRouteName)
+    ) {
       return;
     }
 
-    activeMenuItem.value = { ...menuItem };
+    onSelectedMenuItem(menuItem);
   });
 });
 
