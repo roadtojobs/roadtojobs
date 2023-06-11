@@ -1,7 +1,7 @@
 <template>
   <AppPage
     header-title="Interview Journeys"
-    description="Manage your Road To Jobs / Interview Journeys here"
+    description="Manage your Road To Jobs / Interview Journeys 💼"
   >
     <template #right-buttons>
       <CreateNewJourney />

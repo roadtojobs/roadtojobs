@@ -1,6 +1,6 @@
 <template>
   <div v-if="interviewJourney === undefined">Loading...</div>
-  <div v-else-if="interviewJourney === null">Journey not found</div>
+  <NotFoundScreen v-else-if="interviewJourney === null" />
   <AppPage
     v-else
     :header-title="interviewJourney.name"
@@ -18,6 +18,7 @@ import {
   interviewJourneyRepo,
 } from '@/repositories/interviewJourney.repo';
 import { useRoute } from 'vue-router';
+import NotFoundScreen from '@/components/NotFoundScreen/NotFoundScreen.vue';
 
 const route = useRoute();
 const interviewJourney = ref<InterviewJourney | null>();
