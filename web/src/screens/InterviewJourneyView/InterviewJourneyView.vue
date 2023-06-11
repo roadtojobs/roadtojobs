@@ -1,11 +1,19 @@
 <template>
-  <div v-if="interviewJourney === undefined">Loading...</div>
+  <AppPage
+    v-if="interviewJourney === undefined"
+    header-title="Loading..."
+    description="Loading..."
+    class="animate-pulse"
+  >
+    Loading...
+  </AppPage>
   <NotFoundScreen v-else-if="interviewJourney === null" />
   <AppPage
     v-else
     :header-title="interviewJourney.name"
     :description="interviewJourney.description"
   >
+    <template #right-buttons> </template>
     hehe
   </AppPage>
 </template>

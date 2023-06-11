@@ -8,7 +8,7 @@
           >
             {{ headerTitle }}
           </h1>
-          <p class="mt-2 text-md leading-8 text-gray-600">
+          <p class="mt-2 text-md leading-8 text-gray-500">
             {{ description }}
           </p>
         </div>
