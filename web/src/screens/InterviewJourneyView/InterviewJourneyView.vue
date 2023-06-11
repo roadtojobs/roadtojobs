@@ -37,7 +37,7 @@ import { useRoute } from 'vue-router';
 import NotFoundScreen from '@/components/NotFoundScreen/NotFoundScreen.vue';
 import Tabs from '@/components/Tabs/Tabs.vue';
 import { TabItem } from '@/components/Tabs/Tabs.methods';
-import { BookmarkIcon, BuildingOffice2Icon } from '@heroicons/vue/24/outline';
+import { BookmarkIcon, SparklesIcon } from '@heroicons/vue/24/outline';
 import dayjs from 'dayjs';
 import { DISPLAY_DATE_FORMAT } from '@/constants';
 import InfoView from '@/screens/InterviewJourneyView/components/InfoView.vue';
@@ -54,7 +54,7 @@ const pageTabs: TabItem[] = [
   {
     id: 'journey',
     label: 'Journey',
-    icon: BuildingOffice2Icon,
+    icon: SparklesIcon,
   },
 ];
 
