@@ -10,29 +10,62 @@
   <NotFoundScreen v-else-if="interviewJourney === null" />
   <AppPage
     v-else
-    :header-title="interviewJourney.name"
-    :description="interviewJourney.description"
+    :header-title="`My journey: ${interviewJourney.name}`"
+    :description="`Begin at ${formattedStartDate} ⭐️`"
+    borderless
+    body-margin="mt-1"
   >
-    <template #right-buttons> </template>
-    hehe
+    <Tabs :tabs="pageTabs">
+      <template #info>
+        <InfoView :interview-journey="interviewJourney" />
+      </template>
+      <template #journey> hehe </template>
+    </Tabs>
   </AppPage>
 </template>
 
 <script setup lang="ts">
 import AppPage from '@/components/AppPage/AppPage.vue';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import {
   InterviewJourney,
   interviewJourneyRepo,
 } from '@/repositories/interviewJourney.repo';
 import { useRoute } from 'vue-router';
 import NotFoundScreen from '@/components/NotFoundScreen/NotFoundScreen.vue';
+import Tabs from '@/components/Tabs/Tabs.vue';
+import { TabItem } from '@/components/Tabs/Tabs.methods';
+import { BookmarkIcon, BuildingOffice2Icon } from '@heroicons/vue/24/outline';
+import dayjs from 'dayjs';
+import { DISPLAY_DATE_FORMAT } from '@/constants';
+import InfoView from '@/screens/InterviewJourneyView/components/InfoView.vue';
 
 const route = useRoute();
 const interviewJourney = ref<InterviewJourney | null>();
+const pageTabs: TabItem[] = [
+  {
+    id: 'info',
+    label: 'Info',
+    icon: BookmarkIcon,
+  },
+  {
+    id: 'journey',
+    label: 'Journey',
+    icon: BuildingOffice2Icon,
+  },
+];
 
 onMounted(async () => {
   const record = await interviewJourneyRepo.getById(String(route.params.id));
   interviewJourney.value = record ? { ...record } : null;
+});
+
+const formattedStartDate = computed(() => {
+  if (!interviewJourney.value?.startedAt) {
+    return '-';
+  }
+
+  const djsStartDate = dayjs(interviewJourney.value?.startedAt);
+  return djsStartDate.format(DISPLAY_DATE_FORMAT);
 });
 </script>

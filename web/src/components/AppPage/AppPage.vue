@@ -1,14 +1,20 @@
 <template>
   <div>
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="sm:flex sm:items-center border-b lg:pb-6 pb-2">
+      <div
+        class="sm:flex sm:items-center lg:pb-6 pb-2"
+        :class="[borderless ? '' : 'border-b']"
+      >
         <div class="sm:flex-auto">
           <h1
             class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl"
           >
             {{ headerTitle }}
           </h1>
-          <p class="mt-2 text-md leading-8 text-gray-500">
+          <p
+            class="mt-2 leading-8"
+            :class="[descriptionTextClass]"
+          >
             {{ description }}
           </p>
         </div>
@@ -17,8 +23,11 @@
         </div>
       </div>
     </div>
-    <div class="mt-8 flow-root overflow-hidden">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div
+      class="flow-root overflow-hidden"
+      :class="bodyMargin"
+    >
+      <div :class="[bodyClasses]">
         <slot />
       </div>
     </div>
@@ -26,8 +35,19 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  headerTitle: string;
-  description?: string;
-}>();
+withDefaults(
+  defineProps<{
+    headerTitle: string;
+    description?: string;
+    descriptionTextClass?: string;
+    borderless?: boolean;
+    bodyMargin?: string;
+    bodyClasses?: string;
+  }>(),
+  {
+    bodyMargin: 'mt-8',
+    descriptionTextClass: 'text-md text-gray-500',
+    bodyClasses: 'mx-auto max-w-7xl px-4 sm:px-6 lg:px-8',
+  }
+);
 </script>
