@@ -70,7 +70,7 @@ import dayjs from 'dayjs';
 import { SERVER_DATE_FORMAT } from '@/constants';
 import useValidation from '@/composable/useValidation';
 import { interviewJourneyRepo } from '@/repositories/interviewJourney.repo';
-import useCurrentUser from '@/composable/useCurrentUser';
+import { useCurrentUser } from '@/stores/useCurrentUser';
 import { useRouter } from 'vue-router';
 import { pickThingId } from '@/utils/surrealThing';
 

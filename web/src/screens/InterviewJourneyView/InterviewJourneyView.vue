@@ -45,7 +45,7 @@ import dayjs from 'dayjs';
 import { DISPLAY_DATE_FORMAT } from '@/constants';
 import InfoView from '@/screens/InterviewJourneyView/components/InfoView.vue';
 import JourneyView from '@/screens/InterviewJourneyView/components/JourneyView.vue';
-import useCurrentUser from '@/composable/useCurrentUser';
+import { useCurrentUser } from '@/stores/useCurrentUser';
 
 const route = useRoute();
 const { user } = useCurrentUser();

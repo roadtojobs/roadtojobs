@@ -15,13 +15,26 @@
 import AppHeaderSidebar from '@/layouts/AppHeaderSidebar.vue';
 import { signIn } from '@/libraries/surreal';
 import AppFooter from '@/layouts/AppFooter.vue';
+import { userRepo } from '@/repositories/user.repo';
+import { redirectSelf } from '@/utils/forceRedirect';
+import { useCurrentUser } from '@/stores/useCurrentUser';
+
+const { setUser } = useCurrentUser();
 
 onMounted(async () => {
   // for single usage, use the default hardcoded pass here
   const result = await signIn('admin', 'admin');
 
   if (!result) {
-    window.location.href = window.location.href;
+    return redirectSelf();
   }
+
+  // get user
+  const user = await userRepo.getLoggedInUser();
+  if (!user) {
+    return redirectSelf();
+  }
+
+  setUser?.(user);
 });
 </script>

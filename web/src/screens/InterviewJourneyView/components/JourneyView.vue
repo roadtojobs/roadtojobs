@@ -53,7 +53,7 @@ import { User } from '@/repositories/user.repo';
 
 type InfoViewProps = {
   interviewJourney: InterviewJourney;
-  user?: User;
+  user: User;
 };
 
 const props = defineProps<InfoViewProps>();
