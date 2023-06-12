@@ -73,8 +73,9 @@ import { interviewJourneyRepo } from '@/repositories/interviewJourney.repo';
 import { useCurrentUser } from '@/stores/useCurrentUser';
 import { useRouter } from 'vue-router';
 import { pickThingId } from '@/utils/surrealThing';
+import { notify } from '@kyvg/vue3-notification';
 
-const { user } = useCurrentUser();
+const { userId } = useCurrentUser();
 const router = useRouter();
 
 const {
@@ -120,12 +121,15 @@ const onClickCloseModal = () => {
 const onClickSubmit = async () => {
   const validationResult = validate({
     ...interviewJourney.value,
-    user: user.value?.id,
+    user: userId,
   });
 
   if (!validationResult.success) {
-    // show error
-    return;
+    return notify({
+      type: 'error',
+      title: 'Validation Error',
+      text: 'Please check the error(s), fix and try again.',
+    });
   }
 
   const createdId = await interviewJourneyRepo.create(
@@ -133,8 +137,11 @@ const onClickSubmit = async () => {
   );
 
   if (!createdId) {
-    // show error
-    return;
+    return notify({
+      type: 'error',
+      title: 'Creation Error',
+      text: 'There was an error while creating a new Journey. Please try again.',
+    });
   }
 
   router.push({

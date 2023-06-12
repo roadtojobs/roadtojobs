@@ -9,7 +9,7 @@
     </a>
     <span
       class="add-company hidden"
-      @click="$emit('add-company')"
+      @click="$emit('add-company', stage)"
     >
       <PlusIcon class="w-4 h-4" /> Add
     </span>
@@ -18,6 +18,7 @@
     :title="`Stage: ${stage.name}`"
     :is-open="isOpen"
     width-size="lg"
+    @close="isOpen = false"
   >
     <div class="py-4">
       <span
@@ -50,7 +51,7 @@ type ViewStageDescriptionProps = {
 defineProps<ViewStageDescriptionProps>();
 
 defineEmits<{
-  (e: 'add-company'): void;
+  (e: 'add-company', stage: Stage): void;
 }>();
 
 const isOpen = ref(false);

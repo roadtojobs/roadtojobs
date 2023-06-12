@@ -8,6 +8,8 @@
 
       <AppFooter />
     </main>
+
+    <notifications />
   </div>
 </template>
 

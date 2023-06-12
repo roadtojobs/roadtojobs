@@ -42,6 +42,12 @@
       </div>
     </div>
   </div>
+  <AddCompanyModal
+    v-if="addCompanyStage"
+    :is-open="isShowAddCompanyModal"
+    :stage="addCompanyStage"
+    @close="onCloseAddCompany"
+  />
 </template>
 
 <script setup lang="ts">
@@ -50,6 +56,7 @@ import { onMounted } from 'vue';
 import { Stage, stageRepo } from '@/repositories/stage.repo';
 import ViewStageDescription from '@/screens/InterviewJourneyView/components/ViewStageDescription.vue';
 import { User } from '@/repositories/user.repo';
+import AddCompanyModal from '@/screens/InterviewJourneyView/components/AddCompanyModal.vue';
 
 type InfoViewProps = {
   interviewJourney: InterviewJourney;
@@ -60,6 +67,9 @@ const props = defineProps<InfoViewProps>();
 
 const stages = ref<Stage[]>([]);
 
+const addCompanyStage = ref<Stage | null>(null);
+const isShowAddCompanyModal = ref(false);
+
 onMounted(async () => {
   // get stages
   const remoteStages = await stageRepo.getAll();
@@ -68,7 +78,13 @@ onMounted(async () => {
   // get companies of this user
 });
 
-const onClickAddCompany = () => {
-  console.log('err');
+const onClickAddCompany = (stage: Stage) => {
+  addCompanyStage.value = { ...stage };
+  isShowAddCompanyModal.value = true;
+};
+
+const onCloseAddCompany = () => {
+  addCompanyStage.value = null;
+  isShowAddCompanyModal.value = false;
 };
 </script>

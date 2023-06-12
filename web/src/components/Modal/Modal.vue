@@ -1,6 +1,13 @@
 <template>
-  <TransitionRoot as="template" :show="isOpen">
-    <Dialog as="div" class="relative z-50" @close="handleClose(true)">
+  <TransitionRoot
+    as="template"
+    :show="isOpen"
+  >
+    <Dialog
+      as="div"
+      class="relative z-50"
+      @close="handleClose(true)"
+    >
       <TransitionChild
         as="template"
         enter="ease-out duration-300"
@@ -41,14 +48,17 @@
               ]"
             >
               <div class="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
-                <button
+                <a
                   type="button"
-                  class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  class="rounded-md cursor-pointer bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   @click="handleClose(false)"
                 >
                   <span class="sr-only">Close</span>
-                  <XMarkIcon class="h-6 w-6" aria-hidden="true" />
-                </button>
+                  <XMarkIcon
+                    class="h-6 w-6"
+                    aria-hidden="true"
+                  />
+                </a>
               </div>
               <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                 <div class="mt-3 sm:ml-4 sm:mt-0 text-left">
@@ -65,6 +75,7 @@
                 </div>
               </div>
               <div
+                v-if="$slots['bottom-buttons']"
                 class="bg-gray-50 px-4 py-3 flex gap-2 flex-row-reverse sm:px-6"
               >
                 <slot name="bottom-buttons" />
