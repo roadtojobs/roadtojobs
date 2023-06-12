@@ -9,7 +9,7 @@ export type Stage = {
   isFinalStage: boolean;
 };
 
-type StageTable = {
+export type StageTable = {
   id: string;
   name: string;
   description: string;
@@ -17,7 +17,7 @@ type StageTable = {
   is_final_stage: boolean;
 };
 
-const stageTableToStage = (record: StageTable): Stage => ({
+export const stageTableToStage = (record: StageTable): Stage => ({
   ...record,
   isInitialStage: record.is_initial_stage,
   isFinalStage: record.is_final_stage,

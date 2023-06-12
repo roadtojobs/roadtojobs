@@ -5,6 +5,11 @@ import {
   CompanyTable,
   companyTableToCompany,
 } from '@/repositories/company.repo';
+import {
+  Stage,
+  StageTable,
+  stageTableToStage,
+} from '@/repositories/stage.repo';
 
 type DynamicAttributes = {
   color: string;
@@ -16,7 +21,7 @@ type InterviewJourneyCompanyTable = {
   interview_journey: string;
   user: string;
   company: string | CompanyTable;
-  stage: string;
+  stage: string | StageTable;
   description: string;
   attributes: DynamicAttributes;
   created_at: Date;
@@ -30,6 +35,7 @@ export type InterviewJourneyCompany = {
   companyId: string;
   company?: Company;
   stageId: string;
+  stage?: Stage;
   description: string;
   attributes: DynamicAttributes;
   createdAt: Date;
@@ -46,7 +52,8 @@ const tableToEntity = (
     ? undefined
     : companyTableToCompany(record.company),
   userId: record.user,
-  stageId: record.stage,
+  stageId: isString(record.stage) ? record.stage : record.stage.id,
+  stage: isString(record.stage) ? undefined : stageTableToStage(record.stage),
   description: record.description,
   attributes: record.attributes,
   createdAt: record.created_at,
@@ -66,13 +73,17 @@ export const interviewJourneyCompanyRepo = {
       SELECT *
       FROM ${interviewJourneyCompanyRepo.getTable()}
       WHERE interview_journey = $id
-      FETCH company
+      FETCH company, stage
     `,
       {
         id: interviewJourneyId,
       }
     );
 
-    return result.result?.map(tableToEntity) || [];
+    if (result.status === 'ERR') {
+      return [];
+    }
+
+    return result.result.map(tableToEntity);
   },
 };

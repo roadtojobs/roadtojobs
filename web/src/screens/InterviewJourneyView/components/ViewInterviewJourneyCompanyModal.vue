@@ -56,7 +56,7 @@
                       aria-hidden="true"
                     />
                     <span class="text-sm font-medium text-green-700">
-                      Open Issue
+                      {{ interviewJourneyCompany.stage.name }}
                     </span>
                   </div>
                   <div class="flex items-center space-x-2">
@@ -327,10 +327,12 @@
           <div class="space-y-5">
             <div class="flex items-center space-x-2">
               <PaperAirplaneIcon
-                class="h-5 w-5 text-green-500"
+                class="h-5 w-5 text-yellow-500"
                 aria-hidden="true"
               />
-              <span class="text-sm font-medium text-green-700">Open Issue</span>
+              <span class="text-sm font-medium text-yellow-700">
+                {{ interviewJourneyCompany.stage.name }}
+              </span>
             </div>
             <div class="flex items-center space-x-2">
               <StarIcon
