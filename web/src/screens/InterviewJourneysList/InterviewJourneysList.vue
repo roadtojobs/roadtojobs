@@ -58,7 +58,7 @@
       </thead>
       <tbody>
         <tr
-          v-for="row in table.getRowModel().rows.slice(0, 10)"
+          v-for="row in table.getRowModel().rows"
           :key="row.id"
         >
           <td
@@ -78,6 +78,14 @@
               v-if="index === 0"
               class="absolute bottom-0 left-0 h-px w-screen bg-gray-100"
             />
+          </td>
+        </tr>
+        <tr v-if="!interviewJourneys.length">
+          <td
+            colspan="6"
+            class="text-sm text-gray-500 py-4 text-center"
+          >
+            No journey here, let's create one 🚀
           </td>
         </tr>
       </tbody>

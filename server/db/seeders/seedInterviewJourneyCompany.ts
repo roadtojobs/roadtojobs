@@ -30,6 +30,7 @@ export default async function seedInterviewJourneyCompany() {
       company: companyId,
       user: user[0].id,
       stage: faker.helpers.arrayElement(stages ?? []).id,
+      description: faker.lorem.paragraphs(2),
     });
   });
 

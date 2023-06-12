@@ -18,6 +18,9 @@ DEFINE FIELD user ON TABLE interview_journey_company
   TYPE record (user)
   ASSERT $value != NONE;
 
+DEFINE FIELD description ON TABLE interview_journey_company
+  TYPE string;
+
 DEFINE FIELD created_at ON TABLE interview_journey_company
   TYPE datetime
   VALUE $value OR time::now();
