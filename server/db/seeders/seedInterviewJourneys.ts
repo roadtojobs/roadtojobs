@@ -8,13 +8,16 @@ export default async function seedInterviewJourneys() {
 
   console.log(`Creating ${total} interview journey...`);
   for (let i = 1; i <= total; i++) {
+    const customId = i === total ? ':active_journey' : '';
+
     promises.push(
-      db.create('interview_journey', {
+      db.create(`interview_journey${customId}`, {
         user: userId,
         name: `This is my interview journey ${faker.internet.emoji()}`,
-        description: 'Find new job for the Senior Software Engineer',
+        description: `Find new job for the position ${faker.person.jobTitle()}`,
         note: 'Goal: big earning, best benefits,...',
         started_at: new Date(`2023-01-0${i}`),
+        ended_at: i === total ? null : new Date(`2023-02-0${i}`),
       })
     );
   }

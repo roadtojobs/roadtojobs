@@ -12,5 +12,8 @@ export const initSurrealDbRootConnection = async (): Promise<void> => {
     pass: env.surrealDbPass,
   });
 
-  await db.use(env.surrealDbNamespace, env.surrealDbName);
+  await db.use({
+    ns: env.surrealDbNamespace,
+    db: env.surrealDbName,
+  });
 };

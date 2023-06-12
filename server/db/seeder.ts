@@ -8,6 +8,7 @@ import { initSurrealDbRootConnection, db } from '@db';
 import seedCompanies from './seeders/seedCompanies';
 import seedInterviewJourneys from './seeders/seedInterviewJourneys';
 import env from '@appEnv';
+import seedInterviewJourneyCompany from './seeders/seedInterviewJourneyCompany';
 
 seed();
 
@@ -22,6 +23,7 @@ async function seed() {
   // create companies
   await seedCompanies();
   await seedInterviewJourneys();
+  await seedInterviewJourneyCompany();
 
   console.log('Closing DB connection...');
   await db.close();

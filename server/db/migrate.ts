@@ -79,7 +79,7 @@ async function createMigrationTable() {
 async function isAlreadyMigrated(file: MigrationFile): Promise<boolean> {
   const result = await db.select(`migration:${md5(file.filename)}`);
 
-  return result !== undefined;
+  return result[0] !== undefined;
 }
 
 async function migrate(file: MigrationFile) {
