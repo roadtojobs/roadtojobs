@@ -34,7 +34,12 @@
                 />
               </td>
               <td class="whitespace-nowrap p-4 text-sm text-gray-500">
-                No company here 👀
+                <StageCompanyList
+                  v-if="stageJourneyCompanyMap[stage.id]"
+                  :stage="stage"
+                  :journey-company-items="stageJourneyCompanyMap[stage.id]"
+                />
+                <span v-else> No company here 👀 </span>
               </td>
             </tr>
           </tbody>
@@ -52,11 +57,16 @@
 
 <script setup lang="ts">
 import { InterviewJourney } from '@/repositories/interviewJourney.repo';
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import { Stage, stageRepo } from '@/repositories/stage.repo';
 import ViewStageDescription from '@/screens/InterviewJourneyView/components/ViewStageDescription.vue';
 import { User } from '@/repositories/user.repo';
 import AddCompanyModal from '@/screens/InterviewJourneyView/components/AddCompanyModal.vue';
+import {
+  InterviewJourneyCompany,
+  interviewJourneyCompanyRepo,
+} from '@/repositories/interviewJourneyCompany.repo';
+import StageCompanyList from '@/screens/InterviewJourneyView/components/StageCompanyList.vue';
 
 type InfoViewProps = {
   interviewJourney: InterviewJourney;
@@ -66,6 +76,7 @@ type InfoViewProps = {
 const props = defineProps<InfoViewProps>();
 
 const stages = ref<Stage[]>([]);
+const interviewJourneyCompanyItems = ref<InterviewJourneyCompany[]>([]);
 
 const addCompanyStage = ref<Stage | null>(null);
 const isShowAddCompanyModal = ref(false);
@@ -76,6 +87,21 @@ onMounted(async () => {
   stages.value = [...remoteStages];
 
   // get companies of this user
+  const journeyCompanyItems = await interviewJourneyCompanyRepo.getByJourney(
+    props.interviewJourney.id
+  );
+  interviewJourneyCompanyItems.value = [...journeyCompanyItems];
+});
+
+const stageJourneyCompanyMap = computed(() => {
+  return interviewJourneyCompanyItems.value.reduce<
+    Record<string, InterviewJourneyCompany[]>
+  >((record, journeyCompany) => {
+    record[journeyCompany.stageId] ??= [];
+    record[journeyCompany.stageId].push(journeyCompany);
+
+    return record;
+  }, {});
 });
 
 const onClickAddCompany = (stage: Stage) => {
