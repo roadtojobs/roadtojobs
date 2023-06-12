@@ -28,7 +28,10 @@
               <td
                 class="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-0"
               >
-                <ViewStageDescription :stage="stage" />
+                <ViewStageDescription
+                  :stage="stage"
+                  @add-company="onClickAddCompany"
+                />
               </td>
               <td class="whitespace-nowrap p-4 text-sm text-gray-500">
                 No company here 👀
@@ -46,9 +49,11 @@ import { InterviewJourney } from '@/repositories/interviewJourney.repo';
 import { onMounted } from 'vue';
 import { Stage, stageRepo } from '@/repositories/stage.repo';
 import ViewStageDescription from '@/screens/InterviewJourneyView/components/ViewStageDescription.vue';
+import { User } from '@/repositories/user.repo';
 
 type InfoViewProps = {
   interviewJourney: InterviewJourney;
+  user?: User;
 };
 
 const props = defineProps<InfoViewProps>();
@@ -57,8 +62,13 @@ const stages = ref<Stage[]>([]);
 
 onMounted(async () => {
   // get stages
-  stages.value = [...(await stageRepo.getAll())];
+  const remoteStages = await stageRepo.getAll();
+  stages.value = [...remoteStages];
 
-  // get companies
+  // get companies of this user
 });
+
+const onClickAddCompany = () => {
+  console.log('err');
+};
 </script>

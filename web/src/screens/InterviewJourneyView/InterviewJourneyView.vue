@@ -20,7 +20,10 @@
         <InfoView :interview-journey="interviewJourney" />
       </template>
       <template #journey>
-        <JourneyView :interview-journey="interviewJourney" />
+        <JourneyView
+          :interview-journey="interviewJourney"
+          :user="user"
+        />
       </template>
     </Tabs>
   </AppPage>
@@ -42,8 +45,11 @@ import dayjs from 'dayjs';
 import { DISPLAY_DATE_FORMAT } from '@/constants';
 import InfoView from '@/screens/InterviewJourneyView/components/InfoView.vue';
 import JourneyView from '@/screens/InterviewJourneyView/components/JourneyView.vue';
+import useCurrentUser from '@/composable/useCurrentUser';
 
 const route = useRoute();
+const { user } = useCurrentUser();
+
 const interviewJourney = ref<InterviewJourney | null>();
 const pageTabs: TabItem[] = [
   {
