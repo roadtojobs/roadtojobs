@@ -1,10 +1,16 @@
 import { dbClient } from '@/libraries/surreal';
+import { isString } from 'lodash-es';
+import {
+  Company,
+  CompanyTable,
+  companyTableToCompany,
+} from '@/repositories/company.repo';
 
 type InterviewJourneyCompanyTable = {
   id: string;
   interview_journey: string;
   user: string;
-  company: string;
+  company: string | CompanyTable;
   stage: string;
   created_at: Date;
   updated_at: Date;
@@ -15,6 +21,7 @@ export type InterviewJourneyCompany = {
   interviewJourneyId: string;
   userId: string;
   companyId: string;
+  company?: Company;
   stageId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -25,7 +32,10 @@ const tableToEntity = (
 ): InterviewJourneyCompany => ({
   id: record.id,
   interviewJourneyId: record.interview_journey,
-  companyId: record.company,
+  companyId: isString(record.company) ? record.company : record.company.id,
+  company: isString(record.company)
+    ? undefined
+    : companyTableToCompany(record.company),
   userId: record.user,
   stageId: record.stage,
   createdAt: record.created_at,
@@ -45,6 +55,7 @@ export const interviewJourneyCompanyRepo = {
       SELECT *
       FROM ${interviewJourneyCompanyRepo.getTable()}
       WHERE interview_journey = $id
+      FETCH company
     `,
       {
         id: interviewJourneyId,

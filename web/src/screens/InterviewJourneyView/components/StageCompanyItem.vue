@@ -1,8 +1,9 @@
 <template>
   <div
     class="inline-flex items-center rounded-full bg-rose-100 px-3 py-2 text-md font-medium text-rose-800 select-none cursor-pointer"
+    @click="$emit('click', journeyCompanyItem)"
   >
-    {{ journeyCompanyItem.companyId }}
+    {{ journeyCompanyItem.company?.name }}
   </div>
 </template>
 
@@ -14,6 +15,8 @@ type StageCompanyItemProps = {
 };
 
 defineProps<StageCompanyItemProps>();
-</script>
 
-<style scoped></style>
+defineEmits<{
+  (e: 'click', journeyCompanyItem: InterviewJourneyCompany): void;
+}>();
+</script>

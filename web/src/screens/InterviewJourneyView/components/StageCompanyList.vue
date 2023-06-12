@@ -4,6 +4,7 @@
       v-for="journeyCompany in journeyCompanyItems"
       :key="journeyCompany.id"
       :journey-company-item="journeyCompany"
+      @click="(item) => $emit('click', item)"
     />
   </div>
 </template>
@@ -19,4 +20,8 @@ type StageCompanyListProps = {
 };
 
 defineProps<StageCompanyListProps>();
+
+defineEmits<{
+  (e: 'click', journeyCompanyItem: InterviewJourneyCompany): void;
+}>();
 </script>

@@ -1,5 +1,13 @@
 import { dbClient } from '@/libraries/surreal';
 
+export type UserTable = {
+  id: string;
+  email: string;
+  username: string;
+  name: string;
+  created_at: Date;
+};
+
 export type User = {
   id: string;
   email: string;
@@ -8,19 +16,18 @@ export type User = {
   createdAt: Date;
 };
 
+const userTableToUser = (record: UserTable): User => ({
+  ...record,
+  createdAt: record.created_at,
+});
+
 export const userRepo = {
   async getLoggedInUser(): Promise<User | undefined> {
-    const rows = await dbClient.select('user');
+    const rows = await dbClient.select<UserTable>('user');
     if (!rows[0]) {
       return;
     }
 
-    return {
-      id: rows[0].id,
-      email: String(rows[0].email),
-      username: String(rows[0].username),
-      name: String(rows[0].name),
-      createdAt: new Date(String(rows[0].created_at)),
-    };
+    return userTableToUser(rows[0]);
   },
 };

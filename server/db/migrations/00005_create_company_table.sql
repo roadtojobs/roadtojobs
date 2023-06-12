@@ -17,15 +17,18 @@ DEFINE FIELD homepage ON TABLE company
 
 DEFINE FIELD created_at ON TABLE company
   TYPE datetime
-  VALUE $value OR time::now();
+  VALUE $value OR time::now()
+  PERMISSIONS NONE;
 
 DEFINE FIELD updated_at ON TABLE company
   TYPE datetime
-  VALUE time::now();
+  VALUE time::now()
+  PERMISSIONS NONE;
 
 DEFINE FIELD deleted_at ON TABLE company
-  TYPE datetime;
+  TYPE datetime
+  PERMISSIONS NONE;
 
-DEFINE FIELD added_by_user_id ON TABLE company TYPE record (user);
+DEFINE FIELD user_added ON TABLE company TYPE record (user);
 
 DEFINE INDEX unq_company_name ON TABLE company COLUMNS name UNIQUE;
