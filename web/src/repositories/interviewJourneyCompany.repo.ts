@@ -6,12 +6,19 @@ import {
   companyTableToCompany,
 } from '@/repositories/company.repo';
 
+type DynamicAttributes = {
+  color: string;
+  text: string;
+}[];
+
 type InterviewJourneyCompanyTable = {
   id: string;
   interview_journey: string;
   user: string;
   company: string | CompanyTable;
   stage: string;
+  description: string;
+  attributes: DynamicAttributes;
   created_at: Date;
   updated_at: Date;
 };
@@ -23,6 +30,8 @@ export type InterviewJourneyCompany = {
   companyId: string;
   company?: Company;
   stageId: string;
+  description: string;
+  attributes: DynamicAttributes;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -38,6 +47,8 @@ const tableToEntity = (
     : companyTableToCompany(record.company),
   userId: record.user,
   stageId: record.stage,
+  description: record.description,
+  attributes: record.attributes,
   createdAt: record.created_at,
   updatedAt: record.updated_at,
 });

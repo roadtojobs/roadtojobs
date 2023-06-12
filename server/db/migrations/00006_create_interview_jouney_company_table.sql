@@ -21,6 +21,18 @@ DEFINE FIELD user ON TABLE interview_journey_company
 DEFINE FIELD description ON TABLE interview_journey_company
   TYPE string;
 
+DEFINE FIELD attributes ON TABLE interview_journey_company
+  TYPE array;
+
+DEFINE FIELD attributes.* ON TABLE interview_journey_company
+  TYPE object;
+
+DEFINE FIELD attributes.*.text ON TABLE interview_journey_company
+  TYPE string;
+
+DEFINE FIELD attributes.*.color ON TABLE interview_journey_company
+  TYPE string;
+
 DEFINE FIELD created_at ON TABLE interview_journey_company
   TYPE datetime
   VALUE $value OR time::now();
