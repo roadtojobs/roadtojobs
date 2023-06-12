@@ -38,6 +38,7 @@
                   v-if="stageJourneyCompanyMap[stage.id]"
                   :stage="stage"
                   :journey-company-items="stageJourneyCompanyMap[stage.id]"
+                  @click="(item) => viewJourneyItem(item)"
                 />
                 <span v-else> No company here 👀 </span>
               </td>
@@ -53,6 +54,12 @@
     :stage="addCompanyStage"
     @close="onCloseAddCompany"
   />
+  <ViewInterviewJourneyCompanyModal
+    v-if="viewingJourneyItem"
+    :is-open="isOpenJourneyItemModal"
+    :interview-journey-company="viewingJourneyItem"
+    @close="closeViewJourneyItem"
+  />
 </template>
 
 <script setup lang="ts">
@@ -67,6 +74,8 @@ import {
   interviewJourneyCompanyRepo,
 } from '@/repositories/interviewJourneyCompany.repo';
 import StageCompanyList from '@/screens/InterviewJourneyView/components/StageCompanyList.vue';
+import { useViewInterviewJourneyCompany } from '@/screens/InterviewJourneyView/composables/useViewInterviewJourneyCompany';
+import ViewInterviewJourneyCompanyModal from '@/screens/InterviewJourneyView/components/ViewInterviewJourneyCompanyModal.vue';
 
 type InfoViewProps = {
   interviewJourney: InterviewJourney;
@@ -80,6 +89,13 @@ const interviewJourneyCompanyItems = ref<InterviewJourneyCompany[]>([]);
 
 const addCompanyStage = ref<Stage | null>(null);
 const isShowAddCompanyModal = ref(false);
+
+const {
+  isOpen: isOpenJourneyItemModal,
+  viewJourneyItem,
+  closeViewJourneyItem,
+  interviewJourneyCompany: viewingJourneyItem,
+} = useViewInterviewJourneyCompany();
 
 onMounted(async () => {
   // get stages
