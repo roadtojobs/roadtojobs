@@ -13,23 +13,26 @@ export default async function seedInterviewJourneyCompany() {
     return;
   }
 
-  const [companyResult, stageResult, user] = await Promise.all([
+  const [companyResult, stageResult, userResult] = await Promise.all([
     db.query<Result>(`SELECT * FROM company ORDER BY rand() LIMIT 10`),
     db.query<Result>(`SELECT * FROM stage ORDER BY rand()`),
     db.select('user:admin'),
   ]);
+
+  const user = String(userResult[0].id);
 
   const companies = companyResult[0].result;
   const stages = stageResult[0].result;
 
   const promises = companies?.map(async (company) => {
     const companyId = company.id;
+    const stage = faker.helpers.arrayElement(stages ?? []);
 
-    return await db.create('interview_journey_company', {
+    const [journeyItem] = await db.create('interview_journey_company', {
       interview_journey: activeJourney.id,
       company: companyId,
-      user: user[0].id,
-      stage: faker.helpers.arrayElement(stages ?? []).id,
+      user,
+      stage: stage.id,
       description: faker.lorem.paragraphs(2),
       attributes: [
         {
@@ -57,6 +60,30 @@ export default async function seedInterviewJourneyCompany() {
           ]),
         },
       ],
+    });
+
+    await db.create('interview_journey_company_activity', {
+      interview_journey_company: journeyItem.id,
+      type: 'CREATED_JOURNEY_ITEM',
+      user,
+    });
+
+    if (String(stage.name).includes('Interested')) {
+      return;
+    }
+
+    await db.create('interview_journey_company_activity', {
+      interview_journey_company: journeyItem.id,
+      type: 'ADVANCED_TO_STAGE',
+      stage: stage.id,
+      user,
+    });
+
+    await db.create('interview_journey_company_activity', {
+      interview_journey_company: journeyItem.id,
+      type: 'ADDED_NOTE',
+      user,
+      comment: faker.lorem.paragraphs(1),
     });
   });
 

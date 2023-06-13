@@ -1,4 +1,6 @@
 export type ActivityType =
+  | 'CREATED_JOURNEY_ITEM'
+  | 'CLOSED_JOURNEY_ITEM'
   | 'ADDED_NOTE'
   | 'ADDED_ATTRIBUTE'
   | 'REMOVED_ATTRIBUTE'

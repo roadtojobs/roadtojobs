@@ -9,7 +9,7 @@ export default async function seedCompanies() {
   for (let i = 1; i <= total; i++) {
     promises.push(
       db.create('company', {
-        name: faker.company.name(),
+        name: getCompanyName()[i - 1],
         description: faker.commerce.productDescription(),
         homepage: faker.internet.url({ protocol: 'https' }),
       })
@@ -18,4 +18,59 @@ export default async function seedCompanies() {
 
   await Promise.all(promises);
   console.log(`Created ${total} companies.`);
+}
+
+function getCompanyName(): string[] {
+  return [
+    'Apple',
+    'Amazon',
+    'Microsoft',
+    'Alphabet',
+    'Facebook',
+    'Tencent',
+    'Samsung',
+    'Intel',
+    'IBM',
+    'Oracle',
+    'Cisco',
+    'Nvidia',
+    'Adobe',
+    'Salesforce',
+    'SAP',
+    'Tesla',
+    'Netflix',
+    'PayPal',
+    'T-Mobile',
+    'Verizon',
+    'AT&T',
+    'Sony',
+    'Baidu',
+    'HP',
+    'Dell',
+    'Qualcomm',
+    'Huawei',
+    'Twitter',
+    'Uber',
+    'Airbnb',
+    'Dropbox',
+    'Slack',
+    'Snap',
+    'WeChat',
+    'Square',
+    'LinkedIn',
+    'VMware',
+    'Zoom',
+    'Xiaomi',
+    'TikTok',
+    'Nintendo',
+    'Spotify',
+    'Zillow',
+    'Workday',
+    'Pinterest',
+    'Lyft',
+    'Rakuten',
+    'Intuit',
+    'Nokia',
+    'BlackBerry',
+  ];
 }
