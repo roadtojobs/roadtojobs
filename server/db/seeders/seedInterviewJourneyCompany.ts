@@ -60,7 +60,12 @@ export default async function seedInterviewJourneyCompany() {
       company: companyId,
       user,
       stage: stage.id,
-      description: faker.lorem.paragraphs(2),
+      description: faker.lorem.paragraphs(
+        faker.helpers.rangeToNumber({
+          min: 2,
+          max: 5,
+        })
+      ),
       attributes,
     });
 
