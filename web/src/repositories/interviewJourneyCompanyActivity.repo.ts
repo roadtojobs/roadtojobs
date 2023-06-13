@@ -18,7 +18,7 @@ type InterviewJourneyCompanyActivityTable = {
   type: ActivityType;
   interview_journey_company: string | InterviewJourneyCompanyTable;
   user: string | UserTable;
-  stage: string | StageTable;
+  stage: string | StageTable | undefined;
   comment: string;
   attributes: DynamicAttributes;
   created_at: Date;
@@ -32,12 +32,22 @@ export type InterviewJourneyCompanyActivity = {
   interviewJourneyCompany?: InterviewJourneyCompany;
   userId: string;
   user?: User;
-  stageId: string;
+  stageId: string | null;
   stage?: Stage;
   comment: string;
   attributes: DynamicAttributes;
   createdAt: Date;
   updatedAt: Date;
+};
+
+const parseStage = (
+  stage: string | StageTable | undefined
+): Stage | undefined => {
+  if (isString(stage) || !stage) {
+    return undefined;
+  }
+
+  return stageTableToStage(stage);
 };
 
 const tableToEntity = (
@@ -49,8 +59,8 @@ const tableToEntity = (
     : record.interview_journey_company.id,
   userId: isString(record.user) ? record.user : record.user.id,
   user: isString(record.user) ? undefined : userTableToUser(record.user),
-  stageId: isString(record.stage) ? record.stage : record.stage.id,
-  stage: isString(record.stage) ? undefined : stageTableToStage(record.stage),
+  stageId: isString(record.stage) ? record.stage : record.stage?.id ?? null,
+  stage: parseStage(record.stage),
   createdAt: record.created_at,
   updatedAt: record.updated_at,
 });
@@ -69,8 +79,9 @@ export const interviewJourneyCompanyActivityRepo = {
       `
       SELECT *
       FROM ${interviewJourneyCompanyActivityRepo.getTable()}
-      WHERE interview_journey = $id
-      FETCH company, stage
+      WHERE interview_journey_company = $id
+      ORDER BY created_at ASC
+      FETCH stage, user
     `,
       {
         id: journeyCompanyId,

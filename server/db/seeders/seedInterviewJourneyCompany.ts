@@ -74,13 +74,6 @@ export default async function seedInterviewJourneyCompany() {
 
     await db.create('interview_journey_company_activity', {
       interview_journey_company: journeyItem.id,
-      type: 'ADVANCED_TO_STAGE',
-      stage: stage.id,
-      user,
-    });
-
-    await db.create('interview_journey_company_activity', {
-      interview_journey_company: journeyItem.id,
       type: 'ADDED_NOTE',
       user,
       comment: faker.lorem.paragraphs(1),

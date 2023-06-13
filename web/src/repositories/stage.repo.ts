@@ -5,6 +5,7 @@ export type Stage = {
   id: string;
   name: string;
   description: string;
+  color: string;
   isInitialStage: boolean;
   isFinalStage: boolean;
 };
@@ -13,6 +14,7 @@ export type StageTable = {
   id: string;
   name: string;
   description: string;
+  color: string;
   is_initial_stage: boolean;
   is_final_stage: boolean;
 };
