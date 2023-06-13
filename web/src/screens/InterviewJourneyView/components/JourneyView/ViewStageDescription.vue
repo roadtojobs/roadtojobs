@@ -8,6 +8,7 @@
       {{ stage.name }}
     </a>
     <span
+      v-if="!interviewJourney.endedAt"
       class="add-company hidden"
       @click="$emit('add-company', stage)"
     >
@@ -43,8 +44,10 @@ import { Stage } from '@/repositories/stage.repo';
 import Button from '@/components/Button/Button.vue';
 import { ref } from 'vue';
 import { PlusIcon } from '@heroicons/vue/24/outline';
+import { InterviewJourney } from '@/repositories/interviewJourney.repo';
 
 type ViewStageDescriptionProps = {
+  interviewJourney: InterviewJourney;
   stage: Stage;
 };
 

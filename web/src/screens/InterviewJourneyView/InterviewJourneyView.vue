@@ -46,9 +46,11 @@ import { DISPLAY_DATE_FORMAT } from '@/constants';
 import InfoView from '@/screens/InterviewJourneyView/components/InfoView.vue';
 import JourneyView from '@/screens/InterviewJourneyView/components/JourneyView.vue';
 import { useCurrentUser } from '@/stores/useCurrentUser';
+import { useGlobalStages } from '@/stores/useGlobalStages';
 
 const route = useRoute();
 const { user } = useCurrentUser();
+const { loadStages } = useGlobalStages();
 
 const interviewJourney = ref<InterviewJourney | null>();
 const pageTabs: TabItem[] = [
@@ -67,6 +69,8 @@ const pageTabs: TabItem[] = [
 onMounted(async () => {
   const record = await interviewJourneyRepo.getById(String(route.params.id));
   interviewJourney.value = record ? { ...record } : null;
+
+  await loadStages();
 });
 
 const formattedStartDate = computed(() => {
