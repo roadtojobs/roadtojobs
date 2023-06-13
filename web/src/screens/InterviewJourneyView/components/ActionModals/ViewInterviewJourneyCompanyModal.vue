@@ -55,9 +55,10 @@
                       class="h-5 w-5 text-green-500"
                       aria-hidden="true"
                     />
-                    <span class="text-sm font-medium text-green-700">
-                      {{ interviewJourneyCompany.stage.name }}
-                    </span>
+                    <StageText
+                      v-if="interviewJourneyCompany.stage"
+                      :stage="interviewJourneyCompany.stage"
+                    />
                   </div>
                   <div class="flex items-center space-x-2">
                     <StarIcon
@@ -116,16 +117,17 @@
           <div class="space-y-5">
             <div class="flex items-center space-x-2">
               <PaperAirplaneIcon
-                class="h-5 w-5 text-yellow-500"
+                class="h-5 w-5 text-gray-500"
                 aria-hidden="true"
               />
-              <span class="text-sm font-medium text-yellow-700">
-                {{ interviewJourneyCompany.stage.name }}
-              </span>
+              <StageText
+                v-if="interviewJourneyCompany.stage"
+                :stage="interviewJourneyCompany.stage"
+              />
             </div>
             <div class="flex items-center space-x-2">
               <StarIcon
-                class="h-5 w-5 text-gray-400"
+                class="h-5 w-5 text-gray-500"
                 aria-hidden="true"
               />
               <span class="text-sm font-medium text-gray-900">
@@ -134,7 +136,7 @@
             </div>
             <div class="flex items-center space-x-2">
               <CalendarIcon
-                class="h-5 w-5 text-gray-400"
+                class="h-5 w-5 text-gray-500"
                 aria-hidden="true"
               />
               <span class="text-sm font-medium text-gray-900">
@@ -194,6 +196,7 @@ import ViewInterviewJourneyCompanyActivityList from '@/screens/InterviewJourneyV
 import AttributeItem from '@/screens/InterviewJourneyView/components/Utils/AttributeItem.vue';
 import dayjs from 'dayjs';
 import { DISPLAY_DATE_FORMAT } from '@/constants';
+import StageText from '@/screens/InterviewJourneyView/components/Utils/StageText.vue';
 
 type ViewCompanyModalProps = {
   interviewJourneyCompany: InterviewJourneyCompany;
