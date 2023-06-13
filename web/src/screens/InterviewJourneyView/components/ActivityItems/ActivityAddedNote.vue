@@ -25,7 +25,7 @@
           Me
         </a>
       </div>
-      <p class="mt-0.5 text-sm text-gray-500">Commented 2020</p>
+      <p class="mt-0.5 text-sm text-gray-500">{{ commentedDateText }}</p>
     </div>
     <div class="mt-2 text-sm text-gray-700">
       <p>{{ activity.comment }}</p>
@@ -36,8 +36,16 @@
 <script setup lang="ts">
 import { DocumentTextIcon } from '@heroicons/vue/24/outline';
 import { InterviewJourneyCompanyActivity } from '@/repositories/interviewJourneyCompanyActivity.repo';
+import { computed } from 'vue';
+import dayjs from 'dayjs';
 
-defineProps<{
+const props = defineProps<{
   activity: InterviewJourneyCompanyActivity;
 }>();
+
+const commentedDateText = computed(() => {
+  const daysAgo = dayjs(props.activity.createdAt).fromNow();
+
+  return `Noted ${daysAgo}`;
+});
 </script>

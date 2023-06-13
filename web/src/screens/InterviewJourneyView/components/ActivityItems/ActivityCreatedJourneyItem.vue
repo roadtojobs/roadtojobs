@@ -30,7 +30,7 @@
           this Journey
         </a>
         {{ ' ' }}
-        <span class="whitespace-nowrap"> Jan 04, 2023 </span>
+        <span class="whitespace-nowrap">{{ createdDateText }}</span>
       </div>
     </div>
   </div>
@@ -39,8 +39,16 @@
 <script setup lang="ts">
 import { UserCircleIcon } from '@heroicons/vue/24/outline';
 import { InterviewJourneyCompanyActivity } from '@/repositories/interviewJourneyCompanyActivity.repo';
+import { computed } from 'vue';
+import dayjs from 'dayjs';
 
-defineProps<{
+const props = defineProps<{
   activity: InterviewJourneyCompanyActivity;
 }>();
+
+const createdDateText = computed(() => {
+  const daysAgo = dayjs(props.activity.createdAt).fromNow();
+
+  return `${daysAgo}`;
+});
 </script>

@@ -88,14 +88,14 @@
         <div class="relative">
           <img
             class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-400 ring-8 ring-white"
-            src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80"
+            src="@/assets/images/logo.png"
             alt=""
           />
 
           <span
             class="absolute -bottom-0.5 -right-1 rounded-tl bg-white px-0.5 py-px"
           >
-            <ChatBubbleLeftEllipsisIcon
+            <DocumentTextIcon
               class="h-5 w-5 text-gray-400"
               aria-hidden="true"
             />
@@ -103,50 +103,18 @@
         </div>
       </div>
       <div class="min-w-0 flex-1">
-        <form action="#">
-          <div>
-            <label
-              for="comment"
-              class="sr-only"
-              >Comment</label
-            >
-            <textarea
-              id="comment"
-              name="comment"
-              rows="3"
-              class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-gray-900 sm:text-sm sm:leading-6"
-              placeholder="Leave a comment"
-            />
-          </div>
-          <div class="mt-6 flex items-center justify-end space-x-4">
-            <button
-              type="button"
-              class="inline-flex justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-            >
-              <CheckCircleIcon
-                class="-ml-0.5 h-5 w-5 text-green-500"
-                aria-hidden="true"
-              />
-              Close issue
-            </button>
-            <button
-              type="submit"
-              class="inline-flex items-center justify-center rounded-md bg-gray-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
-            >
-              Comment
-            </button>
-          </div>
-        </form>
+        <ViewInterviewJourneyCompanyCommentForm />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ChatBubbleLeftEllipsisIcon } from '@heroicons/vue/24/outline';
+import { DocumentTextIcon } from '@heroicons/vue/24/outline';
 import { InterviewJourneyCompanyActivity } from '@/repositories/interviewJourneyCompanyActivity.repo';
 import ActivityCreatedJourneyItem from '@/screens/InterviewJourneyView/components/ActivityItems/ActivityCreatedJourneyItem.vue';
 import ActivityAddedNote from '@/screens/InterviewJourneyView/components/ActivityItems/ActivityAddedNote.vue';
+import ViewInterviewJourneyCompanyCommentForm from '@/screens/InterviewJourneyView/components/ViewInterviewJourneyCompanyCommentForm.vue';
 
 type ViewInterviewJourneyCompanyActivityListProps = {
   activities: InterviewJourneyCompanyActivity[];

@@ -1,7 +1,7 @@
 import { InterviewJourneyCompany } from '@/repositories/interviewJourneyCompany.repo';
 
 export const useViewInterviewJourneyCompany = () => {
-  const interviewJourneyCompany = ref<InterviewJourneyCompany>();
+  const interviewJourneyCompany = ref<InterviewJourneyCompany | null>(null);
   const isOpen = ref<boolean>(false);
 
   const viewJourneyItem = (journeyItem: InterviewJourneyCompany) => {
@@ -10,6 +10,7 @@ export const useViewInterviewJourneyCompany = () => {
   };
 
   const closeViewJourneyItem = () => {
+    interviewJourneyCompany.value = null;
     isOpen.value = false;
   };
 
