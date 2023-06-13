@@ -16,7 +16,7 @@ export type User = {
   createdAt: Date;
 };
 
-const userTableToUser = (record: UserTable): User => ({
+export const userTableToUser = (record: UserTable): User => ({
   ...record,
   createdAt: record.created_at,
 });

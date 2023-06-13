@@ -11,12 +11,12 @@ import {
   stageTableToStage,
 } from '@/repositories/stage.repo';
 
-type DynamicAttributes = {
+export type DynamicAttributes = {
   color: string;
   text: string;
 }[];
 
-type InterviewJourneyCompanyTable = {
+export type InterviewJourneyCompanyTable = {
   id: string;
   interview_journey: string;
   user: string;
