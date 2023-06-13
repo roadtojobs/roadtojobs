@@ -22,7 +22,7 @@
           href="javascript:void(0);"
           class="font-medium text-gray-900"
         >
-          Me
+          You
         </a>
       </div>
       <p class="mt-0.5 text-sm text-gray-500">{{ commentedDateText }}</p>

@@ -65,7 +65,7 @@
                       aria-hidden="true"
                     />
                     <span class="text-sm font-medium text-gray-900">
-                      4 activities
+                      {{ journeyActivities.length }} activities
                     </span>
                   </div>
                   <div class="flex items-center space-x-2">
@@ -75,7 +75,7 @@
                     />
                     <span class="text-sm font-medium text-gray-900">
                       Created on
-                      <time datetime="2020-12-02">Dec 2, 2020</time>
+                      <time>{{ createdDateText }}</time>
                     </span>
                   </div>
                 </div>
@@ -129,7 +129,7 @@
                 aria-hidden="true"
               />
               <span class="text-sm font-medium text-gray-900">
-                4 activities
+                {{ journeyActivities.length }} activities
               </span>
             </div>
             <div class="flex items-center space-x-2">
@@ -137,14 +137,18 @@
                 class="h-5 w-5 text-gray-400"
                 aria-hidden="true"
               />
-              <span class="text-sm font-medium text-gray-900"
-                >Created on <time datetime="2020-12-02">Dec 2, 2020</time></span
-              >
+              <span class="text-sm font-medium text-gray-900">
+                Created on
+                <time>{{ createdDateText }}</time>
+              </span>
             </div>
           </div>
           <div class="mt-6 space-y-8 border-t border-gray-200 py-6">
             <div>
-              <h2 class="text-sm font-medium text-gray-500">Attributes</h2>
+              <h2 class="text-sm font-medium text-gray-500 flex gap-2">
+                <TagIcon class="w-5 h-5" />
+                <span> Attributes </span>
+              </h2>
               <ul
                 role="list"
                 class="mt-2 leading-8"
@@ -156,29 +160,10 @@
                   :key="`${index}-${attribute.text}`"
                   class="inline"
                 >
-                  <a
-                    class="select-none relative inline-flex items-center rounded-full px-2.5 py-1 ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                  >
-                    <div
-                      class="absolute flex flex-shrink-0 items-center justify-center"
-                    >
-                      <span
-                        class="h-1.5 w-1.5 rounded-full"
-                        :class="{
-                          'bg-rose-500': attribute.color === 'rose',
-                          'bg-blue-500': attribute.color === 'blue',
-                          'bg-yellow-500': attribute.color === 'yellow',
-                          'bg-red-500': attribute.color === 'red',
-                          'bg-indigo-500': attribute.color === 'indigo',
-                          'bg-violet-500': attribute.color === 'violet',
-                        }"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <div class="ml-3 text-xs font-semibold text-gray-900">
-                      {{ attribute.text }}
-                    </div>
-                  </a>
+                  <AttributeItem
+                    :color="attribute.color"
+                    :text="attribute.text"
+                  />
                   {{ ' ' }}
                 </li>
               </ul>
@@ -199,12 +184,16 @@ import {
   CalendarIcon,
   PaperAirplaneIcon,
   StarIcon,
+  TagIcon,
 } from '@heroicons/vue/24/outline';
 import {
   InterviewJourneyCompanyActivity,
   interviewJourneyCompanyActivityRepo,
 } from '@/repositories/interviewJourneyCompanyActivity.repo';
 import ViewInterviewJourneyCompanyActivityList from '@/screens/InterviewJourneyView/components/ViewInterviewJourneyCompanyModal/ViewInterviewJourneyCompanyActivityList.vue';
+import AttributeItem from '@/screens/InterviewJourneyView/components/Utils/AttributeItem.vue';
+import dayjs from 'dayjs';
+import { DISPLAY_DATE_FORMAT } from '@/constants';
 
 type ViewCompanyModalProps = {
   interviewJourneyCompany: InterviewJourneyCompany;
@@ -232,4 +221,8 @@ onMounted(async () => {
 
   journeyActivities.value = [...activities];
 });
+
+const createdDateText = computed(() =>
+  dayjs(props.interviewJourneyCompany.createdAt).format(DISPLAY_DATE_FORMAT)
+);
 </script>
