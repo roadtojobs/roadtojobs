@@ -21,7 +21,7 @@
           You
         </a>
         {{ ' ' }}
-        added attributes
+        {{ type === 'ADDED' ? 'added' : 'removed' }} attributes
       </span>
       {{ ' ' }}
       <span class="mr-0.5">
@@ -29,20 +29,10 @@
           v-for="(tag, index) in activity.attributes"
           :key="`${tag.text}-${index}`"
         >
-          <a
-            href="javascript:void(0)"
-            class="relative inline-flex items-center rounded-full px-2.5 py-1 text-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-          >
-            <span
-              class="absolute flex flex-shrink-0 items-center justify-center"
-            >
-              <span
-                :class="[tag.color, 'h-1.5 w-1.5 rounded-full']"
-                aria-hidden="true"
-              />
-            </span>
-            <span class="ml-3 font-semibold text-gray-900">{{ tag.text }}</span>
-          </a>
+          <AttributeItem
+            :color="tag.color"
+            :text="tag.text"
+          />
           {{ ' ' }}
         </template>
       </span>
@@ -56,9 +46,11 @@ import { TagIcon } from '@heroicons/vue/24/outline';
 import { InterviewJourneyCompanyActivity } from '@/repositories/interviewJourneyCompanyActivity.repo';
 import { computed } from 'vue';
 import dayjs from 'dayjs';
+import AttributeItem from '@/screens/InterviewJourneyView/components/Utils/AttributeItem.vue';
 
 const props = defineProps<{
   activity: InterviewJourneyCompanyActivity;
+  type: 'ADDED' | 'REMOVED';
 }>();
 
 const createdDateText = computed(() =>

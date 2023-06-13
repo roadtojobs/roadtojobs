@@ -28,38 +28,40 @@ export default async function seedInterviewJourneyCompany() {
     const companyId = company.id;
     const stage = faker.helpers.arrayElement(stages ?? []);
 
+    const attributes = [
+      {
+        color: 'blue',
+        text: faker.helpers.arrayElement([
+          'PHP',
+          'Java',
+          'JavaScript',
+          'TypeScript',
+          'NodeJS',
+          'Vue',
+          'React',
+        ]),
+      },
+      {
+        color: 'rose',
+        text: faker.helpers.arrayElement([
+          '~$60k/annually',
+          '~$70k/annually',
+          '~$80k/annually',
+          '~$90k/annually',
+          '~$8k/monthly',
+          '~$9k/monthly',
+          '~$10k/monthly',
+        ]),
+      },
+    ];
+
     const [journeyItem] = await db.create('interview_journey_company', {
       interview_journey: activeJourney.id,
       company: companyId,
       user,
       stage: stage.id,
       description: faker.lorem.paragraphs(2),
-      attributes: [
-        {
-          color: 'blue',
-          text: faker.helpers.arrayElement([
-            'PHP',
-            'Java',
-            'JavaScript',
-            'TypeScript',
-            'NodeJS',
-            'Vue',
-            'React',
-          ]),
-        },
-        {
-          color: 'rose',
-          text: faker.helpers.arrayElement([
-            '~$60k/annually',
-            '~$70k/annually',
-            '~$80k/annually',
-            '~$90k/annually',
-            '~$8k/monthly',
-            '~$9k/monthly',
-            '~$10k/monthly',
-          ]),
-        },
-      ],
+      attributes,
     });
 
     await db.create('interview_journey_company_activity', {
@@ -71,6 +73,13 @@ export default async function seedInterviewJourneyCompany() {
     if (String(stage.name).includes('Interested')) {
       return;
     }
+
+    await db.create('interview_journey_company_activity', {
+      interview_journey_company: journeyItem.id,
+      type: 'ADDED_ATTRIBUTES',
+      user,
+      attributes,
+    });
 
     await db.create('interview_journey_company_activity', {
       interview_journey_company: journeyItem.id,

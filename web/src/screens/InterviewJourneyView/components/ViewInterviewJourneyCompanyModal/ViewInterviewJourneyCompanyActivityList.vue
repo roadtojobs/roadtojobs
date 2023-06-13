@@ -24,8 +24,14 @@
               v-else-if="activity.type === 'ADDED_NOTE'"
               :activity="activity"
             />
-            <ActivityAddedAttributes
-              v-else-if="activity.type === 'ADDED_ATTRIBUTE'"
+            <ActivityAttributes
+              v-else-if="activity.type === 'ADDED_ATTRIBUTES'"
+              type="ADDED"
+              :activity="activity"
+            />
+            <ActivityAttributes
+              v-else-if="activity.type === 'REMOVED_ATTRIBUTES'"
+              type="REMOVED"
               :activity="activity"
             />
           </div>
@@ -66,7 +72,7 @@ import { InterviewJourneyCompanyActivity } from '@/repositories/interviewJourney
 import ActivityCreatedJourneyItem from '@/screens/InterviewJourneyView/components/ActivityItems/ActivityCreatedJourneyItem.vue';
 import ActivityAddedNote from '@/screens/InterviewJourneyView/components/ActivityItems/ActivityAddedNote.vue';
 import NoteCommentForm from '@/screens/InterviewJourneyView/components/ViewInterviewJourneyCompanyModal/NoteCommentForm.vue';
-import ActivityAddedAttributes from '@/screens/InterviewJourneyView/components/ActivityItems/ActivityAddedAttributes.vue';
+import ActivityAttributes from '@/screens/InterviewJourneyView/components/ActivityItems/ActivityAttributes.vue';
 
 type ViewInterviewJourneyCompanyActivityListProps = {
   activities: InterviewJourneyCompanyActivity[];
