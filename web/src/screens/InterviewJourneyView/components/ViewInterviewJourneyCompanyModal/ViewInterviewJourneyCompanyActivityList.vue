@@ -88,7 +88,7 @@
         <div class="relative">
           <img
             class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-400 ring-8 ring-white"
-            src="@/assets/images/logo.png"
+            src="../../../../assets/images/logo.png"
             alt=""
           />
 
@@ -114,7 +114,7 @@ import { DocumentTextIcon } from '@heroicons/vue/24/outline';
 import { InterviewJourneyCompanyActivity } from '@/repositories/interviewJourneyCompanyActivity.repo';
 import ActivityCreatedJourneyItem from '@/screens/InterviewJourneyView/components/ActivityItems/ActivityCreatedJourneyItem.vue';
 import ActivityAddedNote from '@/screens/InterviewJourneyView/components/ActivityItems/ActivityAddedNote.vue';
-import ViewInterviewJourneyCompanyCommentForm from '@/screens/InterviewJourneyView/components/ViewInterviewJourneyCompanyCommentForm.vue';
+import ViewInterviewJourneyCompanyCommentForm from '@/screens/InterviewJourneyView/components/ViewInterviewJourneyCompanyModal/ViewInterviewJourneyCompanyCommentForm.vue';
 
 type ViewInterviewJourneyCompanyActivityListProps = {
   activities: InterviewJourneyCompanyActivity[];

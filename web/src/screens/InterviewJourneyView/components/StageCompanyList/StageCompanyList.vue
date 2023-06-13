@@ -12,7 +12,7 @@
 <script setup lang="ts">
 import { InterviewJourneyCompany } from '@/repositories/interviewJourneyCompany.repo';
 import { Stage } from '@/repositories/stage.repo';
-import StageCompanyItem from '@/screens/InterviewJourneyView/components/StageCompanyItem.vue';
+import StageCompanyItem from '@/screens/InterviewJourneyView/components/StageCompanyList/StageCompanyItem.vue';
 
 type StageCompanyListProps = {
   stage: Stage;

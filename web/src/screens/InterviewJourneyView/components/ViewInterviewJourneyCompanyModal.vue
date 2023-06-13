@@ -99,7 +99,7 @@
                     id="activity-title"
                     class="text-lg font-medium text-gray-900"
                   >
-                    Activity / Notes
+                    Activity Stream
                   </h2>
                 </div>
                 <div class="pt-6">
@@ -204,7 +204,7 @@ import {
   InterviewJourneyCompanyActivity,
   interviewJourneyCompanyActivityRepo,
 } from '@/repositories/interviewJourneyCompanyActivity.repo';
-import ViewInterviewJourneyCompanyActivityList from '@/screens/InterviewJourneyView/components/ViewInterviewJourneyCompanyActivityList.vue';
+import ViewInterviewJourneyCompanyActivityList from '@/screens/InterviewJourneyView/components/ViewInterviewJourneyCompanyModal/ViewInterviewJourneyCompanyActivityList.vue';
 
 type ViewCompanyModalProps = {
   interviewJourneyCompany: InterviewJourneyCompany;

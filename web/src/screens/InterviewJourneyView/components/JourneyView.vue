@@ -73,7 +73,7 @@ import {
   InterviewJourneyCompany,
   interviewJourneyCompanyRepo,
 } from '@/repositories/interviewJourneyCompany.repo';
-import StageCompanyList from '@/screens/InterviewJourneyView/components/StageCompanyList.vue';
+import StageCompanyList from '@/screens/InterviewJourneyView/components/StageCompanyList/StageCompanyList.vue';
 import { useViewInterviewJourneyCompany } from '@/screens/InterviewJourneyView/composables/useViewInterviewJourneyCompany';
 import ViewInterviewJourneyCompanyModal from '@/screens/InterviewJourneyView/components/ViewInterviewJourneyCompanyModal.vue';
 
