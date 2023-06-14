@@ -13,7 +13,7 @@
           <dd
             class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
           >
-            {{ item.text }}
+            <MarkdownContent>{{ item.text }}</MarkdownContent>
           </dd>
         </div>
       </dl>
@@ -38,6 +38,7 @@ import { computed } from 'vue';
 import dayjs from 'dayjs';
 import { DISPLAY_DATE_FORMAT } from '@/constants';
 import Button from '@/components/Button/Button.vue';
+import MarkdownContent from '@/components/MarkdownContent/MarkdownContent.vue';
 
 type InfoViewProps = {
   interviewJourney: InterviewJourney;
