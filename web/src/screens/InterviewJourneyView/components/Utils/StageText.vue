@@ -1,18 +1,7 @@
 <template>
   <span
     class="text-sm font-medium"
-    :class="{
-      'text-green-700': stage.color === 'green',
-      'text-blue-700': stage.color === 'blue',
-      'text-red-700': stage.color === 'red',
-      'text-pink-500': stage.color === 'pink',
-      'text-yellow-700': stage.color === 'yellow',
-      'text-indigo-700': stage.color === 'indigo',
-      'text-sky-700': stage.color === 'sky',
-      'text-rose-500': stage.color === 'rose',
-      'text-violet-700': stage.color === 'violet',
-      'text-black': stage.color === 'black',
-    }"
+    :class="textColor"
   >
     {{ stage.name }}
   </span>
@@ -20,8 +9,34 @@
 
 <script setup lang="ts">
 import { Stage } from '@/repositories/stage.repo';
+import { computed } from 'vue';
 
-defineProps<{
+const props = defineProps<{
   stage: Stage;
 }>();
+
+const textColor = computed(() => {
+  switch (props.stage.color) {
+    case 'green':
+      return 'text-green-700';
+    case 'blue':
+      return 'text-blue-700';
+    case 'red':
+      return 'text-red-700';
+    case 'yellow':
+      return 'text-yellow-700';
+    case 'indigo':
+      return 'text-indigo-700';
+    case 'sky':
+      return 'text-sky-700';
+    case 'violet':
+      return 'text-violet-700';
+    case 'rose':
+      return 'text-rose-500';
+    case 'pink':
+      return 'text-pink-500';
+    default:
+      return 'text-black';
+  }
+});
 </script>
