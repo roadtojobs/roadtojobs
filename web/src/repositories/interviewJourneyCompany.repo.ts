@@ -18,6 +18,7 @@ export type DynamicAttributes = {
 
 export type InterviewJourneyCompanyTable = {
   id: string;
+  reference: number;
   interview_journey: string;
   user: string;
   company: string | CompanyTable;
@@ -30,6 +31,7 @@ export type InterviewJourneyCompanyTable = {
 
 export type InterviewJourneyCompany = {
   id: string;
+  reference: number;
   interviewJourneyId: string;
   userId: string;
   companyId: string;
@@ -46,6 +48,7 @@ const tableToEntity = (
   record: InterviewJourneyCompanyTable
 ): InterviewJourneyCompany => ({
   id: record.id,
+  reference: record.reference,
   interviewJourneyId: record.interview_journey,
   companyId: isString(record.company) ? record.company : record.company.id,
   company: isString(record.company)

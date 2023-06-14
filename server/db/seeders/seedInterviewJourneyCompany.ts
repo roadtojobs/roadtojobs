@@ -24,7 +24,7 @@ export default async function seedInterviewJourneyCompany() {
   const companies = companyResult[0].result;
   const stages = stageResult[0].result;
 
-  const promises = companies?.map(async (company) => {
+  const promises = companies?.map(async (company, index) => {
     const companyId = company.id;
     const stage = faker.helpers.arrayElement(stages ?? []);
 
@@ -56,6 +56,7 @@ export default async function seedInterviewJourneyCompany() {
     ];
 
     const [journeyItem] = await db.create('interview_journey_company', {
+      reference: index + 1,
       interview_journey: activeJourney.id,
       company: companyId,
       user,
