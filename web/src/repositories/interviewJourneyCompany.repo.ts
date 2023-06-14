@@ -89,4 +89,10 @@ export const interviewJourneyCompanyRepo = {
 
     return result.result.map(tableToEntity);
   },
+
+  // TODO: note for myself
+  // create() {
+  //    reference: getNextReferenceId();
+  // }
+  // getNextReferenceId(interviewJourneyId)
 };

@@ -45,5 +45,3 @@ DEFINE FIELD updated_at ON TABLE interview_journey_company
   TYPE datetime
   VALUE time::now()
   PERMISSIONS FOR update, delete NONE;
-
-DEFINE INDEX unq_ref_journey ON TABLE company COLUMNS reference, interview_journey UNIQUE;
