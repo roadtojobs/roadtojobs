@@ -21,7 +21,7 @@ type UseValidationReturn<T> = {
 /**
  * Quickly validate the data and get the error messages
  *
- * @note only support 1-level error message at the moment
+ * @note only support 1-level schema & error message at the moment
  */
 export default function useValidation<T>(
   schema: ZodSchema
