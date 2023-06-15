@@ -136,8 +136,6 @@ const table = useVueTable<InterviewJourney>({
     }),
     columnHelper.accessor('totalJourneyItems' as Columnable, {
       header: 'Num. of Companies',
-      // TODO: graph connection count
-      cell: () => 0,
     }),
     columnHelper.accessor('startedAt' as Columnable, {
       header: 'Started At',

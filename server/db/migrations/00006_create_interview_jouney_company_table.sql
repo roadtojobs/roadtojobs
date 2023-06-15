@@ -1,6 +1,7 @@
 DEFINE TABLE interview_journey_company SCHEMAFULL
   PERMISSIONS
-    FOR select, update, delete WHERE $auth.id = user;
+    FOR delete NONE
+    FOR select, create, update WHERE $auth.id = user;
 
 DEFINE FIELD reference ON TABLE interview_journey_company
   TYPE int;
@@ -45,3 +46,23 @@ DEFINE FIELD updated_at ON TABLE interview_journey_company
   TYPE datetime
   VALUE time::now()
   PERMISSIONS FOR update, delete NONE;
+
+DEFINE EVENT created_activity ON interview_journey_company WHEN $event = 'CREATE' THEN (
+  CREATE interview_journey_company_activity CONTENT {
+    interview_journey_company: $value.id,
+    user: $value.user,
+    type: 'CREATED_JOURNEY_ITEM'
+  }
+);
+
+DEFINE TABLE journey_items SCHEMALESS
+  PERMISSIONS
+    FOR delete NONE
+    FOR select, create, update WHERE $auth.id = user;
+
+DEFINE EVENT bind_relation_journey_item ON interview_journey_company WHEN $event = 'CREATE' THEN (
+  RELATE ($value.interview_journey)->journey_items->($value.id) CONTENT {
+    user: $value.user,
+    connected_at: time::now()
+  }
+);

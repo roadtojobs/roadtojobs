@@ -22,7 +22,7 @@ async function seed() {
     return;
   }
 
-  await Promise.all([
+  const result = await Promise.all([
     initSurrealDbRootConnection(),
     userAdminDbClient.signin({
       NS: env.surrealDbNamespace,
@@ -33,7 +33,7 @@ async function seed() {
     }),
   ]);
 
-  // create companies
+  // seeding...
   await seedCompanies();
   await seedInterviewJourneys();
   await seedInterviewJourneyCompany();

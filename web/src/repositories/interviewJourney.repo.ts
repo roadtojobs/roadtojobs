@@ -59,7 +59,7 @@ export const interviewJourneyRepo = {
     const [result] = await dbClient.query<InterviewJourneyTable[][]>(`
        SELECT
          *,
-         ->items as items
+         array::len(->journey_items) as total_journey_items
        FROM ${interviewJourneyRepo.getTable()}
        ORDER BY started_at DESC, created_at DESC
     `);

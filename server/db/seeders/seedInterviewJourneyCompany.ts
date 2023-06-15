@@ -1,6 +1,6 @@
 import { db } from '@db';
 import { fakerEN_US as faker } from '@faker-js/faker';
-import { userAdminDbClient } from '../seeder';
+import { rootDbClient, userAdminDbClient } from '../seeder';
 
 type Result = Record<string, unknown>[][];
 
@@ -74,19 +74,14 @@ export default async function seedInterviewJourneyCompany() {
       }
     );
 
-    await userAdminDbClient.query(`
-      RELATE ${activeJourney.id}->items->${journeyItem.id} SET time.connected = time::now();
-    `);
-
-    await userAdminDbClient.create('interview_journey_company_activity', {
-      interview_journey_company: journeyItem.id,
-      type: 'CREATED_JOURNEY_ITEM',
-      user,
-    });
-
-    if (String(stage.name).includes('Interested')) {
-      return;
-    }
+    await userAdminDbClient.query(
+      `
+      RELATE ${activeJourney.id}->items->${journeyItem.id} CONTENT {
+        user = $user
+      }
+    `,
+      { user }
+    );
 
     await userAdminDbClient.create('interview_journey_company_activity', {
       interview_journey_company: journeyItem.id,
@@ -99,7 +94,12 @@ export default async function seedInterviewJourneyCompany() {
       interview_journey_company: journeyItem.id,
       type: 'ADDED_NOTE',
       user,
-      comment: faker.lorem.paragraphs(1),
+      comment: faker.lorem.paragraphs(
+        faker.helpers.rangeToNumber({
+          min: 1,
+          max: 3,
+        })
+      ),
     });
   });
 
