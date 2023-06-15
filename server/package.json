@@ -11,7 +11,8 @@
     "tsnode": "ts-node --transpile-only -r tsconfig-paths/register",
     "migrate:fresh": "ts-node --transpile-only -r tsconfig-paths/register ./db/migrate.ts --fresh",
     "db:seed": "npm run tsnode ./db/seeder.ts",
-    "dev:fresh": "npm run migrate:fresh && npm run db:seed"
+    "dev:fresh": "npm run migrate:fresh && npm run db:seed",
+    "type-check": "tsc"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",

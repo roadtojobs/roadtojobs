@@ -4,6 +4,7 @@ This contains the Web UI for the Interview Journey application
 
 ## Tech
 
+- Node 18.x
 - Vue 3 x TypeScript
 - Vue Router 4 for routes
 - Pinia for stores

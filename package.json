@@ -8,5 +8,9 @@
   },
   "devDependencies": {
     "prettier": "2.8.8"
+  },
+  "engines" : {
+    "npm" : ">=9.0.0 <10.0.0",
+    "node" : ">=18.0.0 <20.0.0"
   }
 }

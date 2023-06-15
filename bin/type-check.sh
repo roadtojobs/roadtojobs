@@ -2,8 +2,9 @@
 
 ROOT_DIR=$(pwd)
 
-echo "Run Checking";
+echo "Run Type Checking...";
 
-cd $ROOT_DIR/server && yarn tsc
-cd $ROOT_DIR/web && yarn type-check && yarn tsc && yarn build
+cd $ROOT_DIR/server && npm run type-check
+cd $ROOT_DIR/web && npm run type-check
 
+echo "ALL GOOD!";

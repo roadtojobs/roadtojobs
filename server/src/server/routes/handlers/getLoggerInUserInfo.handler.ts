@@ -7,7 +7,7 @@ export default async function getLoggerInUserInfoHandler(
 ): Promise<void> {
   const dbClient = getUserConnectionFromRequest(req);
 
-  const user = await dbClient.select<unknown[], string>('user');
+  const user = await dbClient.select<Record<string, unknown>>('user');
 
   res.status(200).json({
     user: {

@@ -7,7 +7,10 @@ const surrealPool: Record<string, Surreal> = {};
 export const createSurrealUserConnection = (identifier: string): Surreal => {
   surrealPool[identifier] ??= new Surreal(env.surrealDbEndpoint, {
     async prepare(connection) {
-      await connection.use(env.surrealDbNamespace, env.surrealDbName);
+      await connection.use({
+        ns: env.surrealDbNamespace,
+        db: env.surrealDbName,
+      });
     },
   });
 

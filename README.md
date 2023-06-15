@@ -32,7 +32,7 @@ Road To Jobs is an OSS application for single & self-hosted usage.
 - TailwindCSS for UI/UX
 
 ## Project Structure
-Road To Jobs is a monorepo which contains:
+We are using the monorepo strategy, each folder would contain their own README file.
 
 - `server`: Backend
 - `web`: Frontend
