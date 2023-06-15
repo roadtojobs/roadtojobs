@@ -9,6 +9,10 @@ import seedCompanies from './seeders/seedCompanies';
 import seedInterviewJourneys from './seeders/seedInterviewJourneys';
 import env from '@appEnv';
 import seedInterviewJourneyCompany from './seeders/seedInterviewJourneyCompany';
+import { Surreal } from 'surrealdb.js';
+
+export const rootDbClient = db;
+export const userAdminDbClient = new Surreal(env.surrealDbEndpoint);
 
 seed();
 
@@ -18,7 +22,16 @@ async function seed() {
     return;
   }
 
-  await initSurrealDbRootConnection();
+  await Promise.all([
+    initSurrealDbRootConnection(),
+    userAdminDbClient.signin({
+      NS: env.surrealDbNamespace,
+      DB: env.surrealDbName,
+      user: 'admin',
+      pass: 'admin',
+      SC: 'roadtojobsusers',
+    }),
+  ]);
 
   // create companies
   await seedCompanies();
@@ -26,7 +39,7 @@ async function seed() {
   await seedInterviewJourneyCompany();
 
   console.log('Closing DB connection...');
-  await db.close();
+  await Promise.all([rootDbClient.close(), userAdminDbClient.close()]);
   console.log('DB connection closed.');
 
   console.log('Seeder finished.');

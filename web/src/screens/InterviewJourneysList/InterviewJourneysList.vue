@@ -117,6 +117,7 @@ import { useRouter } from 'vue-router';
 import { VNode } from 'vue';
 import CreateNewJourney from '@/screens/InterviewJourneysList/components/CreateNewJourney.vue';
 import { pickThingId } from '@/utils/surrealThing';
+import { AccessorFn } from '@tanstack/table-core/src/types';
 
 setPageTitle('Interview Journeys');
 
@@ -124,27 +125,28 @@ const router = useRouter();
 const interviewJourneys = ref<InterviewJourney[]>([]);
 const sorting = ref<SortingState>([]);
 
+type Columnable = AccessorFn<InterviewJourney>;
 const columnHelper = createColumnHelper<InterviewJourney>();
 
 const table = useVueTable<InterviewJourney>({
   columns: [
-    columnHelper.accessor('name', {
+    columnHelper.accessor('name' as Columnable, {
       id: 'name',
       header: 'Journey Name',
     }),
-    columnHelper.accessor('description', {
-      header: 'Description',
+    columnHelper.accessor('totalJourneyItems' as Columnable, {
+      header: 'Num. of Companies',
     }),
-    columnHelper.accessor('startedAt', {
+    columnHelper.accessor('startedAt' as Columnable, {
       header: 'Started At',
       cell: (info) => dayjs(info.getValue()).format(DATE_FORMAT),
     }),
-    columnHelper.accessor('endedAt', {
+    columnHelper.accessor('endedAt' as Columnable, {
       header: 'Ended At',
       cell: (info) =>
         info.getValue() ? dayjs(info.getValue()).format(DATE_FORMAT) : '-',
     }),
-    columnHelper.accessor('createdAt', {
+    columnHelper.accessor('createdAt' as Columnable, {
       header: 'Created At',
       cell: (info) => dayjs(info.getValue()).format(DATE_FORMAT),
     }),
@@ -173,7 +175,8 @@ const table = useVueTable<InterviewJourney>({
 });
 
 onMounted(async () => {
-  interviewJourneys.value = [...(await interviewJourneyRepo.getAll())];
+  const journeys = await interviewJourneyRepo.getAll();
+  interviewJourneys.value = [...journeys];
 });
 
 function renderActionItems(

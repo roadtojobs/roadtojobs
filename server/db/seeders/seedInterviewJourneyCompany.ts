@@ -1,5 +1,6 @@
 import { db } from '@db';
 import { fakerEN_US as faker } from '@faker-js/faker';
+import { userAdminDbClient } from '../seeder';
 
 type Result = Record<string, unknown>[][];
 
@@ -55,22 +56,29 @@ export default async function seedInterviewJourneyCompany() {
       },
     ];
 
-    const [journeyItem] = await db.create('interview_journey_company', {
-      reference: index + 1,
-      interview_journey: activeJourney.id,
-      company: companyId,
-      user,
-      stage: stage.id,
-      description: faker.lorem.paragraphs(
-        faker.helpers.rangeToNumber({
-          min: 2,
-          max: 5,
-        })
-      ),
-      attributes,
-    });
+    const [journeyItem] = await userAdminDbClient.create(
+      'interview_journey_company',
+      {
+        // reference: index + 1,
+        interview_journey: activeJourney.id,
+        company: companyId,
+        user,
+        stage: stage.id,
+        description: faker.lorem.paragraphs(
+          faker.helpers.rangeToNumber({
+            min: 2,
+            max: 5,
+          })
+        ),
+        attributes,
+      }
+    );
 
-    await db.create('interview_journey_company_activity', {
+    await userAdminDbClient.query(`
+      RELATE ${activeJourney.id}->items->${journeyItem.id} SET time.connected = time::now();
+    `);
+
+    await userAdminDbClient.create('interview_journey_company_activity', {
       interview_journey_company: journeyItem.id,
       type: 'CREATED_JOURNEY_ITEM',
       user,
@@ -80,14 +88,14 @@ export default async function seedInterviewJourneyCompany() {
       return;
     }
 
-    await db.create('interview_journey_company_activity', {
+    await userAdminDbClient.create('interview_journey_company_activity', {
       interview_journey_company: journeyItem.id,
       type: 'ADDED_ATTRIBUTES',
       user,
       attributes,
     });
 
-    await db.create('interview_journey_company_activity', {
+    await userAdminDbClient.create('interview_journey_company_activity', {
       interview_journey_company: journeyItem.id,
       type: 'ADDED_NOTE',
       user,

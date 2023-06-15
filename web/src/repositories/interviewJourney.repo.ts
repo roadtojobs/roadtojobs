@@ -2,6 +2,20 @@ import { dbClient } from '@/libraries/surreal';
 import { CreateInterviewJourney } from '@/screens/InterviewJourneysList/InterviewJourneysList.methods';
 import { generateId } from '@/utils/surrealThing';
 
+type InterviewJourneyTable = {
+  id: string;
+  name: string;
+  description: string;
+  note: string | null;
+  started_at: Date;
+  ended_at: Date | null;
+  ended_reason: Date | null;
+  created_at: Date;
+  updated_at: Date;
+  archived_at: Date | null;
+  total_journey_items?: number;
+};
+
 export type InterviewJourney = {
   id: string;
   name: string;
@@ -9,19 +23,27 @@ export type InterviewJourney = {
   note: string | null;
   startedAt: Date;
   endedAt: Date | null;
+  endedReason: Date | null;
   createdAt: Date;
+  updatedAt: Date;
+  archivedAt: Date | null;
+  totalJourneyItems?: number;
 };
 
 const interviewJourneyTableToInterviewJourney = (
-  record: Record<string, unknown>
+  record: InterviewJourneyTable
 ): InterviewJourney => ({
-  id: String(record.id),
-  name: String(record.name),
-  description: String(record.description),
-  note: String(record.note || '') || null,
-  startedAt: new Date(String(record.started_at)),
-  endedAt: record.ended_at ? new Date(String(record.ended_at)) : null,
-  createdAt: new Date(String(record.created_at)),
+  id: record.id,
+  name: record.name,
+  description: record.description,
+  note: record.note,
+  startedAt: record.started_at,
+  endedAt: record.ended_at,
+  endedReason: record.ended_reason,
+  createdAt: record.created_at,
+  updatedAt: record.updated_at,
+  archivedAt: record.archived_at,
+  totalJourneyItems: record.total_journey_items,
 });
 
 export const interviewJourneyRepo = {
@@ -34,14 +56,19 @@ export const interviewJourneyRepo = {
   },
 
   async getAll(): Promise<InterviewJourney[]> {
-    const result = await dbClient.query(`
-       SELECT * FROM ${interviewJourneyRepo.getTable()}
+    const [result] = await dbClient.query<InterviewJourneyTable[][]>(`
+       SELECT
+         *,
+         ->items as items
+       FROM ${interviewJourneyRepo.getTable()}
        ORDER BY started_at DESC, created_at DESC
     `);
 
-    return ((result[0].result as Record<string, unknown>[]) || []).map(
-      interviewJourneyTableToInterviewJourney
-    );
+    if (result.status === 'ERR') {
+      return [];
+    }
+
+    return result.result.map(interviewJourneyTableToInterviewJourney);
   },
 
   async create(inputs: CreateInterviewJourney): Promise<string | undefined> {
@@ -63,7 +90,7 @@ export const interviewJourneyRepo = {
   async getById(id: string): Promise<InterviewJourney | null> {
     const thingId = interviewJourneyRepo.getSingleThing(id);
 
-    const result = await dbClient.select(thingId);
+    const result = await dbClient.select<InterviewJourneyTable>(thingId);
     if (!result[0]) {
       return null;
     }

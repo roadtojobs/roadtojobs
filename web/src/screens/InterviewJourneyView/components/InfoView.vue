@@ -13,7 +13,14 @@
           <dd
             class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
           >
-            <MarkdownContent>{{ item.text }}</MarkdownContent>
+            <component
+              v-if="!isString(item.text)"
+              :is="item.text"
+            />
+            <span
+              v-else
+              v-text="item.text"
+            />
           </dd>
         </div>
       </dl>
@@ -39,6 +46,8 @@ import dayjs from 'dayjs';
 import { DISPLAY_DATE_FORMAT } from '@/constants';
 import Button from '@/components/Button/Button.vue';
 import MarkdownContent from '@/components/MarkdownContent/MarkdownContent.vue';
+import { VueComponent } from '@/types';
+import { isString } from 'lodash-es';
 
 type InfoViewProps = {
   interviewJourney: InterviewJourney;
@@ -49,7 +58,7 @@ const props = defineProps<InfoViewProps>();
 type RenderItem = {
   key: keyof InterviewJourney;
   label: string;
-  text: string;
+  text: string | VueComponent;
   type: 'text' | 'date';
 };
 
@@ -59,13 +68,13 @@ const renderItems = computed<RenderItem[]>((): RenderItem[] => {
   return [
     {
       label: 'Journey Description 📖',
-      text: journey.description,
+      text: h(MarkdownContent, () => journey.description),
       key: 'description',
       type: 'text',
     },
     {
       label: 'Personal Goals/Notes 🚀',
-      text: journey.note || '-',
+      text: journey.note ? h(MarkdownContent, () => journey.note) : '-',
       key: 'note',
       type: 'text',
     },
