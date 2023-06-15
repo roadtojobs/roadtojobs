@@ -70,10 +70,6 @@ import { Stage, stageRepo } from '@/repositories/stage.repo';
 import ViewStageDescription from '@/screens/InterviewJourneyView/components/JourneyView/ViewStageDescription.vue';
 import { User } from '@/repositories/user.repo';
 import AddCompanyModal from '@/screens/InterviewJourneyView/components/ActionModals/AddCompanyModal.vue';
-import {
-  InterviewJourneyCompany,
-  interviewJourneyCompanyRepo,
-} from '@/repositories/interviewJourneyCompany.repo';
 import StageCompanyList from '@/screens/InterviewJourneyView/components/StageCompanyList/StageCompanyList.vue';
 import { useViewInterviewJourneyCompany } from '@/screens/InterviewJourneyView/composables/useViewInterviewJourneyCompany';
 import ViewInterviewJourneyCompanyModal from '@/screens/InterviewJourneyView/components/ActionModals/ViewInterviewJourneyCompanyModal.vue';
