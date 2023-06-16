@@ -16,10 +16,11 @@
           label="Stage"
           :items="globalStages.comboboxStages"
         />
-        <!--        <Combobox-->
-        <!--          mode="ASYNC"-->
-        <!--          label="Select Company"-->
-        <!--        />-->
+        <ComboboxApi
+          v-model="form.company"
+          label="Choose Company"
+          :api-request="findCompanies"
+        />
         <Textarea
           label="Description"
           rows="6"
@@ -47,6 +48,8 @@ import Button from '@/components/Button/Button.vue';
 import Textarea from '@/components/Textarea/Textarea.vue';
 import { useGlobalStages } from '@/stores/useGlobalStages';
 import Dropdown from '@/components/Dropdown/Dropdown.vue';
+import ComboboxApi from '@/components/Combobox/ComboboxApi.vue';
+import { ComboboxItem } from '@/components/Combobox/Combobox.types';
 
 type AddCompanyModalProps = {
   stage: Stage;
@@ -63,7 +66,12 @@ const globalStages = useGlobalStages();
 
 const form = ref({
   stage: props.stage.id,
+  company: null,
 });
 
 const modalTitle = computed(() => `Add Company to the Journey`);
+
+const findCompanies = async (keyword: string): Promise<ComboboxItem[]> => {
+  return [];
+};
 </script>
