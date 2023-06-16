@@ -66,9 +66,21 @@
             </span>
           </li>
         </ComboboxOption>
-        <ComboboxOption v-if="filteredItems.length <= 0">
+        <ComboboxOption v-if="filteredItems.length <= 0 && !query.length">
           <span class="text-gray-900 ml-3 truncate text-sm">
             Hit some keywords to search 👀
+          </span>
+        </ComboboxOption>
+        <ComboboxOption v-if="isLoading">
+          <span class="text-gray-900 ml-3 truncate text-sm">
+            Retrieving records...
+          </span>
+        </ComboboxOption>
+        <ComboboxOption
+          v-if="!isLoading && filteredItems.length <= 0 && query.length"
+        >
+          <span class="text-gray-900 ml-3 truncate text-sm">
+            No record found with the "{{ query }}" keywords.
           </span>
         </ComboboxOption>
       </ComboboxOptions>
@@ -88,6 +100,7 @@ import {
   ComboboxOptions,
 } from '@headlessui/vue';
 import { ComboboxItem } from '@/components/Combobox/Combobox.types';
+import { useLoading } from '@/composable/useLoading';
 
 type ComboboxApiProps = {
   label: string;
@@ -101,6 +114,8 @@ type ComboboxApiEmits = {
 
 const props = defineProps<ComboboxApiProps>();
 const emits = defineEmits<ComboboxApiEmits>();
+
+const { isLoading, withLoading } = useLoading();
 
 const flexibleItems = ref<ComboboxItem[]>([]);
 
@@ -116,8 +131,10 @@ const selectItem = (item: ComboboxItem) => {
 const retrieveItems = async (keyword: string) => {
   query.value = keyword;
 
-  // TODO: add loading...
-  const items = await props.apiRequest(keyword);
+  const items = await withLoading(async () => {
+    await props.apiRequest(keyword);
+  });
+
   flexibleItems.value = [...items];
 };
 </script>
