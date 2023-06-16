@@ -82,6 +82,8 @@ import { useGlobalStages } from '@/stores/useGlobalStages';
 import { Sortable } from 'sortablejs-vue3';
 import { interviewJourneyCompanyRepo } from '@/repositories/interviewJourneyCompany.repo';
 import { notify } from '@kyvg/vue3-notification';
+import { useJourneyItemsStageChange } from '@/screens/InterviewJourneyView/composables/useJourneyItemsStageChange';
+import { useAddCompany } from '@/screens/InterviewJourneyView/composables/useAddCompany';
 
 type InfoViewProps = {
   interviewJourney: InterviewJourney;
@@ -95,9 +97,15 @@ const tableKey = ref(`table-key-${Math.random()}`);
 const globalStages = useGlobalStages();
 const stages = computed(() => globalStages.stages);
 
-const addCompanyStage = ref<Stage | null>(null);
-const isShowAddCompanyModal = ref(false);
+// Add Company Feature
+const {
+  isShowAddCompanyModal,
+  addCompanyStage,
+  onCloseAddCompany,
+  onClickAddCompany,
+} = useAddCompany();
 
+// View Journey Item Feature
 const {
   isOpen: isOpenJourneyItemModal,
   viewJourneyItem,
@@ -105,45 +113,13 @@ const {
   interviewJourneyCompany: viewingJourneyItem,
 } = useViewInterviewJourneyCompany();
 
+// Table Data
 const { stageJourneyCompanyMap, retrieveAll: refreshJourneyItems } =
   useJourneyItems(props.interviewJourney);
 
-const onClickAddCompany = (stage: Stage) => {
-  addCompanyStage.value = { ...stage };
-  isShowAddCompanyModal.value = true;
-};
-
-const onCloseAddCompany = () => {
-  addCompanyStage.value = null;
-  isShowAddCompanyModal.value = false;
-};
-
-const updateJourneyItemStage = async ({
-  journeyItemId,
-  wantedStageId,
-  invokeUndo,
-}: {
-  journeyItemId: string;
-  wantedStageId: string;
-  invokeUndo: () => void;
-}) => {
-  // change state
-  const updateStateStatus = await interviewJourneyCompanyRepo.update(
-    journeyItemId,
-    { stage: wantedStageId }
-  );
-
-  await refreshJourneyItems();
-  tableKey.value = `table-key-${Math.random()}`;
-
-  if (!updateStateStatus) {
-    invokeUndo();
-
-    return notify({
-      type: 'error',
-      title: 'Error',
-      text: 'Advance to stage failed, please try again',
-    });
-  }
-};
+// Sortable
+const { updateJourneyItemStage } = useJourneyItemsStageChange(
+  tableKey,
+  refreshJourneyItems
+);
 </script>
