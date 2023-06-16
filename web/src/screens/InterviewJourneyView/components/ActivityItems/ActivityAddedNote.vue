@@ -37,15 +37,13 @@
 import { DocumentTextIcon } from '@heroicons/vue/24/outline';
 import { InterviewJourneyCompanyActivity } from '@/repositories/interviewJourneyCompanyActivity.repo';
 import { computed } from 'vue';
-import dayjs from 'dayjs';
+import { getFromAgoTime } from '@/utils/date';
 
 const props = defineProps<{
   activity: InterviewJourneyCompanyActivity;
 }>();
 
-const commentedDateText = computed(() => {
-  const daysAgo = dayjs(props.activity.createdAt).fromNow();
-
-  return `Noted ${daysAgo}`;
-});
+const commentedDateText = computed(
+  () => `Noted ${getFromAgoTime(props.activity.createdAt)}`
+);
 </script>
