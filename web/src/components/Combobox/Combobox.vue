@@ -11,7 +11,7 @@
       <ComboboxInput
         class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
         @change="query = $event.target.value"
-        :display-value="(person) => person?.name"
+        :display-value="(item) => item?.text"
       />
       <ComboboxButton
         class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none"
@@ -27,9 +27,9 @@
         class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
       >
         <ComboboxOption
-          v-for="person in filteredItems"
-          :key="person.value"
-          :value="person"
+          v-for="item in filteredItems"
+          :key="item.value"
+          :value="item"
           as="template"
           v-slot="{ active, selected }"
         >
@@ -41,14 +41,15 @@
           >
             <div class="flex items-center">
               <span
+                v-if="typeof item.active !== 'undefined'"
                 :class="[
                   'inline-block h-2 w-2 flex-shrink-0 rounded-full',
-                  !person.active ? 'bg-green-400' : 'bg-gray-200',
+                  !item.active ? 'bg-green-400' : 'bg-gray-200',
                 ]"
                 aria-hidden="true"
               />
               <span :class="['ml-3 truncate', selected && 'font-semibold']">
-                {{ person.text }}
+                {{ item.text }}
               </span>
             </div>
 
@@ -82,28 +83,23 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from '@headlessui/vue';
-
-export type ComboboxItem = {
-  text: string;
-  value: string;
-  active?: boolean;
-};
+import { ComboboxItem } from '@/components/Combobox/Combobox.types';
 
 type ComboboxProps = {
   label: string;
   items: ComboboxItem[];
-  modelValue: string | number;
+  modelValue: ComboboxItem | null;
 };
 
 type ComboboxEmits = {
-  (e: 'update:modelValue', value: string | number | undefined): void;
+  (e: 'update:modelValue', value: ComboboxItem | undefined): void;
 };
 
 const props = defineProps<ComboboxProps>();
 const emits = defineEmits<ComboboxEmits>();
 
 const query = ref('');
-const selectedItem = ref<ComboboxItem | null>(null);
+const selectedItem = ref<ComboboxItem | null>(props.modelValue || null);
 const filteredItems = computed(() =>
   query.value === ''
     ? props.items
@@ -114,6 +110,6 @@ const filteredItems = computed(() =>
 
 const selectItem = (item: ComboboxItem) => {
   selectedItem.value = { ...item };
-  emits('update:modelValue', item.value);
+  emits('update:modelValue', item);
 };
 </script>

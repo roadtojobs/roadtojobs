@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { Stage, stageRepo } from '@/repositories/stage.repo';
+import { computed } from 'vue';
 
 export const useGlobalStages = defineStore('stages', () => {
   const stages = ref<Stage[]>([]);
@@ -11,8 +12,15 @@ export const useGlobalStages = defineStore('stages', () => {
 
     const remoteStages = await stageRepo.getAll();
 
-    stages.value = { ...remoteStages };
+    stages.value = [...remoteStages];
   };
 
-  return { stages, loadStages };
+  const comboboxStages = computed(() =>
+    stages.value.map((stage) => ({
+      text: stage.name,
+      value: stage.id,
+    }))
+  );
+
+  return { stages, loadStages, comboboxStages };
 });

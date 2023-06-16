@@ -1,5 +1,6 @@
 <template>
   <Modal
+    v-if="isOpen"
     :is-open="isOpen"
     :title="modalTitle"
     @close="$emit('close')"
@@ -13,7 +14,7 @@
         <Combobox
           v-model="form.stage"
           label="Stage"
-          :items="stageComboboxItems"
+          :items="globalStages.comboboxStages"
         />
         <!--        <Combobox-->
         <!--          mode="ASYNC"-->
@@ -60,16 +61,11 @@ defineEmits<{
 const globalStages = useGlobalStages();
 
 const form = ref({
-  stage: props.stage.id,
+  stage: {
+    text: props.stage.name,
+    value: props.stage.id,
+  },
 });
 
 const modalTitle = computed(() => `Add Company to the Journey`);
-
-const stageComboboxItems = computed(() =>
-  globalStages.stages.map((stage) => ({
-    text: stage.name,
-    value: stage.id,
-    active: true,
-  }))
-);
 </script>
