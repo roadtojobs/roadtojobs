@@ -18,11 +18,11 @@ export const parseThing = <Table, Entity>(
  * Parse nullable relationship object if presented
  */
 export const parseNullableThing = <Table, Entity>(
-  field: string | Record<string, unknown> | null,
-  parser: (thing: Record<string, unknown>) => Entity
-): undefined | Entity | null => {
-  if (field === null) {
-    return null;
+  field: string | Record<string, unknown> | null | undefined,
+  parser: (thing: Table) => Entity
+): undefined | Entity => {
+  if (field === null || field === undefined) {
+    return undefined;
   }
 
   return parseThing(field, parser);
@@ -33,4 +33,14 @@ export const parseNullableThing = <Table, Entity>(
  */
 export const parseThingId = (record: string | { id: string }) => {
   return isString(record) ? record : record.id;
+};
+
+export const parseNullableThingId = (
+  record: undefined | string | { id: string }
+) => {
+  if (record === undefined) {
+    return null;
+  }
+
+  return parseThingId(record);
 };

@@ -34,6 +34,10 @@
               type="REMOVED"
               :activity="activity"
             />
+            <ActivityAdvanceToStage
+              v-else-if="activity.type === 'ADVANCED_TO_STAGE'"
+              :activity="activity"
+            />
           </div>
         </div>
       </li>
@@ -73,6 +77,7 @@ import ActivityCreatedJourneyItem from '@/screens/InterviewJourneyView/component
 import ActivityAddedNote from '@/screens/InterviewJourneyView/components/ActivityItems/ActivityAddedNote.vue';
 import NoteCommentForm from '@/screens/InterviewJourneyView/components/ViewInterviewJourneyCompanyModal/NoteCommentForm.vue';
 import ActivityAttributes from '@/screens/InterviewJourneyView/components/ActivityItems/ActivityAttributes.vue';
+import ActivityAdvanceToStage from '@/screens/InterviewJourneyView/components/ActivityItems/ActivityAdvanceToStage.vue';
 
 type ViewInterviewJourneyCompanyActivityListProps = {
   activities: InterviewJourneyCompanyActivity[];

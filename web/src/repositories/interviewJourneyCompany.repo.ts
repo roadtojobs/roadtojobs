@@ -47,7 +47,7 @@ export type InterviewJourneyCompany = {
   updatedAt: Date;
 };
 
-const tableToEntity = (
+export const tableToEntity = (
   record: InterviewJourneyCompanyTable
 ): InterviewJourneyCompany => ({
   id: record.id,

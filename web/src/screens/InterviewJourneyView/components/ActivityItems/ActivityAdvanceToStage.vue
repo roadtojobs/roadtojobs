@@ -21,13 +21,13 @@
           You
         </a>
         {{ ' ' }}
-        created
+        advanced this road to
         {{ ' ' }}
         <a
           href="javascript:void(0);"
           class="font-medium text-gray-900"
         >
-          The road to {{ activity.company.name }} 🚀
+          {{ activity.stage.name }}
         </a>
         {{ ' ' }}
         <span class="whitespace-nowrap">{{ createdDateText }}</span>

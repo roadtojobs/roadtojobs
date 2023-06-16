@@ -47,14 +47,6 @@ DEFINE FIELD updated_at ON TABLE interview_journey_company
   VALUE time::now()
   PERMISSIONS FOR update, delete NONE;
 
-DEFINE EVENT created_activity ON interview_journey_company WHEN $event = 'CREATE' THEN (
-  CREATE interview_journey_company_activity CONTENT {
-    interview_journey_company: $value.id,
-    user: $value.user,
-    type: 'CREATED_JOURNEY_ITEM'
-  }
-);
-
 DEFINE TABLE journey_items SCHEMALESS
   PERMISSIONS
     FOR delete NONE

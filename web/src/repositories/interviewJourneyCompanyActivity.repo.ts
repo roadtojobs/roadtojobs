@@ -9,10 +9,22 @@ import {
   DynamicAttributes,
   InterviewJourneyCompany,
   InterviewJourneyCompanyTable,
+  tableToEntity as journeyItemTableToJourneyItem,
 } from '@/repositories/interviewJourneyCompany.repo';
 import { User, UserTable, userTableToUser } from '@/repositories/user.repo';
 import { ActivityType } from 'shared/constants/activityType';
 import { TABLES } from 'shared/constants/tables';
+import {
+  parseNullableThing,
+  parseNullableThingId,
+  parseThing,
+  parseThingId,
+} from 'shared/utils/surreal';
+import {
+  Company,
+  CompanyTable,
+  companyTableToCompany,
+} from '@/repositories/company.repo';
 
 type InterviewJourneyCompanyActivityTable = {
   id: string;
@@ -20,6 +32,7 @@ type InterviewJourneyCompanyActivityTable = {
   interview_journey_company: string | InterviewJourneyCompanyTable;
   user: string | UserTable;
   stage: string | StageTable | undefined;
+  company: string | CompanyTable | undefined;
   comment: string;
   attributes: DynamicAttributes;
   created_at: Date;
@@ -35,33 +48,32 @@ export type InterviewJourneyCompanyActivity = {
   user?: User;
   stageId: string | null;
   stage?: Stage;
+  companyId: string | null;
+  company?: Company;
   comment: string;
   attributes: DynamicAttributes;
   createdAt: Date;
   updatedAt: Date;
 };
 
-const parseStage = (
-  stage: string | StageTable | undefined
-): Stage | undefined => {
-  if (isString(stage) || !stage) {
-    return undefined;
-  }
-
-  return stageTableToStage(stage);
-};
-
 const tableToEntity = (
   record: InterviewJourneyCompanyActivityTable
 ): InterviewJourneyCompanyActivity => ({
   ...record,
-  interviewJourneyCompanyId: isString(record.interview_journey_company)
-    ? record.interview_journey_company
-    : record.interview_journey_company.id,
-  userId: isString(record.user) ? record.user : record.user.id,
-  user: isString(record.user) ? undefined : userTableToUser(record.user),
-  stageId: isString(record.stage) ? record.stage : record.stage?.id ?? null,
-  stage: parseStage(record.stage),
+  interviewJourneyCompanyId: parseThingId(record.interview_journey_company),
+  interviewJourneyCompany: parseThing<
+    InterviewJourneyCompanyTable,
+    InterviewJourneyCompany
+  >(record.interview_journey_company, journeyItemTableToJourneyItem),
+  userId: parseThingId(record.user),
+  user: parseThing<UserTable, User>(record.user, userTableToUser),
+  stageId: parseNullableThingId(record.stage),
+  stage: parseNullableThing<StageTable, Stage>(record.stage, stageTableToStage),
+  companyId: parseNullableThingId(record.company),
+  company: parseNullableThing<CompanyTable, Company>(
+    record.company,
+    companyTableToCompany
+  ),
   createdAt: record.created_at,
   updatedAt: record.updated_at,
 });
@@ -82,7 +94,7 @@ export const interviewJourneyCompanyActivityRepo = {
       FROM ${TABLES.JOURNEY_ITEM_ACTIVITY}
       WHERE interview_journey_company = $id
       ORDER BY created_at ASC
-      FETCH stage, user
+      FETCH stage, user, company
     `,
       {
         id: journeyCompanyId,

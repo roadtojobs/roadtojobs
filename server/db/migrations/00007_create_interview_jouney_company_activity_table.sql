@@ -16,6 +16,10 @@ DEFINE FIELD type ON TABLE interview_journey_company_activity
 DEFINE FIELD stage ON TABLE interview_journey_company_activity
   TYPE record (stage);
 
+DEFINE FIELD company ON TABLE interview_journey_company_activity
+  TYPE record (company);
+
+
 DEFINE FIELD comment ON TABLE interview_journey_company_activity
   TYPE string;
 

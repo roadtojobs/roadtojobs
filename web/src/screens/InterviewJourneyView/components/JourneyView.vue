@@ -128,11 +128,9 @@ const updateJourneyItemStage = async ({
   invokeUndo: () => void;
 }) => {
   // change state
-  const note = 'TBD';
-
   const updateStateStatus = await interviewJourneyCompanyRepo.update(
     journeyItemId,
-    { stage: wantedStageId, description: note }
+    { stage: wantedStageId }
   );
 
   await refreshJourneyItems();
