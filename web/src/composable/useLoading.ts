@@ -11,10 +11,10 @@ export const useLoading = () => {
     isLoading.value = false;
   };
 
-  const withLoading = async (callback: <T>() => Promise<T>) => {
+  const withLoading = async <T>(callback: <T>() => Promise<T>) => {
     startLoading();
 
-    const result = await callback();
+    const result = await callback<T>();
 
     stopLoading();
 

@@ -11,7 +11,7 @@
       <ComboboxInput
         class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
         @change="retrieveItems($event.target.value)"
-        :display-value="(item) => item?.text || 'Select an Option'"
+        :display-value="(item) => item?.text"
       />
       <ComboboxButton
         class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none"
@@ -26,7 +26,7 @@
         class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
       >
         <ComboboxOption
-          v-for="item in filteredItems"
+          v-for="item in flexibleItems"
           :key="item.value"
           :value="item"
           as="template"
@@ -66,20 +66,20 @@
             </span>
           </li>
         </ComboboxOption>
-        <ComboboxOption v-if="filteredItems.length <= 0 && !query.length">
-          <span class="text-gray-900 ml-3 truncate text-sm">
+        <ComboboxOption v-if="flexibleItems.length <= 0 && !query.length">
+          <span class="text-gray-900 ml-3 truncate text-sm my-4 select-none">
             Hit some keywords to search 👀
           </span>
         </ComboboxOption>
         <ComboboxOption v-if="isLoading">
-          <span class="text-gray-900 ml-3 truncate text-sm">
+          <span class="text-gray-600 ml-3 truncate text-sm my-4 select-none">
             Retrieving records...
           </span>
         </ComboboxOption>
         <ComboboxOption
-          v-if="!isLoading && filteredItems.length <= 0 && query.length"
+          v-if="!isLoading && flexibleItems.length <= 0 && query.length"
         >
-          <span class="text-gray-900 ml-3 truncate text-sm">
+          <span class="text-gray-600 ml-3 truncate text-sm my-4 select-none">
             No record found with the "{{ query }}" keywords.
           </span>
         </ComboboxOption>
@@ -89,7 +89,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid';
 import {
   Combobox,
@@ -101,6 +101,7 @@ import {
 } from '@headlessui/vue';
 import { ComboboxItem } from '@/components/Combobox/Combobox.types';
 import { useLoading } from '@/composable/useLoading';
+import { debounce } from 'lodash-es';
 
 type ComboboxApiProps = {
   label: string;
@@ -115,26 +116,42 @@ type ComboboxApiEmits = {
 const props = defineProps<ComboboxApiProps>();
 const emits = defineEmits<ComboboxApiEmits>();
 
-const { isLoading, withLoading } = useLoading();
+const { isLoading, startLoading, stopLoading } = useLoading();
 
 const flexibleItems = ref<ComboboxItem[]>([]);
 
 const query = ref('');
 const selectedItem = ref<ComboboxItem | null>(props.modelValue || null);
-const filteredItems = computed(() => flexibleItems.value);
 
 const selectItem = (item: ComboboxItem) => {
   selectedItem.value = { ...item };
   emits('update:modelValue', item);
 };
 
+const resetItems = () => (flexibleItems.value = []);
+
+const debouncedApiRequest = debounce(() => {
+  if (!query.value) {
+    return resetItems();
+  }
+
+  startLoading();
+
+  props
+    .apiRequest(query.value)
+    .then((data) => {
+      flexibleItems.value = [...data];
+    })
+    .catch(resetItems)
+    .finally(stopLoading);
+}, 500);
+
 const retrieveItems = async (keyword: string) => {
   query.value = keyword;
+  if (!query.value) {
+    return resetItems();
+  }
 
-  const items = await withLoading(async () => {
-    await props.apiRequest(keyword);
-  });
-
-  flexibleItems.value = [...items];
+  debouncedApiRequest();
 };
 </script>

@@ -29,7 +29,7 @@
       </form>
     </div>
     <template #bottom-buttons>
-      <Button>Add</Button>
+      <Button @click="onClickSubmit">Add</Button>
       <Button
         type="secondary"
         @click="$emit('close')"
@@ -50,6 +50,7 @@ import { useGlobalStages } from '@/stores/useGlobalStages';
 import Dropdown from '@/components/Dropdown/Dropdown.vue';
 import ComboboxApi from '@/components/Combobox/ComboboxApi.vue';
 import { ComboboxItem } from '@/components/Combobox/Combobox.types';
+import { companyRepo } from '@/repositories/company.repo';
 
 type AddCompanyModalProps = {
   stage: Stage;
@@ -72,6 +73,12 @@ const form = ref({
 const modalTitle = computed(() => `Add Company to the Journey`);
 
 const findCompanies = async (keyword: string): Promise<ComboboxItem[]> => {
-  return [];
+  return (await companyRepo.getByKeyword(keyword)).map((company) => ({
+    text: company.name,
+    value: company.id,
+    active: true,
+  }));
 };
+
+const onClickSubmit = () => {};
 </script>
