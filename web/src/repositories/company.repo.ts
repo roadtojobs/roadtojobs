@@ -1,35 +1,17 @@
 import { dbClient } from '@/libraries/surreal';
-
-export type CompanyTable = {
-  id: string;
-  name: string;
-  description: string;
-  source: string;
-  homepage: string;
-};
-
-export type Company = {
-  id: string;
-  name: string;
-  description: string;
-  source: string;
-  homepage: string;
-};
-
-export const companyTableToCompany = (record: CompanyTable): Company => ({
-  ...record,
-});
+import {
+  Company,
+  CompanyTable,
+  companyTableToCompany,
+} from 'shared/entities/company.entity';
+import { TABLES } from 'shared/constants/tables';
 
 export const companyRepo = {
-  getTable() {
-    return 'company';
-  },
-
   async getByKeyword(keyword: string): Promise<Company[]> {
     const [result] = await dbClient.query<CompanyTable[][]>(
       `
       SELECT *
-      FROM company
+      FROM ${TABLES.COMPANY}
       WHERE (string::lowercase(name)) CONTAINS string::lowercase($keyword)
     `,
       { keyword }

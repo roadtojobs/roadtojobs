@@ -22,6 +22,7 @@
           :api-request="findCompanies"
         />
         <Textarea
+          v-model="form.description"
           label="Description"
           rows="6"
           placeholder="Write a really detailed information about this company. Markdown syntax supported..."
@@ -65,9 +66,17 @@ defineEmits<{
 
 const globalStages = useGlobalStages();
 
-const form = ref({
+const form = ref<{
+  stage: string;
+  company: {
+    value: string;
+    text: string;
+  } | null;
+  description: string;
+}>({
   stage: props.stage.id,
   company: null,
+  description: '',
 });
 
 const modalTitle = computed(() => `Add Company to the Journey`);
@@ -80,5 +89,10 @@ const findCompanies = async (keyword: string): Promise<ComboboxItem[]> => {
   }));
 };
 
-const onClickSubmit = () => {};
+const onClickSubmit = () => {
+  const finalForm = {
+    ...form.value,
+    company: form.value.company?.value,
+  };
+};
 </script>

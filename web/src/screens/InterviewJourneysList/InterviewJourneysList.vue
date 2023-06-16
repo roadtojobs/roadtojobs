@@ -125,28 +125,27 @@ const router = useRouter();
 const interviewJourneys = ref<InterviewJourney[]>([]);
 const sorting = ref<SortingState>([]);
 
-type Columnable = AccessorFn<InterviewJourney>;
 const columnHelper = createColumnHelper<InterviewJourney>();
 
 const table = useVueTable<InterviewJourney>({
   columns: [
-    columnHelper.accessor('name' as Columnable, {
+    columnHelper.accessor('name', {
       id: 'name',
       header: 'Journey Name',
     }),
-    columnHelper.accessor('totalJourneyItems' as Columnable, {
+    columnHelper.accessor('totalJourneyItems', {
       header: 'Num. of Companies',
     }),
-    columnHelper.accessor('startedAt' as Columnable, {
+    columnHelper.accessor('startedAt', {
       header: 'Started At',
       cell: (info) => dayjs(info.getValue()).format(DATE_FORMAT),
     }),
-    columnHelper.accessor('endedAt' as Columnable, {
+    columnHelper.accessor('endedAt', {
       header: 'Ended At',
       cell: (info) =>
         info.getValue() ? dayjs(info.getValue()).format(DATE_FORMAT) : '-',
     }),
-    columnHelper.accessor('createdAt' as Columnable, {
+    columnHelper.accessor('createdAt', {
       header: 'Created At',
       cell: (info) => dayjs(info.getValue()).format(DATE_FORMAT),
     }),

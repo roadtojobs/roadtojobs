@@ -10,7 +10,6 @@
 
 <script setup lang="ts">
 import Modal from '@/components/Modal/Modal.vue';
-import { withDefaults } from 'vue';
 
 type ConfirmationModalProps = {
   isOpen: boolean;

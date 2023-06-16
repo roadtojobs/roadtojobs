@@ -1,15 +1,16 @@
 import { dbClient } from '@/libraries/surreal';
 import { isString } from 'lodash-es';
-import {
-  Company,
-  CompanyTable,
-  companyTableToCompany,
-} from '@/repositories/company.repo';
+
 import {
   Stage,
   StageTable,
   stageTableToStage,
 } from '@/repositories/stage.repo';
+import {
+  Company,
+  CompanyTable,
+  companyTableToCompany,
+} from 'shared/entities/company.entity';
 
 export type DynamicAttributes = {
   color: string;
