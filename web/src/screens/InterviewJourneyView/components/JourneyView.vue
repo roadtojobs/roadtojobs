@@ -70,7 +70,6 @@
 <script setup lang="ts">
 import { InterviewJourney } from '@/repositories/interviewJourney.repo';
 import { computed } from 'vue';
-import { Stage } from '@/repositories/stage.repo';
 import ViewStageDescription from '@/screens/InterviewJourneyView/components/JourneyView/ViewStageDescription.vue';
 import { User } from '@/repositories/user.repo';
 import AddCompanyModal from '@/screens/InterviewJourneyView/components/ActionModals/AddCompanyModal.vue';
@@ -79,9 +78,6 @@ import { useViewInterviewJourneyCompany } from '@/screens/InterviewJourneyView/c
 import ViewInterviewJourneyCompanyModal from '@/screens/InterviewJourneyView/components/ActionModals/ViewInterviewJourneyCompanyModal.vue';
 import { useJourneyItems } from '@/screens/InterviewJourneyView/composables/useJourneyItems';
 import { useGlobalStages } from '@/stores/useGlobalStages';
-import { Sortable } from 'sortablejs-vue3';
-import { interviewJourneyCompanyRepo } from '@/repositories/interviewJourneyCompany.repo';
-import { notify } from '@kyvg/vue3-notification';
 import { useJourneyItemsStageChange } from '@/screens/InterviewJourneyView/composables/useJourneyItemsStageChange';
 import { useAddCompany } from '@/screens/InterviewJourneyView/composables/useAddCompany';
 
