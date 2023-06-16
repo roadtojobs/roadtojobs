@@ -8,12 +8,15 @@ import { InterviewJourney } from '@/repositories/interviewJourney.repo';
 export const useJourneyItems = (interviewJourney: InterviewJourney) => {
   const interviewJourneyCompanyItems = ref<InterviewJourneyCompany[]>([]);
 
-  onMounted(async () => {
-    // get companies of this user
+  const retrieveAll = async () => {
     const journeyCompanyItems = await interviewJourneyCompanyRepo.getByJourney(
       interviewJourney.id
     );
     interviewJourneyCompanyItems.value = [...journeyCompanyItems];
+  };
+
+  onMounted(async () => {
+    await retrieveAll();
   });
 
   const stageJourneyCompanyMap = computed(() => {
@@ -30,5 +33,6 @@ export const useJourneyItems = (interviewJourney: InterviewJourney) => {
   return {
     interviewJourneyCompanyItems,
     stageJourneyCompanyMap,
+    retrieveAll,
   };
 };

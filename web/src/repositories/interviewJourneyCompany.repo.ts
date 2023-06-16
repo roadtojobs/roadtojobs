@@ -95,6 +95,20 @@ export const interviewJourneyCompanyRepo = {
     return result.result.map(tableToEntity);
   },
 
+  async update(
+    journeyItemId: string,
+    values: Partial<InterviewJourneyCompanyTable>
+  ): Promise<boolean> {
+    delete values.id;
+    delete values.created_at;
+
+    const [result] = await dbClient.merge(journeyItemId, {
+      ...values,
+    });
+
+    return !!result.id;
+  },
+
   // TODO: note for myself
   // create() {
   //    reference: getNextReferenceId();

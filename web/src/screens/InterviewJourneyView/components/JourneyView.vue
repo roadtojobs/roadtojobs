@@ -2,7 +2,10 @@
   <div class="hidden md:block">
     <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-        <table class="min-w-full divide-y divide-gray-300">
+        <table
+          class="min-w-full divide-y divide-gray-300"
+          :key="tableKey"
+        >
           <thead>
             <tr class="divide-x divide-gray-200">
               <th
@@ -36,12 +39,13 @@
               </td>
               <td class="whitespace-nowrap p-4 text-sm text-gray-500">
                 <StageCompanyList
-                  v-if="stageJourneyCompanyMap[stage.id]"
                   :stage="stage"
-                  :journey-company-items="stageJourneyCompanyMap[stage.id]"
+                  :journey-company-items="
+                    stageJourneyCompanyMap[stage.id] || []
+                  "
                   @click="(item) => viewJourneyItem(item)"
+                  @added="updateJourneyItemStage"
                 />
-                <span v-else> No company here 👀 </span>
               </td>
             </tr>
           </tbody>
@@ -65,8 +69,8 @@
 
 <script setup lang="ts">
 import { InterviewJourney } from '@/repositories/interviewJourney.repo';
-import { computed, onMounted } from 'vue';
-import { Stage, stageRepo } from '@/repositories/stage.repo';
+import { computed } from 'vue';
+import { Stage } from '@/repositories/stage.repo';
 import ViewStageDescription from '@/screens/InterviewJourneyView/components/JourneyView/ViewStageDescription.vue';
 import { User } from '@/repositories/user.repo';
 import AddCompanyModal from '@/screens/InterviewJourneyView/components/ActionModals/AddCompanyModal.vue';
@@ -75,6 +79,9 @@ import { useViewInterviewJourneyCompany } from '@/screens/InterviewJourneyView/c
 import ViewInterviewJourneyCompanyModal from '@/screens/InterviewJourneyView/components/ActionModals/ViewInterviewJourneyCompanyModal.vue';
 import { useJourneyItems } from '@/screens/InterviewJourneyView/composables/useJourneyItems';
 import { useGlobalStages } from '@/stores/useGlobalStages';
+import { Sortable } from 'sortablejs-vue3';
+import { interviewJourneyCompanyRepo } from '@/repositories/interviewJourneyCompany.repo';
+import { notify } from '@kyvg/vue3-notification';
 
 type InfoViewProps = {
   interviewJourney: InterviewJourney;
@@ -82,6 +89,8 @@ type InfoViewProps = {
 };
 
 const props = defineProps<InfoViewProps>();
+
+const tableKey = ref(`table-key-${Math.random()}`);
 
 const globalStages = useGlobalStages();
 const stages = computed(() => globalStages.stages);
@@ -96,7 +105,8 @@ const {
   interviewJourneyCompany: viewingJourneyItem,
 } = useViewInterviewJourneyCompany();
 
-const { stageJourneyCompanyMap } = useJourneyItems(props.interviewJourney);
+const { stageJourneyCompanyMap, retrieveAll: refreshJourneyItems } =
+  useJourneyItems(props.interviewJourney);
 
 const onClickAddCompany = (stage: Stage) => {
   addCompanyStage.value = { ...stage };
@@ -106,5 +116,36 @@ const onClickAddCompany = (stage: Stage) => {
 const onCloseAddCompany = () => {
   addCompanyStage.value = null;
   isShowAddCompanyModal.value = false;
+};
+
+const updateJourneyItemStage = async ({
+  journeyItemId,
+  wantedStageId,
+  invokeUndo,
+}: {
+  journeyItemId: string;
+  wantedStageId: string;
+  invokeUndo: () => void;
+}) => {
+  // change state
+  const note = 'TBD';
+
+  const updateStateStatus = await interviewJourneyCompanyRepo.update(
+    journeyItemId,
+    { stage: wantedStageId, description: note }
+  );
+
+  await refreshJourneyItems();
+  tableKey.value = `table-key-${Math.random()}`;
+
+  if (!updateStateStatus) {
+    invokeUndo();
+
+    return notify({
+      type: 'error',
+      title: 'Error',
+      text: 'Advance to stage failed, please try again',
+    });
+  }
 };
 </script>
