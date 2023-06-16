@@ -11,7 +11,7 @@
         @submit.prevent
         class="flex flex-col gap-3"
       >
-        <Combobox
+        <Dropdown
           v-model="form.stage"
           label="Stage"
           :items="globalStages.comboboxStages"
@@ -21,8 +21,9 @@
         <!--          label="Select Company"-->
         <!--        />-->
         <Textarea
-          label="Description (Markdown supported)"
+          label="Description"
           rows="6"
+          placeholder="Write a really detailed information about this company. Markdown syntax supported..."
         />
       </form>
     </div>
@@ -43,9 +44,9 @@ import { Stage } from '@/repositories/stage.repo';
 import Modal from '@/components/Modal/Modal.vue';
 import { computed } from 'vue';
 import Button from '@/components/Button/Button.vue';
-import Combobox from '@/components/Combobox/Combobox.vue';
 import Textarea from '@/components/Textarea/Textarea.vue';
 import { useGlobalStages } from '@/stores/useGlobalStages';
+import Dropdown from '@/components/Dropdown/Dropdown.vue';
 
 type AddCompanyModalProps = {
   stage: Stage;
@@ -61,10 +62,7 @@ defineEmits<{
 const globalStages = useGlobalStages();
 
 const form = ref({
-  stage: {
-    text: props.stage.name,
-    value: props.stage.id,
-  },
+  stage: props.stage.id,
 });
 
 const modalTitle = computed(() => `Add Company to the Journey`);
