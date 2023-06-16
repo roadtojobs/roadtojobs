@@ -1,16 +1,17 @@
 import { dbClient } from '@/libraries/surreal';
-import { isString } from 'lodash-es';
-
 import {
   Stage,
   StageTable,
   stageTableToStage,
 } from '@/repositories/stage.repo';
+import { parseThing, parseThingId } from 'shared/utils/surreal';
 import {
   Company,
   CompanyTable,
   companyTableToCompany,
-} from 'shared/entities/company.entity';
+} from '@/repositories/company.repo';
+import { User, UserTable, userTableToUser } from '@/repositories/user.repo';
+import { TABLES } from 'shared/constants/tables';
 
 export type DynamicAttributes = {
   color: string;
@@ -35,6 +36,7 @@ export type InterviewJourneyCompany = {
   reference: number;
   interviewJourneyId: string;
   userId: string;
+  user?: User;
   companyId: string;
   company?: Company;
   stageId: string;
@@ -51,13 +53,15 @@ const tableToEntity = (
   id: record.id,
   reference: record.reference,
   interviewJourneyId: record.interview_journey,
-  companyId: isString(record.company) ? record.company : record.company.id,
-  company: isString(record.company)
-    ? undefined
-    : companyTableToCompany(record.company),
-  userId: record.user,
-  stageId: isString(record.stage) ? record.stage : record.stage.id,
-  stage: isString(record.stage) ? undefined : stageTableToStage(record.stage),
+  companyId: parseThingId(record.company),
+  company: parseThing<CompanyTable, Company>(
+    record.company,
+    companyTableToCompany
+  ),
+  userId: parseThingId(record.user),
+  user: parseThing<UserTable, User>(record.user, userTableToUser),
+  stageId: parseThingId(record.stage),
+  stage: parseThing<StageTable, Stage>(record.stage, stageTableToStage),
   description: record.description,
   attributes: record.attributes,
   createdAt: record.created_at,
@@ -66,7 +70,7 @@ const tableToEntity = (
 
 export const interviewJourneyCompanyRepo = {
   getTable() {
-    return 'interview_journey_company';
+    return TABLES.INTERVIEW_JOURNEY_COMPANY;
   },
 
   async getByJourney(

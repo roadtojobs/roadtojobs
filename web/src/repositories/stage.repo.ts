@@ -1,5 +1,6 @@
 import { generateId } from '@/utils/surrealThing';
 import { dbClient } from '@/libraries/surreal';
+import { TABLES } from 'shared/constants/tables';
 
 export type Stage = {
   id: string;
@@ -27,7 +28,7 @@ export const stageTableToStage = (record: StageTable): Stage => ({
 
 export const stageRepo = {
   getTable() {
-    return 'stage';
+    return TABLES.STAGE;
   },
 
   getSingleThing(id: string) {
@@ -37,7 +38,7 @@ export const stageRepo = {
   async getAll(): Promise<Stage[]> {
     const [result] = await dbClient.query<StageTable[][]>(`
       SELECT *
-      FROM ${stageRepo.getTable()}
+      FROM ${TABLES.STAGE}
       ORDER BY position ASC
     `);
 

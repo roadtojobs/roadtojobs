@@ -1,4 +1,5 @@
 import { dbClient } from '@/libraries/surreal';
+import { TABLES } from 'shared/constants/tables';
 
 export type UserTable = {
   id: string;
@@ -23,7 +24,7 @@ export const userTableToUser = (record: UserTable): User => ({
 
 export const userRepo = {
   async getLoggedInUser(): Promise<User | undefined> {
-    const rows = await dbClient.select<UserTable>('user');
+    const rows = await dbClient.select<UserTable>(TABLES.USER);
     if (!rows[0]) {
       return;
     }

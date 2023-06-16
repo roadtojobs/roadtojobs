@@ -1,10 +1,25 @@
 import { dbClient } from '@/libraries/surreal';
-import {
-  Company,
-  CompanyTable,
-  companyTableToCompany,
-} from 'shared/entities/company.entity';
 import { TABLES } from 'shared/constants/tables';
+
+export type CompanyTable = {
+  id: string;
+  name: string;
+  description: string;
+  source: string;
+  homepage: string;
+};
+
+export type Company = {
+  id: string;
+  name: string;
+  description: string;
+  source: string;
+  homepage: string;
+};
+
+export const companyTableToCompany = (record: CompanyTable): Company => ({
+  ...record,
+});
 
 export const companyRepo = {
   async getByKeyword(keyword: string): Promise<Company[]> {

@@ -1,6 +1,7 @@
 import { dbClient } from '@/libraries/surreal';
 import { CreateInterviewJourney } from '@/screens/InterviewJourneysList/InterviewJourneysList.methods';
 import { generateId } from '@/utils/surrealThing';
+import { TABLES } from 'shared/constants/tables';
 
 type InterviewJourneyTable = {
   id: string;
@@ -48,7 +49,7 @@ const interviewJourneyTableToInterviewJourney = (
 
 export const interviewJourneyRepo = {
   getTable() {
-    return 'interview_journey';
+    return TABLES.INTERVIEW_JOURNEY;
   },
 
   getSingleThing(id: string) {

@@ -12,6 +12,7 @@ import {
 } from '@/repositories/interviewJourneyCompany.repo';
 import { User, UserTable, userTableToUser } from '@/repositories/user.repo';
 import { ActivityType } from 'shared/constants/activityType';
+import { TABLES } from 'shared/constants/tables';
 
 type InterviewJourneyCompanyActivityTable = {
   id: string;
@@ -67,7 +68,7 @@ const tableToEntity = (
 
 export const interviewJourneyCompanyActivityRepo = {
   getTable() {
-    return 'interview_journey_company_activity';
+    return TABLES.JOURNEY_ITEM_ACTIVITY;
   },
 
   async getByJourneyCompany(
@@ -78,7 +79,7 @@ export const interviewJourneyCompanyActivityRepo = {
     >(
       `
       SELECT *
-      FROM ${interviewJourneyCompanyActivityRepo.getTable()}
+      FROM ${TABLES.JOURNEY_ITEM_ACTIVITY}
       WHERE interview_journey_company = $id
       ORDER BY created_at ASC
       FETCH stage, user
