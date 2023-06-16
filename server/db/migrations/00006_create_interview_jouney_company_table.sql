@@ -25,6 +25,10 @@ DEFINE FIELD user ON TABLE interview_journey_company
 DEFINE FIELD description ON TABLE interview_journey_company
   TYPE string;
 
+DEFINE FIELD color ON TABLE interview_journey_company
+  TYPE string
+  VALUE $value OR 'rose';
+
 DEFINE FIELD attributes ON TABLE interview_journey_company
   TYPE array;
 

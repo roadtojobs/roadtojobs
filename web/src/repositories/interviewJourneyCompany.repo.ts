@@ -27,6 +27,7 @@ export type InterviewJourneyCompanyTable = {
   stage: string | StageTable;
   description: string;
   attributes: DynamicAttributes;
+  color: string;
   created_at: Date;
   updated_at: Date;
 };
@@ -42,6 +43,7 @@ export type InterviewJourneyCompany = {
   stageId: string;
   stage?: Stage;
   description: string;
+  color: string;
   attributes: DynamicAttributes;
   createdAt: Date;
   updatedAt: Date;
@@ -63,10 +65,23 @@ export const tableToEntity = (
   stageId: parseThingId(record.stage),
   stage: parseThing<StageTable, Stage>(record.stage, stageTableToStage),
   description: record.description,
+  color: record.color,
   attributes: record.attributes,
   createdAt: record.created_at,
   updatedAt: record.updated_at,
 });
+
+type CreateInterviewJourneyCompany = Omit<
+  InterviewJourneyCompany,
+  | 'id'
+  | 'updatedAt'
+  | 'createdAt'
+  | 'stage'
+  | 'company'
+  | 'user'
+  | 'reference'
+  | 'attributes'
+>;
 
 export const interviewJourneyCompanyRepo = {
   getTable() {
@@ -107,6 +122,47 @@ export const interviewJourneyCompanyRepo = {
     });
 
     return !!result.id;
+  },
+
+  async getNextPersonalReferenceId(
+    userId: string,
+    interviewJourneyId: string
+  ): Promise<number> {
+    const [result] = await dbClient.query<
+      {
+        max: number;
+      }[][]
+    >(
+      `
+      SELECT math::max(reference) as max
+      FROM ${TABLES.INTERVIEW_JOURNEY_COMPANY}
+      WHERE user = $user AND interview_journey = $interviewJourney
+    `,
+      { user: userId, interviewJourney: interviewJourneyId }
+    );
+
+    if (result.status === 'ERR') {
+      return -1;
+    }
+
+    return result.result[0].max + 1;
+  },
+
+  async create(
+    values: CreateInterviewJourneyCompany
+  ): Promise<string | undefined> {
+    const reference =
+      await interviewJourneyCompanyRepo.getNextPersonalReferenceId(
+        values.userId,
+        values.interviewJourneyId
+      );
+
+    const [result] = await dbClient.create(TABLES.INTERVIEW_JOURNEY_COMPANY, {
+      ...values,
+      reference,
+    });
+
+    return result.id;
   },
 
   // TODO: note for myself
