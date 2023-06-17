@@ -18,7 +18,7 @@ import {
 export type JourneyItemActivityTable = {
   id: string;
   type: ActivityType;
-  interview_journey_company: string | JourneyItemTable;
+  journey_item: string | JourneyItemTable;
   user: string | UserTable;
   stage: string | StageTable | undefined;
   company: string | CompanyTable | undefined;
@@ -31,8 +31,8 @@ export type JourneyItemActivityTable = {
 export type JourneyItemActivity = {
   id: string;
   type: ActivityType;
-  interviewJourneyCompanyId: string;
-  interviewJourneyCompany?: JourneyItemCompany;
+  journeyItemId: string;
+  journeyItem?: JourneyItemCompany;
   userId: string;
   user?: User;
   stageId: string | null;
@@ -49,9 +49,9 @@ export const journeyItemActivityTableToJourneyItem = (
   record: JourneyItemActivityTable
 ): JourneyItemActivity => ({
   ...record,
-  interviewJourneyCompanyId: parseThingId(record.interview_journey_company),
-  interviewJourneyCompany: parseThing<JourneyItemTable, JourneyItemCompany>(
-    record.interview_journey_company,
+  journeyItemId: parseThingId(record.journey_item),
+  journeyItem: parseThing<JourneyItemTable, JourneyItemCompany>(
+    record.journey_item,
     journeyItemTableToJourneyItem
   ),
   userId: parseThingId(record.user),

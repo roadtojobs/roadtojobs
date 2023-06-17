@@ -1,52 +1,52 @@
-DEFINE TABLE interview_journey_company SCHEMAFULL
+DEFINE TABLE journey_item SCHEMAFULL
   PERMISSIONS
     FOR delete NONE
     FOR select, create, update WHERE $auth.id = user;
 
-DEFINE FIELD reference ON TABLE interview_journey_company
+DEFINE FIELD reference ON TABLE journey_item
   TYPE int;
 
-DEFINE FIELD journey ON TABLE interview_journey_company
+DEFINE FIELD journey ON TABLE journey_item
   TYPE record (journey)
   ASSERT $value != NONE;
 
-DEFINE FIELD company ON TABLE interview_journey_company
+DEFINE FIELD company ON TABLE journey_item
   TYPE record (company)
   ASSERT $value != NONE;
 
-DEFINE FIELD stage ON TABLE interview_journey_company
+DEFINE FIELD stage ON TABLE journey_item
   TYPE record (stage)
   ASSERT $value != NONE;
 
-DEFINE FIELD user ON TABLE interview_journey_company
+DEFINE FIELD user ON TABLE journey_item
   TYPE record (user)
   ASSERT $value != NONE;
 
-DEFINE FIELD description ON TABLE interview_journey_company
+DEFINE FIELD description ON TABLE journey_item
   TYPE string;
 
-DEFINE FIELD color ON TABLE interview_journey_company
+DEFINE FIELD color ON TABLE journey_item
   TYPE string
   VALUE $value OR 'rose';
 
-DEFINE FIELD attributes ON TABLE interview_journey_company
+DEFINE FIELD attributes ON TABLE journey_item
   TYPE array;
 
-DEFINE FIELD attributes.* ON TABLE interview_journey_company
+DEFINE FIELD attributes.* ON TABLE journey_item
   TYPE object;
 
-DEFINE FIELD attributes.*.text ON TABLE interview_journey_company
+DEFINE FIELD attributes.*.text ON TABLE journey_item
   TYPE string;
 
-DEFINE FIELD attributes.*.color ON TABLE interview_journey_company
+DEFINE FIELD attributes.*.color ON TABLE journey_item
   TYPE string;
 
-DEFINE FIELD created_at ON TABLE interview_journey_company
+DEFINE FIELD created_at ON TABLE journey_item
   TYPE datetime
   VALUE $value OR time::now()
   PERMISSIONS FOR update, delete NONE;
 
-DEFINE FIELD updated_at ON TABLE interview_journey_company
+DEFINE FIELD updated_at ON TABLE journey_item
   TYPE datetime
   VALUE time::now()
   PERMISSIONS FOR update, delete NONE;
@@ -56,7 +56,7 @@ DEFINE TABLE journey_items SCHEMALESS
     FOR delete NONE
     FOR select, create, update WHERE $auth.id = user;
 
-DEFINE EVENT bind_relation_journey_item ON interview_journey_company WHEN $event = 'CREATE' THEN (
+DEFINE EVENT bind_relation_journey_item ON journey_item WHEN $event = 'CREATE' THEN (
   RELATE ($value.journey)->journey_items->($value.id) CONTENT {
     user: $value.user,
     connected_at: time::now()

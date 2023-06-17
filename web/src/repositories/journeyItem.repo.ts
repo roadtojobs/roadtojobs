@@ -18,14 +18,14 @@ type CreateInterviewJourneyCompany = Omit<
   | 'attributes'
 >;
 
-export const interviewJourneyCompanyRepo = {
+export const journeyItemRepo = {
   async getByJourney(
     interviewJourneyId: string
   ): Promise<JourneyItemCompany[]> {
     const [result] = await dbClient.query<JourneyItemTable[][]>(
       `
       SELECT *
-      FROM ${TABLES.INTERVIEW_JOURNEY_COMPANY}
+      FROM ${TABLES.JOURNEY_ITEM}
       WHERE journey = $id
       FETCH company, stage
     `,
@@ -66,7 +66,7 @@ export const interviewJourneyCompanyRepo = {
     >(
       `
       SELECT math::max(reference) as max
-      FROM ${TABLES.INTERVIEW_JOURNEY_COMPANY}
+      FROM ${TABLES.JOURNEY_ITEM}
       WHERE user = $user AND interview_journey = $interviewJourney
     `,
       { user: userId, interviewJourney: interviewJourneyId }
@@ -82,13 +82,12 @@ export const interviewJourneyCompanyRepo = {
   async create(
     values: CreateInterviewJourneyCompany
   ): Promise<string | undefined> {
-    const reference =
-      await interviewJourneyCompanyRepo.getNextPersonalReferenceId(
-        values.userId,
-        values.journeyId
-      );
+    const reference = await journeyItemRepo.getNextPersonalReferenceId(
+      values.userId,
+      values.journeyId
+    );
 
-    const [result] = await dbClient.create(TABLES.INTERVIEW_JOURNEY_COMPANY, {
+    const [result] = await dbClient.create(TABLES.JOURNEY_ITEM, {
       ...values,
       reference,
     });

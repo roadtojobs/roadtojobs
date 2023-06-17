@@ -59,23 +59,20 @@ export default async function seedJourneyItems() {
       },
     ];
 
-    const [journeyItem] = await userAdminDbClient.create(
-      TABLES.INTERVIEW_JOURNEY_COMPANY,
-      {
-        // reference: index + 1,
-        journey: activeJourney.id,
-        company: companyId,
-        user,
-        stage: stage.id,
-        description: faker.lorem.paragraphs(
-          faker.helpers.rangeToNumber({
-            min: 2,
-            max: 5,
-          })
-        ),
-        attributes,
-      }
-    );
+    const [journeyItem] = await userAdminDbClient.create(TABLES.JOURNEY_ITEM, {
+      // reference: index + 1,
+      journey: activeJourney.id,
+      company: companyId,
+      user,
+      stage: stage.id,
+      description: faker.lorem.paragraphs(
+        faker.helpers.rangeToNumber({
+          min: 2,
+          max: 5,
+        })
+      ),
+      attributes,
+    });
 
     await userAdminDbClient.create(TABLES.JOURNEY_ITEM_ACTIVITY, {
       interview_journey_company: journeyItem.id,

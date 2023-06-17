@@ -2,8 +2,8 @@ DEFINE TABLE interview_journey_company_activity SCHEMAFULL
   PERMISSIONS
     FOR select, update, delete WHERE $auth.id = user;
 
-DEFINE FIELD interview_journey_company ON TABLE interview_journey_company_activity
-  TYPE record (interview_journey_company)
+DEFINE FIELD journey_item ON TABLE interview_journey_company_activity
+  TYPE record (journey_item)
   ASSERT $value != NONE;
 
 DEFINE FIELD user ON TABLE interview_journey_company_activity

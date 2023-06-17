@@ -60,7 +60,7 @@ import {
   CreateJourneyItem,
 } from '@/screens/InterviewJourneyView/components/ActionModals/AddCompanyModal.methods';
 import { notify } from '@kyvg/vue3-notification';
-import { interviewJourneyCompanyRepo } from '@/repositories/interviewJourneyCompany.repo';
+import { journeyItemRepo } from '@/repositories/journeyItem.repo';
 import { useCurrentUser } from '@/stores/useCurrentUser';
 
 type AddCompanyModalProps = {
@@ -124,7 +124,7 @@ const onClickSubmit = async () => {
     });
   }
 
-  const creationResult = await interviewJourneyCompanyRepo.create(
+  const creationResult = await journeyItemRepo.create(
     validateResult.parsedObject
   );
 

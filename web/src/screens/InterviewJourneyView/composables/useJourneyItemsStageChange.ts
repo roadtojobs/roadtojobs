@@ -1,5 +1,5 @@
 import { Ref } from 'vue';
-import { interviewJourneyCompanyRepo } from '@/repositories/interviewJourneyCompany.repo';
+import { journeyItemRepo } from '@/repositories/journeyItem.repo';
 import { notify } from '@kyvg/vue3-notification';
 
 export const useJourneyItemsStageChange = (
@@ -14,10 +14,9 @@ export const useJourneyItemsStageChange = (
     wantedStageId: string;
   }) => {
     // change state
-    const updateStateStatus = await interviewJourneyCompanyRepo.update(
-      journeyItemId,
-      { stage: wantedStageId }
-    );
+    const updateStateStatus = await journeyItemRepo.update(journeyItemId, {
+      stage: wantedStageId,
+    });
 
     await refreshJourneyItems().then(rerenderTable);
 
