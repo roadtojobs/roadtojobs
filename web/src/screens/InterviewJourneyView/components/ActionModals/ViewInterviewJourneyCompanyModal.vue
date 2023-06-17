@@ -186,7 +186,7 @@ import {
   StarIcon,
   TagIcon,
 } from '@heroicons/vue/24/outline';
-import { interviewJourneyCompanyActivityRepo } from '@/repositories/interviewJourneyCompanyActivity.repo';
+import { journeyItemActivityRepo } from '@/repositories/journeyItemActivity.repo';
 import ActivityList from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/ActivityList.vue';
 import AttributeItem from '@/screens/InterviewJourneyView/components/Utils/AttributeItem.vue';
 import dayjs from 'dayjs';
@@ -213,10 +213,9 @@ const title = computed(
 );
 
 onMounted(async () => {
-  const activities =
-    await interviewJourneyCompanyActivityRepo.getByJourneyCompany(
-      props.interviewJourneyCompany.id
-    );
+  const activities = await journeyItemActivityRepo.getByJourneyCompany(
+    props.interviewJourneyCompany.id
+  );
 
   journeyActivities.value = [...activities];
 });

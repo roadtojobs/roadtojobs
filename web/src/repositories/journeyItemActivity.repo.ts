@@ -6,7 +6,7 @@ import {
   journeyItemActivityTableToJourneyItem,
 } from 'shared/entities/journeyItemActivity.entity';
 
-export const interviewJourneyCompanyActivityRepo = {
+export const journeyItemActivityRepo = {
   async getByJourneyCompany(
     journeyCompanyId: string
   ): Promise<JourneyItemActivity[]> {
