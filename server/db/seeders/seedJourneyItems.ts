@@ -75,14 +75,14 @@ export default async function seedJourneyItems() {
     });
 
     await userAdminDbClient.create(TABLES.JOURNEY_ITEM_ACTIVITY, {
-      interview_journey_company: journeyItem.id,
+      journey_item: journeyItem.id,
       type: 'ADDED_ATTRIBUTES',
       user,
       attributes,
     });
 
     await userAdminDbClient.create(TABLES.JOURNEY_ITEM_ACTIVITY, {
-      interview_journey_company: journeyItem.id,
+      journey_item: journeyItem.id,
       type: 'ADDED_NOTE',
       user,
       comment: faker.lorem.paragraphs(

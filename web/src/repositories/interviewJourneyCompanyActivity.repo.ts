@@ -14,7 +14,7 @@ export const interviewJourneyCompanyActivityRepo = {
       `
       SELECT *
       FROM ${TABLES.JOURNEY_ITEM_ACTIVITY}
-      WHERE interview_journey_company = $id
+      WHERE journey_item = $id
       ORDER BY created_at ASC
       FETCH stage, user, company
     `,
