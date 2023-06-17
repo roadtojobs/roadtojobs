@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import { InterviewJourneyCompany } from '@/repositories/interviewJourneyCompany.repo';
-import { Stage } from '@/repositories/stage.repo';
+import { Stage } from 'shared/entities/stage.entity';
 import StageCompanyItem from '@/screens/InterviewJourneyView/components/StageCompanyList/StageCompanyItem.vue';
 import { Sortable } from 'sortablejs-vue3';
 
@@ -53,7 +53,7 @@ const emits = defineEmits<{
 }>();
 
 const onAdded = (e: CustomEvent & { item: HTMLElement }) => {
-  const journeyItemId = e.item.getAttribute('attr-journey-item-id');
+  const journeyItemId = e.item.getAttribute('attr-journey-item-id') || '';
   const wantedStageId = props.stage.id;
 
   emits('added', {

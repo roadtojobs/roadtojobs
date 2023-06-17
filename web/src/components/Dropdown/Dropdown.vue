@@ -10,6 +10,10 @@
     <div>
       <MenuButton
         class="inline-flex w-full justify-between gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+        :class="{
+          'text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500':
+            !!error,
+        }"
       >
         <span>
           {{ itemValueMap[String(modelValue)] || 'Select Option' }}
@@ -52,6 +56,12 @@
         </div>
       </MenuItems>
     </transition>
+    <p
+      v-if="error"
+      class="mt-2 text-xs text-red-600"
+    >
+      {{ error }}
+    </p>
   </Menu>
 </template>
 
@@ -65,6 +75,7 @@ type DropdownProps = {
   label: string;
   items: DropdownItem[];
   modelValue: string | number | null;
+  error?: string;
 };
 
 type DropdownEmits = {

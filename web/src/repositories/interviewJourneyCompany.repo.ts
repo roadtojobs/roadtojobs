@@ -3,14 +3,14 @@ import {
   Stage,
   StageTable,
   stageTableToStage,
-} from '@/repositories/stage.repo';
+} from 'shared/entities/stage.entity';
 import { parseThing, parseThingId } from 'shared/utils/surreal';
 import {
   Company,
   CompanyTable,
   companyTableToCompany,
 } from '@/repositories/company.repo';
-import { User, UserTable, userTableToUser } from '@/repositories/user.repo';
+import { User, UserTable, userTableToUser } from 'shared/entities/user.entity';
 import { TABLES } from 'shared/constants/tables';
 
 export type DynamicAttributes = {

@@ -27,7 +27,7 @@
           href="javascript:void(0);"
           class="font-medium text-gray-900"
         >
-          The road to {{ activity.company.name }} 🚀
+          The road to {{ activity.company?.name }} 🚀
         </a>
         {{ ' ' }}
         <span class="whitespace-nowrap">{{ createdDateText }}</span>

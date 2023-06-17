@@ -1,4 +1,4 @@
-import { Stage } from '@/repositories/stage.repo';
+import { Stage } from 'shared/entities/stage.entity';
 
 export const useAddCompany = () => {
   const addCompanyStage = ref<Stage | null>(null);

@@ -10,6 +10,10 @@
     <div class="relative mt-2">
       <ComboboxInput
         class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        :class="{
+          'text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500':
+            !!error,
+        }"
         @change="retrieveItems($event.target.value)"
         :display-value="(item) => item ? (item as ComboboxItem).text : ''"
       />
@@ -85,6 +89,12 @@
         </ComboboxOption>
       </ComboboxOptions>
     </div>
+    <p
+      v-if="error"
+      class="mt-2 text-xs text-red-600"
+    >
+      {{ error }}
+    </p>
   </Combobox>
 </template>
 
@@ -107,6 +117,7 @@ type ComboboxApiProps = {
   label: string;
   modelValue: ComboboxItem | null;
   apiRequest: (keyword: string) => Promise<ComboboxItem[]>;
+  error?: string;
 };
 
 type ComboboxApiEmits = {

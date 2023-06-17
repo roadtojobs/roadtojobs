@@ -1,38 +1,14 @@
-import { generateId } from '@/utils/surrealThing';
 import { dbClient } from '@/libraries/surreal';
 import { TABLES } from 'shared/constants/tables';
-
-export type Stage = {
-  id: string;
-  name: string;
-  description: string;
-  color: string;
-  isInitialStage: boolean;
-  isFinalStage: boolean;
-};
-
-export type StageTable = {
-  id: string;
-  name: string;
-  description: string;
-  color: string;
-  is_initial_stage: boolean;
-  is_final_stage: boolean;
-};
-
-export const stageTableToStage = (record: StageTable): Stage => ({
-  ...record,
-  isInitialStage: record.is_initial_stage,
-  isFinalStage: record.is_final_stage,
-});
+import {
+  Stage,
+  StageTable,
+  stageTableToStage,
+} from 'shared/entities/stage.entity';
 
 export const stageRepo = {
   getTable() {
     return TABLES.STAGE;
-  },
-
-  getSingleThing(id: string) {
-    return generateId(stageRepo.getTable(), id);
   },
 
   async getAll(): Promise<Stage[]> {

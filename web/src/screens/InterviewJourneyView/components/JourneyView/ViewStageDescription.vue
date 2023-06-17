@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
 import Modal from '@/components/Modal/Modal.vue';
-import { Stage } from '@/repositories/stage.repo';
+import { Stage } from 'shared/entities/stage.entity';
 import Button from '@/components/Button/Button.vue';
 import { ref } from 'vue';
 import { PlusIcon } from '@heroicons/vue/24/outline';

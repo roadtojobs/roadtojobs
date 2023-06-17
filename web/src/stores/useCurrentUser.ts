@@ -1,4 +1,4 @@
-import { User } from '@/repositories/user.repo';
+import { User } from 'shared/entities/user.entity';
 import { defineStore } from 'pinia';
 import { computed } from 'vue';
 

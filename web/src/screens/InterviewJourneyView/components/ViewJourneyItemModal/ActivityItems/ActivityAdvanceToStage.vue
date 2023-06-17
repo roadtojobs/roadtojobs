@@ -27,7 +27,7 @@
           href="javascript:void(0);"
           class="font-medium text-gray-900"
         >
-          {{ activity.stage.name }}
+          {{ activity.stage?.name }}
         </a>
         {{ ' ' }}
         <span class="whitespace-nowrap">{{ createdDateText }}</span>

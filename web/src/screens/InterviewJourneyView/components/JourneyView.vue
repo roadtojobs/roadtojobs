@@ -71,7 +71,7 @@
 import { InterviewJourney } from '@/repositories/interviewJourney.repo';
 import { computed } from 'vue';
 import ViewStageDescription from '@/screens/InterviewJourneyView/components/JourneyView/ViewStageDescription.vue';
-import { User } from '@/repositories/user.repo';
+import { User } from 'shared/entities/user.entity';
 import AddCompanyModal from '@/screens/InterviewJourneyView/components/ActionModals/AddCompanyModal.vue';
 import StageCompanyList from '@/screens/InterviewJourneyView/components/StageCompanyList/StageCompanyList.vue';
 import { useViewInterviewJourneyCompany } from '@/screens/InterviewJourneyView/composables/useViewInterviewJourneyCompany';

@@ -1,17 +1,16 @@
 import { dbClient } from '@/libraries/surreal';
-import { isString } from 'lodash-es';
 import {
   Stage,
   StageTable,
   stageTableToStage,
-} from '@/repositories/stage.repo';
+} from 'shared/entities/stage.entity';
 import {
   DynamicAttributes,
   InterviewJourneyCompany,
   InterviewJourneyCompanyTable,
   tableToEntity as journeyItemTableToJourneyItem,
 } from '@/repositories/interviewJourneyCompany.repo';
-import { User, UserTable, userTableToUser } from '@/repositories/user.repo';
+import { User, UserTable, userTableToUser } from 'shared/entities/user.entity';
 import { ActivityType } from 'shared/constants/activityType';
 import { TABLES } from 'shared/constants/tables';
 import {

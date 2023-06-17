@@ -1,5 +1,6 @@
 import { z, ZodError, ZodSchema } from 'zod';
 import { Ref, ref } from 'vue';
+import { UnknownRecord } from '@/types';
 
 type ValidateOkResult<T> = {
   success: true;
@@ -14,7 +15,7 @@ type ValidateResult<T> = ValidateOkResult<T> | ValidateErrResult<T>;
 
 type UseValidationReturn<T> = {
   errorsBag: Ref<Map<keyof T, string | undefined>>;
-  validate: (inputs: Record<string, unknown>) => ValidateResult<T>;
+  validate: (inputs: UnknownRecord) => ValidateResult<T>;
   reset: () => void;
 };
 
@@ -22,6 +23,8 @@ type UseValidationReturn<T> = {
  * Quickly validate the data and get the error messages
  *
  * @note only support 1-level schema & error message at the moment
+ *
+ * T: the parsed entity/object after validating
  */
 export default function useValidation<T>(
   schema: ZodSchema
@@ -41,7 +44,7 @@ export default function useValidation<T>(
     });
   };
 
-  const validate = (inputs: Record<string, unknown>): ValidateResult<T> => {
+  const validate = (inputs: UnknownRecord): ValidateResult<T> => {
     const object = schema.safeParse(inputs);
 
     if (!object.success) {
