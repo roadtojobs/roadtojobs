@@ -15,7 +15,7 @@ import {
   parseThingId,
 } from '../utils/surreal';
 
-export type InterviewJourneyCompanyActivityTable = {
+export type JourneyItemActivityTable = {
   id: string;
   type: ActivityType;
   interview_journey_company: string | JourneyItemTable;
@@ -28,7 +28,7 @@ export type InterviewJourneyCompanyActivityTable = {
   updated_at: Date;
 };
 
-export type InterviewJourneyCompanyActivity = {
+export type JourneyItemActivity = {
   id: string;
   type: ActivityType;
   interviewJourneyCompanyId: string;
@@ -46,8 +46,8 @@ export type InterviewJourneyCompanyActivity = {
 };
 
 export const journeyItemActivityTableToJourneyItem = (
-  record: InterviewJourneyCompanyActivityTable
-): InterviewJourneyCompanyActivity => ({
+  record: JourneyItemActivityTable
+): JourneyItemActivity => ({
   ...record,
   interviewJourneyCompanyId: parseThingId(record.interview_journey_company),
   interviewJourneyCompany: parseThing<JourneyItemTable, JourneyItemCompany>(

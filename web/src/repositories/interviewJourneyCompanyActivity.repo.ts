@@ -1,18 +1,16 @@
 import { dbClient } from '@/libraries/surreal';
 import { TABLES } from 'shared/constants/tables';
 import {
-  InterviewJourneyCompanyActivity,
-  InterviewJourneyCompanyActivityTable,
+  JourneyItemActivity,
+  JourneyItemActivityTable,
   journeyItemActivityTableToJourneyItem,
 } from 'shared/entities/journeyItemActivity.entity';
 
 export const interviewJourneyCompanyActivityRepo = {
   async getByJourneyCompany(
     journeyCompanyId: string
-  ): Promise<InterviewJourneyCompanyActivity[]> {
-    const [result] = await dbClient.query<
-      InterviewJourneyCompanyActivityTable[][]
-    >(
+  ): Promise<JourneyItemActivity[]> {
+    const [result] = await dbClient.query<JourneyItemActivityTable[][]>(
       `
       SELECT *
       FROM ${TABLES.JOURNEY_ITEM_ACTIVITY}

@@ -40,10 +40,10 @@
 import { UserCircleIcon } from '@heroicons/vue/24/outline';
 import { computed } from 'vue';
 import { getFromAgoTime } from '@/utils/date';
-import { InterviewJourneyCompanyActivity } from 'shared/entities/journeyItemActivity.entity';
+import { JourneyItemActivity } from 'shared/entities/journeyItemActivity.entity';
 
 const props = defineProps<{
-  activity: InterviewJourneyCompanyActivity;
+  activity: JourneyItemActivity;
 }>();
 
 const createdDateText = computed(() =>

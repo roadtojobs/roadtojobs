@@ -77,10 +77,10 @@ import ActivityAddedNote from '@/screens/InterviewJourneyView/components/ViewJou
 import NoteCommentForm from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/NoteCommentForm.vue';
 import ActivityAttributes from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/ActivityItems/ActivityAttributes.vue';
 import ActivityAdvanceToStage from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/ActivityItems/ActivityAdvanceToStage.vue';
-import { InterviewJourneyCompanyActivity } from 'shared/entities/journeyItemActivity.entity';
+import { JourneyItemActivity } from 'shared/entities/journeyItemActivity.entity';
 
 type ViewInterviewJourneyCompanyActivityListProps = {
-  activities: InterviewJourneyCompanyActivity[];
+  activities: JourneyItemActivity[];
 };
 
 defineProps<ViewInterviewJourneyCompanyActivityListProps>();

@@ -192,7 +192,7 @@ import AttributeItem from '@/screens/InterviewJourneyView/components/Utils/Attri
 import dayjs from 'dayjs';
 import { DISPLAY_DATE_FORMAT } from '@/constants';
 import StageText from '@/screens/InterviewJourneyView/components/Utils/StageText.vue';
-import { InterviewJourneyCompanyActivity } from 'shared/entities/journeyItemActivity.entity';
+import { JourneyItemActivity } from 'shared/entities/journeyItemActivity.entity';
 
 type ViewCompanyModalProps = {
   interviewJourneyCompany: JourneyItemCompany;
@@ -206,7 +206,7 @@ type ViewCompanyModalEmits = {
 const props = defineProps<ViewCompanyModalProps>();
 const emits = defineEmits<ViewCompanyModalEmits>();
 
-const journeyActivities = ref<InterviewJourneyCompanyActivity[]>([]);
+const journeyActivities = ref<JourneyItemActivity[]>([]);
 
 const title = computed(
   () => `The road to ${props.interviewJourneyCompany.company?.name} 🏃‍`

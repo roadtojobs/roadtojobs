@@ -46,10 +46,10 @@ import { TagIcon } from '@heroicons/vue/24/outline';
 import { computed } from 'vue';
 import AttributeItem from '@/screens/InterviewJourneyView/components/Utils/AttributeItem.vue';
 import { getFromAgoTime } from '@/utils/date';
-import { InterviewJourneyCompanyActivity } from 'shared/entities/journeyItemActivity.entity';
+import { JourneyItemActivity } from 'shared/entities/journeyItemActivity.entity';
 
 const props = defineProps<{
-  activity: InterviewJourneyCompanyActivity;
+  activity: JourneyItemActivity;
   type: 'ADDED' | 'REMOVED';
 }>();
 
