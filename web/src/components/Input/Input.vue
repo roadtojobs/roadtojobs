@@ -16,7 +16,7 @@
           'ring-1 ring-inset focus:ring-2 focus:ring-inset',
           error
             ? 'text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500'
-            : 'text-gray-900 ring-gray-300 placeholder:text-gray-400 focus:ring-indigo-600 shadow-sm',
+            : 'text-gray-900 ring-gray-300 placeholder:text-gray-400 focus:ring-rose-600 shadow-sm',
           type !== 'date' ? 'pr-10' : '',
         ]"
         @input="onInput"

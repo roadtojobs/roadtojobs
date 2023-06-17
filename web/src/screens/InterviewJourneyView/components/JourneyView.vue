@@ -62,6 +62,7 @@
   />
   <ViewJourneyItemModal
     v-if="viewingJourneyItem"
+    :journey="interviewJourney"
     :is-open="isOpenJourneyItemModal"
     :interview-journey-company="viewingJourneyItem"
     @close="closeViewJourneyItem"

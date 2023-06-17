@@ -64,7 +64,7 @@
         </div>
       </div>
       <div class="min-w-0 flex-1">
-        <NoteCommentForm />
+        <NoteCommentForm :journey-item="journeyItem" />
       </div>
     </div>
   </div>
@@ -78,8 +78,10 @@ import NoteCommentForm from '@/screens/InterviewJourneyView/components/ViewJourn
 import ActivityAttributes from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/ActivityItems/ActivityAttributes.vue';
 import ActivityAdvanceToStage from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/ActivityItems/ActivityAdvanceToStage.vue';
 import { JourneyItemActivity } from 'shared/entities/journeyItemActivity.entity';
+import { JourneyItem } from 'shared/entities/journeyItem.entity';
 
 type ViewInterviewJourneyCompanyActivityListProps = {
+  journeyItem: JourneyItem;
   activities: JourneyItemActivity[];
 };
 

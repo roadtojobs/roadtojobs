@@ -17,21 +17,23 @@
                     {{ title }}
                   </h1>
                   <p class="mt-2 text-sm text-gray-500">
-                    #400 opened by
+                    {{ `#${interviewJourneyCompany.reference}` }} opened by
                     {{ ' ' }}
                     <a
-                      href="#"
+                      href="javascript:void(0);"
                       class="font-medium text-gray-900"
-                      >Hilary Mahy</a
                     >
+                      you
+                    </a>
                     {{ ' ' }}
                     in
                     {{ ' ' }}
                     <a
-                      href="#"
+                      href="javascript:void(0)"
                       class="font-medium text-gray-900"
-                      >Customer Portal</a
                     >
+                      {{ journey.name }}
+                    </a>
                   </p>
                 </div>
                 <div class="mt-4 flex space-x-3 md:mt-0">
@@ -104,7 +106,10 @@
                   </h2>
                 </div>
                 <div class="pt-6">
-                  <ActivityList :activities="journeyActivities" />
+                  <ActivityList
+                    :activities="journeyActivities"
+                    :journey-item="interviewJourneyCompany"
+                  />
                 </div>
               </div>
             </div>
@@ -193,8 +198,10 @@ import dayjs from 'dayjs';
 import { DISPLAY_DATE_FORMAT } from '@/constants';
 import StageText from '@/screens/InterviewJourneyView/components/Utils/StageText.vue';
 import { JourneyItemActivity } from 'shared/entities/journeyItemActivity.entity';
+import { Journey } from 'shared/entities/journey.entity';
 
 type ViewCompanyModalProps = {
+  journey: Journey;
   interviewJourneyCompany: JourneyItem;
   isOpen: boolean;
 };

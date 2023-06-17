@@ -60,7 +60,7 @@ export default async function seedJourneyItems() {
     ];
 
     const [journeyItem] = await userAdminDbClient.create(TABLES.JOURNEY_ITEM, {
-      // reference: index + 1,
+      reference: index + 1,
       journey: activeJourney.id,
       company: companyId,
       user,

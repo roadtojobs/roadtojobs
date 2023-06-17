@@ -28,7 +28,7 @@
       <p class="mt-0.5 text-sm text-gray-500">{{ commentedDateText }}</p>
     </div>
     <div class="mt-2 text-sm text-gray-700">
-      <p>{{ activity.comment }}</p>
+      <MarkdownContent>{{ activity.comment }}</MarkdownContent>
     </div>
   </div>
 </template>
@@ -38,6 +38,7 @@ import { DocumentTextIcon } from '@heroicons/vue/24/outline';
 import { computed } from 'vue';
 import { getFromAgoTime } from '@/utils/date';
 import { JourneyItemActivity } from 'shared/entities/journeyItemActivity.entity';
+import MarkdownContent from '@/components/MarkdownContent/MarkdownContent.vue';
 
 const props = defineProps<{
   activity: JourneyItemActivity;
