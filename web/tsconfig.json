@@ -9,10 +9,10 @@
     "useDefineForClassFields": true,
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "baseUrl": ".",
-    "rootDirs": ["./src/", "../shared/"],
+    "rootDirs": ["./src/"],
     "paths": {
       "@/*": ["./src/*"],
-      "shared/*": ["../shared/src/*"]
+      "shared/*": ["./node_modules/shared/build/*"]
     }
   },
   "include": [

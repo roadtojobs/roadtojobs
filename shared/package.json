@@ -2,6 +2,16 @@
   "name": "road-to-jobs-shared",
   "version": "1.0.0",
   "author": "Seth Phat (me@sethphat.com)",
+  "main": "build/",
+  "types": "build/",
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "tsc": "tsc",
+    "build": "rm -rf build; npx tsc -p .",
+    "start": "npx tsc -w -p ."
+  },
   "devDependencies": {
     "@types/node": "^20.2.5",
     "jest": "^29.5.0",
