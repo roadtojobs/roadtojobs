@@ -11,7 +11,7 @@ export type DynamicAttributes = {
 export type JourneyItemTable = {
   id: string;
   reference: number;
-  interview_journey: string;
+  journey: string;
   user: string;
   company: string | CompanyTable;
   stage: string | StageTable;
@@ -25,7 +25,7 @@ export type JourneyItemTable = {
 export type JourneyItemCompany = {
   id: string;
   reference: number;
-  interviewJourneyId: string;
+  journeyId: string;
   userId: string;
   user?: User;
   companyId: string;
@@ -44,7 +44,7 @@ export const journeyItemTableToJourneyItem = (
 ): JourneyItemCompany => ({
   id: record.id,
   reference: record.reference,
-  interviewJourneyId: record.interview_journey,
+  journeyId: record.journey,
   companyId: parseThingId(record.company),
   company: parseThing<CompanyTable, Company>(
     record.company,

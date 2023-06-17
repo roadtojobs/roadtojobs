@@ -6,8 +6,8 @@ DEFINE TABLE interview_journey_company SCHEMAFULL
 DEFINE FIELD reference ON TABLE interview_journey_company
   TYPE int;
 
-DEFINE FIELD interview_journey ON TABLE interview_journey_company
-  TYPE record (interview_journey)
+DEFINE FIELD journey ON TABLE journey
+  TYPE record (journey)
   ASSERT $value != NONE;
 
 DEFINE FIELD company ON TABLE interview_journey_company

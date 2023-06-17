@@ -89,7 +89,7 @@ export const interviewJourneyCompanyRepo = {
     const reference =
       await interviewJourneyCompanyRepo.getNextPersonalReferenceId(
         values.userId,
-        values.interviewJourneyId
+        values.journeyId
       );
 
     const [result] = await dbClient.create(TABLES.INTERVIEW_JOURNEY_COMPANY, {

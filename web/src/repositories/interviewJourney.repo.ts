@@ -9,12 +9,8 @@ import {
 } from 'shared/entities/journey.entity';
 
 export const interviewJourneyRepo = {
-  getTable() {
-    return TABLES.INTERVIEW_JOURNEY;
-  },
-
   getSingleThing(id: string) {
-    return generateId(interviewJourneyRepo.getTable(), id);
+    return generateId(TABLES.JOURNEY, id);
   },
 
   async getAll(): Promise<Journey[]> {
@@ -22,7 +18,7 @@ export const interviewJourneyRepo = {
        SELECT
          *,
          array::len(->journey_items) as total_journey_items
-       FROM ${interviewJourneyRepo.getTable()}
+       FROM ${TABLES.JOURNEY}
        ORDER BY started_at DESC, created_at DESC
     `);
 
@@ -34,7 +30,7 @@ export const interviewJourneyRepo = {
   },
 
   async create(inputs: CreateInterviewJourney): Promise<string | undefined> {
-    const result = await dbClient.create(interviewJourneyRepo.getTable(), {
+    const result = await dbClient.create(TABLES.JOURNEY, {
       name: inputs.name,
       note: inputs.note,
       started_at: inputs.startDate,

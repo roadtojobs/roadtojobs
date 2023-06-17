@@ -112,6 +112,7 @@ const onClickSubmit = async () => {
     ...form.value,
     companyId: form.value.company?.value,
     userId,
+    journeyId: '', // add
   };
 
   const validateResult = validate(finalForm);
