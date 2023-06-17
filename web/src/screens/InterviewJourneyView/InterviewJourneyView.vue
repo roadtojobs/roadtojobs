@@ -32,10 +32,7 @@
 <script setup lang="ts">
 import AppPage from '@/components/AppPage/AppPage.vue';
 import { ref, onMounted, computed } from 'vue';
-import {
-  InterviewJourney,
-  interviewJourneyRepo,
-} from '@/repositories/interviewJourney.repo';
+import { interviewJourneyRepo } from '@/repositories/interviewJourney.repo';
 import { useRoute } from 'vue-router';
 import NotFoundScreen from '@/components/NotFoundScreen/NotFoundScreen.vue';
 import Tabs from '@/components/Tabs/Tabs.vue';
@@ -47,12 +44,13 @@ import InfoView from '@/screens/InterviewJourneyView/components/InfoView.vue';
 import JourneyView from '@/screens/InterviewJourneyView/components/JourneyView.vue';
 import { useCurrentUser } from '@/stores/useCurrentUser';
 import { useGlobalStages } from '@/stores/useGlobalStages';
+import { Journey } from 'shared/entities/journey.entity';
 
 const route = useRoute();
 const { user } = useCurrentUser();
 const { loadStages } = useGlobalStages();
 
-const interviewJourney = ref<InterviewJourney | null>();
+const interviewJourney = ref<Journey | null>();
 const pageTabs: TabItem[] = [
   {
     id: 'info',

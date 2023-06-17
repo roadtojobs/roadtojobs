@@ -40,7 +40,6 @@
 </template>
 
 <script setup lang="ts">
-import { InterviewJourney } from '@/repositories/interviewJourney.repo';
 import { computed } from 'vue';
 import dayjs from 'dayjs';
 import { DISPLAY_DATE_FORMAT } from '@/constants';
@@ -48,15 +47,16 @@ import Button from '@/components/Button/Button.vue';
 import MarkdownContent from '@/components/MarkdownContent/MarkdownContent.vue';
 import { VueComponent } from '@/types';
 import { isString } from 'lodash-es';
+import { Journey } from 'shared/entities/journey.entity';
 
 type InfoViewProps = {
-  interviewJourney: InterviewJourney;
+  interviewJourney: Journey;
 };
 
 const props = defineProps<InfoViewProps>();
 
 type RenderItem = {
-  key: keyof InterviewJourney;
+  key: keyof Journey;
   label: string;
   text: string | VueComponent;
   type: 'text' | 'date';

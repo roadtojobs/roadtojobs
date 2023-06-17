@@ -2,50 +2,11 @@ import { dbClient } from '@/libraries/surreal';
 import { CreateInterviewJourney } from '@/screens/InterviewJourneysList/InterviewJourneysList.methods';
 import { generateId } from '@/utils/surrealThing';
 import { TABLES } from 'shared/constants/tables';
-
-type InterviewJourneyTable = {
-  id: string;
-  name: string;
-  description: string;
-  note: string | null;
-  started_at: Date;
-  ended_at: Date | null;
-  ended_reason: Date | null;
-  created_at: Date;
-  updated_at: Date;
-  archived_at: Date | null;
-  total_journey_items?: number;
-};
-
-export type InterviewJourney = {
-  id: string;
-  name: string;
-  description: string;
-  note: string | null;
-  startedAt: Date;
-  endedAt: Date | null;
-  endedReason: Date | null;
-  createdAt: Date;
-  updatedAt: Date;
-  archivedAt: Date | null;
-  totalJourneyItems?: number;
-};
-
-const interviewJourneyTableToInterviewJourney = (
-  record: InterviewJourneyTable
-): InterviewJourney => ({
-  id: record.id,
-  name: record.name,
-  description: record.description,
-  note: record.note,
-  startedAt: record.started_at,
-  endedAt: record.ended_at,
-  endedReason: record.ended_reason,
-  createdAt: record.created_at,
-  updatedAt: record.updated_at,
-  archivedAt: record.archived_at,
-  totalJourneyItems: record.total_journey_items,
-});
+import {
+  Journey,
+  JourneyTable,
+  interviewJourneyTableToInterviewJourney,
+} from 'shared/entities/journey.entity';
 
 export const interviewJourneyRepo = {
   getTable() {
@@ -56,8 +17,8 @@ export const interviewJourneyRepo = {
     return generateId(interviewJourneyRepo.getTable(), id);
   },
 
-  async getAll(): Promise<InterviewJourney[]> {
-    const [result] = await dbClient.query<InterviewJourneyTable[][]>(`
+  async getAll(): Promise<Journey[]> {
+    const [result] = await dbClient.query<JourneyTable[][]>(`
        SELECT
          *,
          array::len(->journey_items) as total_journey_items
@@ -88,10 +49,10 @@ export const interviewJourneyRepo = {
     return String(result[0].id);
   },
 
-  async getById(id: string): Promise<InterviewJourney | null> {
+  async getById(id: string): Promise<Journey | null> {
     const thingId = interviewJourneyRepo.getSingleThing(id);
 
-    const result = await dbClient.select<InterviewJourneyTable>(thingId);
+    const result = await dbClient.select<JourneyTable>(thingId);
     if (!result[0]) {
       return null;
     }

@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { InterviewJourneyCompany } from '@/repositories/interviewJourneyCompany.repo';
+import { InterviewJourneyCompany } from 'shared/entities/journeyItem.entity';
 
 type StageCompanyItemProps = {
   journeyCompanyItem: InterviewJourneyCompany;

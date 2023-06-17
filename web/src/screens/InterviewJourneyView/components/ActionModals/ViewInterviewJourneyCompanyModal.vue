@@ -178,7 +178,7 @@
 <script setup lang="ts">
 import Modal from '@/components/Modal/Modal.vue';
 import { computed, onMounted } from 'vue';
-import { InterviewJourneyCompany } from '@/repositories/interviewJourneyCompany.repo';
+import { InterviewJourneyCompany } from 'shared/entities/journeyItem.entity';
 import {
   PencilIcon,
   CalendarIcon,

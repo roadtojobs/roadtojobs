@@ -1,4 +1,4 @@
-import { InterviewJourneyCompany } from '@/repositories/interviewJourneyCompany.repo';
+import { InterviewJourneyCompany } from 'shared/entities/journeyItem.entity';
 
 export const useViewInterviewJourneyCompany = () => {
   const interviewJourneyCompany = ref<InterviewJourneyCompany | null>(null);

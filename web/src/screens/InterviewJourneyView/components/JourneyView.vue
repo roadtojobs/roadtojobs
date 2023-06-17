@@ -68,7 +68,6 @@
 </template>
 
 <script setup lang="ts">
-import { InterviewJourney } from '@/repositories/interviewJourney.repo';
 import { computed } from 'vue';
 import ViewStageDescription from '@/screens/InterviewJourneyView/components/JourneyView/ViewStageDescription.vue';
 import { User } from 'shared/entities/user.entity';
@@ -80,9 +79,10 @@ import { useJourneyItems } from '@/screens/InterviewJourneyView/composables/useJ
 import { useGlobalStages } from '@/stores/useGlobalStages';
 import { useJourneyItemsStageChange } from '@/screens/InterviewJourneyView/composables/useJourneyItemsStageChange';
 import { useAddCompany } from '@/screens/InterviewJourneyView/composables/useAddCompany';
+import { Journey } from 'shared/entities/journey.entity';
 
 type InfoViewProps = {
-  interviewJourney: InterviewJourney;
+  interviewJourney: Journey;
   user: User;
 };
 

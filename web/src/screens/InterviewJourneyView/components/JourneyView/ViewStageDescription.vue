@@ -44,10 +44,10 @@ import { Stage } from 'shared/entities/stage.entity';
 import Button from '@/components/Button/Button.vue';
 import { ref } from 'vue';
 import { PlusIcon } from '@heroicons/vue/24/outline';
-import { InterviewJourney } from '@/repositories/interviewJourney.repo';
+import { Journey } from 'shared/entities/journey.entity';
 
 type ViewStageDescriptionProps = {
-  interviewJourney: InterviewJourney;
+  interviewJourney: Journey;
   stage: Stage;
 };
 

@@ -4,12 +4,6 @@ import {
   StageTable,
   stageTableToStage,
 } from 'shared/entities/stage.entity';
-import {
-  DynamicAttributes,
-  InterviewJourneyCompany,
-  InterviewJourneyCompanyTable,
-  tableToEntity as journeyItemTableToJourneyItem,
-} from '@/repositories/interviewJourneyCompany.repo';
 import { User, UserTable, userTableToUser } from 'shared/entities/user.entity';
 import { ActivityType } from 'shared/constants/activityType';
 import { TABLES } from 'shared/constants/tables';
@@ -23,7 +17,13 @@ import {
   Company,
   CompanyTable,
   companyTableToCompany,
-} from '@/repositories/company.repo';
+} from 'shared/entities/company.entity';
+import {
+  DynamicAttributes,
+  InterviewJourneyCompany,
+  InterviewJourneyCompanyTable,
+  journeyItemTableToJourneyItem,
+} from 'shared/entities/journeyItem.entity';
 
 type InterviewJourneyCompanyActivityTable = {
   id: string;

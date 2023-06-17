@@ -96,10 +96,7 @@
 <script setup lang="ts">
 import AppPage from '@/components/AppPage/AppPage.vue';
 import { setPageTitle } from '@/libraries/pageTitle';
-import {
-  InterviewJourney,
-  interviewJourneyRepo,
-} from '@/repositories/interviewJourney.repo';
+import { interviewJourneyRepo } from '@/repositories/interviewJourney.repo';
 import {
   CellContext,
   createColumnHelper,
@@ -117,17 +114,17 @@ import { useRouter } from 'vue-router';
 import { VNode } from 'vue';
 import CreateNewJourney from '@/screens/InterviewJourneysList/components/CreateNewJourney.vue';
 import { pickThingId } from '@/utils/surrealThing';
-import { AccessorFn } from '@tanstack/table-core/src/types';
+import { Journey } from 'shared/entities/journey.entity';
 
 setPageTitle('Interview Journeys');
 
 const router = useRouter();
-const interviewJourneys = ref<InterviewJourney[]>([]);
+const interviewJourneys = ref<Journey[]>([]);
 const sorting = ref<SortingState>([]);
 
-const columnHelper = createColumnHelper<InterviewJourney>();
+const columnHelper = createColumnHelper<Journey>();
 
-const table = useVueTable<InterviewJourney>({
+const table = useVueTable<Journey>({
   columns: [
     columnHelper.accessor('name', {
       id: 'name',
@@ -178,9 +175,7 @@ onMounted(async () => {
   interviewJourneys.value = [...journeys];
 });
 
-function renderActionItems(
-  info: CellContext<InterviewJourney, unknown>
-): VNode {
+function renderActionItems(info: CellContext<Journey, unknown>): VNode {
   const viewButton = h(
     Button,
     {

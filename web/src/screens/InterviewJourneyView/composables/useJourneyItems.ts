@@ -1,11 +1,9 @@
-import {
-  InterviewJourneyCompany,
-  interviewJourneyCompanyRepo,
-} from '@/repositories/interviewJourneyCompany.repo';
+import { interviewJourneyCompanyRepo } from '@/repositories/interviewJourneyCompany.repo';
 import { computed, onMounted } from 'vue';
-import { InterviewJourney } from '@/repositories/interviewJourney.repo';
+import { Journey } from 'shared/entities/journey.entity';
+import { InterviewJourneyCompany } from 'shared/entities/journeyItem.entity';
 
-export const useJourneyItems = (interviewJourney: InterviewJourney) => {
+export const useJourneyItems = (interviewJourney: Journey) => {
   const interviewJourneyCompanyItems = ref<InterviewJourneyCompany[]>([]);
 
   const retrieveAll = async () => {

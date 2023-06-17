@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { InterviewJourneyCompany } from '@/repositories/interviewJourneyCompany.repo';
+import { InterviewJourneyCompany } from 'shared/entities/journeyItem.entity';
 import { Stage } from 'shared/entities/stage.entity';
 import StageCompanyItem from '@/screens/InterviewJourneyView/components/StageCompanyList/StageCompanyItem.vue';
 import { Sortable } from 'sortablejs-vue3';
