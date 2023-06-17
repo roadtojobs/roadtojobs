@@ -17,6 +17,7 @@ type UseValidationReturn<T> = {
   errorsBag: Ref<Map<keyof T, string | undefined>>;
   validate: (inputs: UnknownRecord) => ValidateResult<T>;
   reset: () => void;
+  overwriteErrorsBag: (map: Map<string, unknown>) => void;
 };
 
 /**
@@ -57,11 +58,16 @@ export default function useValidation<T>(
     };
   };
 
+  const overwriteErrorsBag = (bag: Map<string, unknown>) => {
+    errorsBag.value = bag as Map<keyof T, string | undefined>;
+  };
+
   const reset = () => (errorsBag.value = new Map());
 
   return {
     errorsBag,
     validate,
     reset,
+    overwriteErrorsBag,
   };
 }

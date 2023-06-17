@@ -93,6 +93,7 @@ const {
   errorsBag,
   validate,
   reset: clearErrorsBag,
+  overwriteErrorsBag,
 } = useValidation<CreateJourneyItem>(createJourneyItem);
 const globalStages = useGlobalStages();
 const { userId } = useCurrentUser();
@@ -149,10 +150,7 @@ const onClickSubmit = async () => {
 
   if (!creationResult.success) {
     if (creationResult.formErrors) {
-      errorsBag.value = creationResult.formErrors as Map<
-        keyof CreateJourneyItem,
-        string | undefined
-      >;
+      overwriteErrorsBag(creationResult.formErrors);
     }
 
     return notify({
