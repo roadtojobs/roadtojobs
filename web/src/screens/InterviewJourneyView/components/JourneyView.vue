@@ -89,6 +89,7 @@ type InfoViewProps = {
 const props = defineProps<InfoViewProps>();
 
 const tableKey = ref(`table-key-${Math.random()}`);
+const rerenderTable = () => (tableKey.value = `table-key-${Math.random()}`);
 
 const globalStages = useGlobalStages();
 const stages = computed(() => globalStages.stages);
@@ -115,7 +116,7 @@ const { stageJourneyCompanyMap, retrieveAll: refreshJourneyItems } =
 
 // Sortable
 const { updateJourneyItemStage } = useJourneyItemsStageChange(
-  tableKey,
+  rerenderTable,
   refreshJourneyItems
 );
 </script>

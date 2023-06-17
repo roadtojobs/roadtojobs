@@ -2,7 +2,7 @@
   <div class="relative">
     <img
       class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-400 ring-8 ring-white"
-      src="@/assets/images/logo.png"
+      src="../../../../../assets/images/logo.png"
       alt=""
     />
 

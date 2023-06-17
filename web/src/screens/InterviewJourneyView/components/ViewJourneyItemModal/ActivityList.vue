@@ -73,11 +73,11 @@
 <script setup lang="ts">
 import { DocumentTextIcon } from '@heroicons/vue/24/outline';
 import { InterviewJourneyCompanyActivity } from '@/repositories/interviewJourneyCompanyActivity.repo';
-import ActivityCreatedJourneyItem from '@/screens/InterviewJourneyView/components/ActivityItems/ActivityCreatedJourneyItem.vue';
-import ActivityAddedNote from '@/screens/InterviewJourneyView/components/ActivityItems/ActivityAddedNote.vue';
-import NoteCommentForm from '@/screens/InterviewJourneyView/components/ViewInterviewJourneyCompanyModal/NoteCommentForm.vue';
-import ActivityAttributes from '@/screens/InterviewJourneyView/components/ActivityItems/ActivityAttributes.vue';
-import ActivityAdvanceToStage from '@/screens/InterviewJourneyView/components/ActivityItems/ActivityAdvanceToStage.vue';
+import ActivityCreatedJourneyItem from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/ActivityItems/ActivityCreatedJourneyItem.vue';
+import ActivityAddedNote from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/ActivityItems/ActivityAddedNote.vue';
+import NoteCommentForm from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/NoteCommentForm.vue';
+import ActivityAttributes from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/ActivityItems/ActivityAttributes.vue';
+import ActivityAdvanceToStage from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/ActivityItems/ActivityAdvanceToStage.vue';
 
 type ViewInterviewJourneyCompanyActivityListProps = {
   activities: InterviewJourneyCompanyActivity[];

@@ -3,7 +3,7 @@ import { interviewJourneyCompanyRepo } from '@/repositories/interviewJourneyComp
 import { notify } from '@kyvg/vue3-notification';
 
 export const useJourneyItemsStageChange = (
-  tableKey: Ref<string>,
+  rerenderTable: () => void,
   refreshJourneyItems: () => Promise<void>
 ) => {
   const updateJourneyItemStage = async ({
@@ -19,8 +19,7 @@ export const useJourneyItemsStageChange = (
       { stage: wantedStageId }
     );
 
-    await refreshJourneyItems();
-    tableKey.value = `table-key-${Math.random()}`;
+    await refreshJourneyItems().then(rerenderTable);
 
     if (!updateStateStatus) {
       return notify({

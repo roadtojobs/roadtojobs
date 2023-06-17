@@ -104,9 +104,7 @@
                   </h2>
                 </div>
                 <div class="pt-6">
-                  <ViewInterviewJourneyCompanyActivityList
-                    :activities="journeyActivities"
-                  />
+                  <ActivityList :activities="journeyActivities" />
                 </div>
               </div>
             </div>
@@ -192,7 +190,7 @@ import {
   InterviewJourneyCompanyActivity,
   interviewJourneyCompanyActivityRepo,
 } from '@/repositories/interviewJourneyCompanyActivity.repo';
-import ViewInterviewJourneyCompanyActivityList from '@/screens/InterviewJourneyView/components/ViewInterviewJourneyCompanyModal/ViewInterviewJourneyCompanyActivityList.vue';
+import ActivityList from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/ActivityList.vue';
 import AttributeItem from '@/screens/InterviewJourneyView/components/Utils/AttributeItem.vue';
 import dayjs from 'dayjs';
 import { DISPLAY_DATE_FORMAT } from '@/constants';
