@@ -43,10 +43,10 @@
 
 <script setup lang="ts">
 import { TagIcon } from '@heroicons/vue/24/outline';
-import { InterviewJourneyCompanyActivity } from '@/repositories/interviewJourneyCompanyActivity.repo';
 import { computed } from 'vue';
 import AttributeItem from '@/screens/InterviewJourneyView/components/Utils/AttributeItem.vue';
 import { getFromAgoTime } from '@/utils/date';
+import { InterviewJourneyCompanyActivity } from 'shared/entities/journeyItemActivity.entity';
 
 const props = defineProps<{
   activity: InterviewJourneyCompanyActivity;

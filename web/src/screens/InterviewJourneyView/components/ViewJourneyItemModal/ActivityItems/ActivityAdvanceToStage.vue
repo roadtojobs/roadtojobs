@@ -38,9 +38,9 @@
 
 <script setup lang="ts">
 import { UserCircleIcon } from '@heroicons/vue/24/outline';
-import { InterviewJourneyCompanyActivity } from '@/repositories/interviewJourneyCompanyActivity.repo';
 import { computed } from 'vue';
 import { getFromAgoTime } from '@/utils/date';
+import { InterviewJourneyCompanyActivity } from 'shared/entities/journeyItemActivity.entity';
 
 const props = defineProps<{
   activity: InterviewJourneyCompanyActivity;

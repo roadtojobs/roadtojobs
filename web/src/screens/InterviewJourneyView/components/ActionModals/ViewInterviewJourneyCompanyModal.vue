@@ -186,15 +186,13 @@ import {
   StarIcon,
   TagIcon,
 } from '@heroicons/vue/24/outline';
-import {
-  InterviewJourneyCompanyActivity,
-  interviewJourneyCompanyActivityRepo,
-} from '@/repositories/interviewJourneyCompanyActivity.repo';
+import { interviewJourneyCompanyActivityRepo } from '@/repositories/interviewJourneyCompanyActivity.repo';
 import ActivityList from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/ActivityList.vue';
 import AttributeItem from '@/screens/InterviewJourneyView/components/Utils/AttributeItem.vue';
 import dayjs from 'dayjs';
 import { DISPLAY_DATE_FORMAT } from '@/constants';
 import StageText from '@/screens/InterviewJourneyView/components/Utils/StageText.vue';
+import { InterviewJourneyCompanyActivity } from 'shared/entities/journeyItemActivity.entity';
 
 type ViewCompanyModalProps = {
   interviewJourneyCompany: JourneyItemCompany;
