@@ -1,5 +1,5 @@
 <template>
-  <form action="#">
+  <form @submit.prevent>
     <div>
       <label
         for="comment"
@@ -12,12 +12,13 @@
         label=""
         placeholder="Leave a note, comment for your journey item. Markdown supported!"
         rows="4"
+        :error="errorsBag.get('comment')"
       />
     </div>
     <div class="mt-6 flex items-center justify-end space-x-4">
       <button
         @click="onCloseAndArchive"
-        type="button"
+        :disabled="isLoading"
         class="inline-flex justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
       >
         <XCircleIcon
@@ -27,8 +28,8 @@
         Close & Archive
       </button>
       <button
-        type="submit"
         @click="onSubmitCreateNote"
+        :disabled="isLoading"
         class="inline-flex items-center justify-center rounded-md bg-gray-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
       >
         Note
@@ -41,6 +42,15 @@
 import { XCircleIcon } from '@heroicons/vue/24/outline';
 import Textarea from '@/components/Textarea/Textarea.vue';
 import { JourneyItem } from 'shared/entities/journeyItem.entity';
+import { useLoading } from '@/composable/useLoading';
+import useValidation from '@/composable/useValidation';
+import {
+  createCommentActivity,
+  CreateCommentActivity,
+} from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/NoteCommentForm.methods';
+import { notify } from '@kyvg/vue3-notification';
+import { journeyItemActivityRepo } from '@/repositories/journeyItemActivity.repo';
+import { useCurrentUser } from '@/stores/useCurrentUser';
 
 type NoteCommentFormProps = {
   journeyItem: JourneyItem;
@@ -53,15 +63,50 @@ type NoteCommentFormEmits = {
 const props = defineProps<NoteCommentFormProps>();
 const emits = defineEmits<NoteCommentFormEmits>();
 
-const form = ref<{
-  comment: string;
-  journeyItem: string;
-}>({
+const { userId } = useCurrentUser();
+
+const form = ref({
   comment: '',
-  journeyItem: props.journeyItem.id,
+  journeyItemId: props.journeyItem.id,
+  type: 'ADDED_NOTE',
 });
 
-const onSubmitCreateNote = () => {};
+const { isLoading, startLoading, stopLoading } = useLoading();
+const { errorsBag, validate, reset } = useValidation<CreateCommentActivity>(
+  createCommentActivity
+);
+
+const onSubmitCreateNote = async () => {
+  reset();
+  const validateResult = validate({ ...form.value, userId });
+
+  if (!validateResult.success) {
+    return notify({
+      type: 'error',
+      title: 'Validation Error',
+      text: 'Please check the error(s), fix and try again.',
+    });
+  }
+
+  startLoading();
+
+  const createdNote = await journeyItemActivityRepo.createNote(
+    validateResult.parsedObject
+  );
+
+  stopLoading();
+
+  if (!createdNote) {
+    return notify({
+      type: 'error',
+      title: 'Creation Error',
+      text: 'There was an error while creating the comment. Please try again.',
+    });
+  }
+
+  emits('created');
+  form.value.comment = '';
+};
 
 const onCloseAndArchive = () => {};
 </script>

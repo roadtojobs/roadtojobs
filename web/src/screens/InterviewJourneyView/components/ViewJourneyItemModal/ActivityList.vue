@@ -64,7 +64,10 @@
         </div>
       </div>
       <div class="min-w-0 flex-1">
-        <NoteCommentForm :journey-item="journeyItem" />
+        <NoteCommentForm
+          :journey-item="journeyItem"
+          @created="onCreatedNote"
+        />
       </div>
     </div>
   </div>
@@ -86,4 +89,11 @@ type ViewInterviewJourneyCompanyActivityListProps = {
 };
 
 defineProps<ViewInterviewJourneyCompanyActivityListProps>();
+const emits = defineEmits<{
+  (e: 'created-note'): void;
+}>();
+
+const onCreatedNote = () => {
+  emits('created-note');
+};
 </script>

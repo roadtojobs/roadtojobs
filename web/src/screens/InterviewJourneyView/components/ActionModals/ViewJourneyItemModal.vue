@@ -109,6 +109,7 @@
                   <ActivityList
                     :activities="journeyActivities"
                     :journey-item="interviewJourneyCompany"
+                    @created-note="onActivityCreated"
                   />
                 </div>
               </div>
@@ -219,15 +220,21 @@ const title = computed(
   () => `The road to ${props.interviewJourneyCompany.company?.name} 🏃‍`
 );
 
-onMounted(async () => {
+const loadAllActivities = async () => {
   const activities = await journeyItemActivityRepo.getByJourneyCompany(
     props.interviewJourneyCompany.id
   );
 
   journeyActivities.value = [...activities];
+};
+
+onMounted(async () => {
+  await loadAllActivities();
 });
 
 const createdDateText = computed(() =>
   dayjs(props.interviewJourneyCompany.createdAt).format(DISPLAY_DATE_FORMAT)
 );
+
+const onActivityCreated = () => loadAllActivities();
 </script>
