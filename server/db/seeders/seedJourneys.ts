@@ -1,8 +1,8 @@
-import { db } from '@db';
 import { fakerEN_US as faker } from '@faker-js/faker';
 import { userAdminDbClient } from '../seeder';
+import { TABLES } from 'shared/constants/tables';
 
-export default async function seedInterviewJourneys() {
+export default async function seedJourneys() {
   const total = 5;
   const userId = 'user:admin';
   const promises = [];
@@ -12,7 +12,7 @@ export default async function seedInterviewJourneys() {
     const customId = i === total ? ':active_journey' : '';
 
     promises.push(
-      userAdminDbClient.create(`interview_journey${customId}`, {
+      userAdminDbClient.create(`${TABLES.JOURNEY}${customId}`, {
         user: userId,
         name: `This is my interview journey ${faker.internet.emoji()}`,
         description: `

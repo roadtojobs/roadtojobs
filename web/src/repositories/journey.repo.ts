@@ -8,7 +8,7 @@ import {
   interviewJourneyTableToInterviewJourney,
 } from 'shared/entities/journey.entity';
 
-export const interviewJourneyRepo = {
+export const journeyRepo = {
   getSingleThing(id: string) {
     return generateId(TABLES.JOURNEY, id);
   },
@@ -46,7 +46,7 @@ export const interviewJourneyRepo = {
   },
 
   async getById(id: string): Promise<Journey | null> {
-    const thingId = interviewJourneyRepo.getSingleThing(id);
+    const thingId = journeyRepo.getSingleThing(id);
 
     const result = await dbClient.select<JourneyTable>(thingId);
     if (!result[0]) {

@@ -6,9 +6,9 @@
 
 import { initSurrealDbRootConnection, db } from '@db';
 import seedCompanies from './seeders/seedCompanies';
-import seedInterviewJourneys from './seeders/seedInterviewJourneys';
+import seedJourneys from './seeders/seedJourneys';
 import env from '@appEnv';
-import seedInterviewJourneyCompany from './seeders/seedInterviewJourneyCompany';
+import seedJourneyItems from './seeders/seedJourneyItems';
 import { Surreal } from 'surrealdb.js';
 
 export const rootDbClient = db;
@@ -35,8 +35,8 @@ async function seed() {
 
   // seeding...
   await seedCompanies();
-  await seedInterviewJourneys();
-  await seedInterviewJourneyCompany();
+  await seedJourneys();
+  await seedJourneyItems();
 
   console.log('Closing DB connection...');
   await Promise.all([rootDbClient.close(), userAdminDbClient.close()]);

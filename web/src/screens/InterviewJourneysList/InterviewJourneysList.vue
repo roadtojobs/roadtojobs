@@ -96,7 +96,7 @@
 <script setup lang="ts">
 import AppPage from '@/components/AppPage/AppPage.vue';
 import { setPageTitle } from '@/libraries/pageTitle';
-import { interviewJourneyRepo } from '@/repositories/interviewJourney.repo';
+import { journeyRepo } from '@/repositories/journey.repo';
 import {
   CellContext,
   createColumnHelper,
@@ -171,7 +171,7 @@ const table = useVueTable<Journey>({
 });
 
 onMounted(async () => {
-  const journeys = await interviewJourneyRepo.getAll();
+  const journeys = await journeyRepo.getAll();
   interviewJourneys.value = [...journeys];
 });
 

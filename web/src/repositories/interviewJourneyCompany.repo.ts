@@ -19,18 +19,14 @@ type CreateInterviewJourneyCompany = Omit<
 >;
 
 export const interviewJourneyCompanyRepo = {
-  getTable() {
-    return TABLES.INTERVIEW_JOURNEY_COMPANY;
-  },
-
   async getByJourney(
     interviewJourneyId: string
   ): Promise<JourneyItemCompany[]> {
     const [result] = await dbClient.query<JourneyItemTable[][]>(
       `
       SELECT *
-      FROM ${interviewJourneyCompanyRepo.getTable()}
-      WHERE interview_journey = $id
+      FROM ${TABLES.INTERVIEW_JOURNEY_COMPANY}
+      WHERE journey = $id
       FETCH company, stage
     `,
       {

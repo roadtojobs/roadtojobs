@@ -1,29 +1,32 @@
 import { db } from '@db';
 import { fakerEN_US as faker } from '@faker-js/faker';
-import { rootDbClient, userAdminDbClient } from '../seeder';
+import { userAdminDbClient } from '../seeder';
+import { TABLES } from 'shared/constants/tables';
 
 type Result = Record<string, unknown>[][];
 
-export default async function seedInterviewJourneyCompany() {
-  const [activeJourney] = await db.select('interview_journey:active_journey');
+export default async function seedJourneyItems() {
+  const [activeJourney] = await db.select(`${TABLES.JOURNEY}:active_journey`);
   if (!activeJourney) {
-    console.log(
-      'No active journey to insert. Stop the seedInterviewJourneyCompany'
-    );
+    console.log('No active journey to insert. Stop the seedJourneyItems');
 
     return;
   }
 
   const [companyResult, stageResult, userResult] = await Promise.all([
-    db.query<Result>(`SELECT * FROM company ORDER BY rand() LIMIT 10`),
-    db.query<Result>(`SELECT * FROM stage ORDER BY rand()`),
-    db.select('user:admin'),
+    db.query<Result>(
+      `SELECT * FROM ${TABLES.COMPANY} ORDER BY rand() LIMIT 10`
+    ),
+    db.query<Result>(`SELECT * FROM ${TABLES.STAGE} ORDER BY rand()`),
+    db.select(`${TABLES.USER}:admin`),
   ]);
 
   const user = String(userResult[0].id);
 
   const companies = companyResult[0].result;
   const stages = stageResult[0].result;
+
+  console.log(`Creating 10 journey items for active journey...`);
 
   const promises = companies?.map(async (company, index) => {
     const companyId = company.id;
@@ -57,10 +60,10 @@ export default async function seedInterviewJourneyCompany() {
     ];
 
     const [journeyItem] = await userAdminDbClient.create(
-      'interview_journey_company',
+      TABLES.INTERVIEW_JOURNEY_COMPANY,
       {
         // reference: index + 1,
-        interview_journey: activeJourney.id,
+        journey: activeJourney.id,
         company: companyId,
         user,
         stage: stage.id,
@@ -74,23 +77,14 @@ export default async function seedInterviewJourneyCompany() {
       }
     );
 
-    await userAdminDbClient.query(
-      `
-      RELATE ${activeJourney.id}->items->${journeyItem.id} CONTENT {
-        user = $user
-      }
-    `,
-      { user }
-    );
-
-    await userAdminDbClient.create('interview_journey_company_activity', {
+    await userAdminDbClient.create(TABLES.JOURNEY_ITEM_ACTIVITY, {
       interview_journey_company: journeyItem.id,
       type: 'ADDED_ATTRIBUTES',
       user,
       attributes,
     });
 
-    await userAdminDbClient.create('interview_journey_company_activity', {
+    await userAdminDbClient.create(TABLES.JOURNEY_ITEM_ACTIVITY, {
       interview_journey_company: journeyItem.id,
       type: 'ADDED_NOTE',
       user,
@@ -105,5 +99,5 @@ export default async function seedInterviewJourneyCompany() {
 
   await Promise.all(promises ?? []);
 
-  console.log(`Created 10 interview journey company for user:admin.`);
+  console.log(`Created 10 journey items for active journey.`);
 }

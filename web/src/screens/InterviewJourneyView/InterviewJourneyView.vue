@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import AppPage from '@/components/AppPage/AppPage.vue';
 import { ref, onMounted, computed } from 'vue';
-import { interviewJourneyRepo } from '@/repositories/interviewJourney.repo';
+import { journeyRepo } from '@/repositories/journey.repo';
 import { useRoute } from 'vue-router';
 import NotFoundScreen from '@/components/NotFoundScreen/NotFoundScreen.vue';
 import Tabs from '@/components/Tabs/Tabs.vue';
@@ -65,7 +65,7 @@ const pageTabs: TabItem[] = [
 ];
 
 onMounted(async () => {
-  const record = await interviewJourneyRepo.getById(String(route.params.id));
+  const record = await journeyRepo.getById(String(route.params.id));
   interviewJourney.value = record ? { ...record } : null;
 
   await loadStages();

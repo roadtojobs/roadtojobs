@@ -69,7 +69,7 @@ import Textarea from '@/components/Textarea/Textarea.vue';
 import dayjs from 'dayjs';
 import { SERVER_DATE_FORMAT } from '@/constants';
 import useValidation from '@/composable/useValidation';
-import { interviewJourneyRepo } from '@/repositories/interviewJourney.repo';
+import { journeyRepo } from '@/repositories/journey.repo';
 import { useCurrentUser } from '@/stores/useCurrentUser';
 import { useRouter } from 'vue-router';
 import { pickThingId } from '@/utils/surrealThing';
@@ -132,9 +132,7 @@ const onClickSubmit = async () => {
     });
   }
 
-  const createdId = await interviewJourneyRepo.create(
-    validationResult.parsedObject
-  );
+  const createdId = await journeyRepo.create(validationResult.parsedObject);
 
   if (!createdId) {
     return notify({

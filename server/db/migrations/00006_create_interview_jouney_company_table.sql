@@ -6,7 +6,7 @@ DEFINE TABLE interview_journey_company SCHEMAFULL
 DEFINE FIELD reference ON TABLE interview_journey_company
   TYPE int;
 
-DEFINE FIELD journey ON TABLE journey
+DEFINE FIELD journey ON TABLE interview_journey_company
   TYPE record (journey)
   ASSERT $value != NONE;
 
@@ -57,7 +57,7 @@ DEFINE TABLE journey_items SCHEMALESS
     FOR select, create, update WHERE $auth.id = user;
 
 DEFINE EVENT bind_relation_journey_item ON interview_journey_company WHEN $event = 'CREATE' THEN (
-  RELATE ($value.interview_journey)->journey_items->($value.id) CONTENT {
+  RELATE ($value.journey)->journey_items->($value.id) CONTENT {
     user: $value.user,
     connected_at: time::now()
   }
