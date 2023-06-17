@@ -71,6 +71,16 @@ export default async function seedJourneyItems() {
           max: 5,
         })
       ),
+      color: faker.helpers.arrayElement([
+        'rose',
+        'pink',
+        'gray',
+        'indigo',
+        'yellow',
+        'sky',
+        'blue',
+        'purple',
+      ]),
       attributes,
     });
 
