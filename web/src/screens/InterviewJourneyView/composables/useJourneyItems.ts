@@ -1,10 +1,10 @@
 import { journeyItemRepo } from '@/repositories/journeyItem.repo';
 import { computed, onMounted } from 'vue';
 import { Journey } from 'shared/entities/journey.entity';
-import { JourneyItemCompany } from 'shared/entities/journeyItem.entity';
+import { JourneyItem } from 'shared/entities/journeyItem.entity';
 
 export const useJourneyItems = (interviewJourney: Journey) => {
-  const interviewJourneyCompanyItems = ref<JourneyItemCompany[]>([]);
+  const interviewJourneyCompanyItems = ref<JourneyItem[]>([]);
 
   const retrieveAll = async () => {
     const journeyCompanyItems = await journeyItemRepo.getByJourney(
@@ -19,7 +19,7 @@ export const useJourneyItems = (interviewJourney: Journey) => {
 
   const stageJourneyCompanyMap = computed(() => {
     return interviewJourneyCompanyItems.value.reduce<
-      Record<string, JourneyItemCompany[]>
+      Record<string, JourneyItem[]>
     >((record, journeyCompany) => {
       record[journeyCompany.stageId] ??= [];
       record[journeyCompany.stageId].push(journeyCompany);

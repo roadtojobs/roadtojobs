@@ -22,7 +22,7 @@ export type JourneyItemTable = {
   updated_at: Date;
 };
 
-export type JourneyItemCompany = {
+export type JourneyItem = {
   id: string;
   reference: number;
   journeyId: string;
@@ -41,7 +41,7 @@ export type JourneyItemCompany = {
 
 export const journeyItemTableToJourneyItem = (
   record: JourneyItemTable
-): JourneyItemCompany => ({
+): JourneyItem => ({
   id: record.id,
   reference: record.reference,
   journeyId: record.journey,

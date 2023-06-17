@@ -45,10 +45,12 @@ import JourneyView from '@/screens/InterviewJourneyView/components/JourneyView.v
 import { useCurrentUser } from '@/stores/useCurrentUser';
 import { useGlobalStages } from '@/stores/useGlobalStages';
 import { Journey } from 'shared/entities/journey.entity';
+import { useCurrentJourney } from '@/stores/useCurrentJourney';
 
 const route = useRoute();
 const { user } = useCurrentUser();
 const { loadStages } = useGlobalStages();
+const { setJourney } = useCurrentJourney();
 
 const interviewJourney = ref<Journey | null>();
 const pageTabs: TabItem[] = [
@@ -67,6 +69,10 @@ const pageTabs: TabItem[] = [
 onMounted(async () => {
   const record = await journeyRepo.getById(String(route.params.id));
   interviewJourney.value = record ? { ...record } : null;
+
+  if (record) {
+    setJourney(record);
+  }
 
   await loadStages();
 });

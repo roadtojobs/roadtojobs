@@ -66,14 +66,13 @@ import {
   CreateInterviewJourney,
 } from '@/screens/InterviewJourneysList/InterviewJourneysList.methods';
 import Textarea from '@/components/Textarea/Textarea.vue';
-import dayjs from 'dayjs';
-import { SERVER_DATE_FORMAT } from '@/constants';
 import useValidation from '@/composable/useValidation';
 import { journeyRepo } from '@/repositories/journey.repo';
 import { useCurrentUser } from '@/stores/useCurrentUser';
 import { useRouter } from 'vue-router';
 import { pickThingId } from '@/utils/surrealThing';
 import { notify } from '@kyvg/vue3-notification';
+import { getServerDateNow } from '@/utils/date';
 
 const { userId } = useCurrentUser();
 const router = useRouter();
@@ -92,7 +91,7 @@ const interviewJourney = ref<CreateInterviewJourney>(
 
 const startDateComputed = computed({
   get() {
-    return dayjs(interviewJourney.value.startDate).format(SERVER_DATE_FORMAT);
+    return getServerDateNow();
   },
   set(value: string) {
     const date = new Date(value);

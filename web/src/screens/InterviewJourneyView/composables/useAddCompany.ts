@@ -1,6 +1,6 @@
 import { Stage } from 'shared/entities/stage.entity';
 
-export const useAddCompany = () => {
+export const useAddCompany = (refreshJourneyItems: () => Promise<void>) => {
   const addCompanyStage = ref<Stage | null>(null);
   const isShowAddCompanyModal = ref(false);
 
@@ -14,10 +14,16 @@ export const useAddCompany = () => {
     isShowAddCompanyModal.value = false;
   };
 
+  const onCreatedJourneyItem = () => {
+    refreshJourneyItems();
+    onCloseAddCompany();
+  };
+
   return {
     addCompanyStage,
     isShowAddCompanyModal,
     onClickAddCompany,
     onCloseAddCompany,
+    onCreatedJourneyItem,
   };
 };

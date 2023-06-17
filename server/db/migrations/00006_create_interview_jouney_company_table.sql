@@ -56,6 +56,8 @@ DEFINE TABLE journey_items SCHEMALESS
     FOR delete NONE
     FOR select, create, update WHERE $auth.id = user;
 
+DEFINE INDEX unq_company_journey ON TABLE journey_item COLUMNS company, journey UNIQUE;
+
 DEFINE EVENT bind_relation_journey_item ON journey_item WHEN $event = 'CREATE' THEN (
   RELATE ($value.journey)->journey_items->($value.id) CONTENT {
     user: $value.user,

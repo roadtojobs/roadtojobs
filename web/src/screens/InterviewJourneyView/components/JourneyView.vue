@@ -53,13 +53,14 @@
       </div>
     </div>
   </div>
-  <AddCompanyModal
+  <AddJourneyItemModal
     v-if="addCompanyStage"
     :is-open="isShowAddCompanyModal"
     :stage="addCompanyStage"
     @close="onCloseAddCompany"
+    @created="onCreatedJourneyItem"
   />
-  <ViewInterviewJourneyCompanyModal
+  <ViewJourneyItemModal
     v-if="viewingJourneyItem"
     :is-open="isOpenJourneyItemModal"
     :interview-journey-company="viewingJourneyItem"
@@ -71,10 +72,10 @@
 import { computed } from 'vue';
 import ViewStageDescription from '@/screens/InterviewJourneyView/components/JourneyView/ViewStageDescription.vue';
 import { User } from 'shared/entities/user.entity';
-import AddCompanyModal from '@/screens/InterviewJourneyView/components/ActionModals/AddCompanyModal.vue';
+import AddJourneyItemModal from '@/screens/InterviewJourneyView/components/ActionModals/AddJourneyItemModal.vue';
 import StageCompanyList from '@/screens/InterviewJourneyView/components/StageCompanyList/StageCompanyList.vue';
 import { useViewInterviewJourneyCompany } from '@/screens/InterviewJourneyView/composables/useViewInterviewJourneyCompany';
-import ViewInterviewJourneyCompanyModal from '@/screens/InterviewJourneyView/components/ActionModals/ViewInterviewJourneyCompanyModal.vue';
+import ViewJourneyItemModal from '@/screens/InterviewJourneyView/components/ActionModals/ViewJourneyItemModal.vue';
 import { useJourneyItems } from '@/screens/InterviewJourneyView/composables/useJourneyItems';
 import { useGlobalStages } from '@/stores/useGlobalStages';
 import { useJourneyItemsStageChange } from '@/screens/InterviewJourneyView/composables/useJourneyItemsStageChange';
@@ -94,13 +95,20 @@ const rerenderTable = () => (tableKey.value = `table-key-${Math.random()}`);
 const globalStages = useGlobalStages();
 const stages = computed(() => globalStages.stages);
 
+// Table Data
+const { stageJourneyCompanyMap, retrieveAll: refreshJourneyItems } =
+  useJourneyItems(props.interviewJourney);
+
 // Add Company Feature
 const {
   isShowAddCompanyModal,
   addCompanyStage,
   onCloseAddCompany,
   onClickAddCompany,
-} = useAddCompany();
+  onCreatedJourneyItem,
+} = useAddCompany(async () => {
+  await refreshJourneyItems().then(rerenderTable);
+});
 
 // View Journey Item Feature
 const {
@@ -109,10 +117,6 @@ const {
   closeViewJourneyItem,
   interviewJourneyCompany: viewingJourneyItem,
 } = useViewInterviewJourneyCompany();
-
-// Table Data
-const { stageJourneyCompanyMap, retrieveAll: refreshJourneyItems } =
-  useJourneyItems(props.interviewJourney);
 
 // Sortable
 const { updateJourneyItemStage } = useJourneyItemsStageChange(

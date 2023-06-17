@@ -1,13 +1,14 @@
 import { dbClient } from '@/libraries/surreal';
 import { TABLES } from 'shared/constants/tables';
 import {
-  JourneyItemCompany,
+  JourneyItem,
   JourneyItemTable,
   journeyItemTableToJourneyItem,
 } from 'shared/entities/journeyItem.entity';
+import { CreateOutcomes } from '@/types/db';
 
 type CreateInterviewJourneyCompany = Omit<
-  JourneyItemCompany,
+  JourneyItem,
   | 'id'
   | 'updatedAt'
   | 'createdAt'
@@ -19,9 +20,7 @@ type CreateInterviewJourneyCompany = Omit<
 >;
 
 export const journeyItemRepo = {
-  async getByJourney(
-    interviewJourneyId: string
-  ): Promise<JourneyItemCompany[]> {
+  async getByJourney(interviewJourneyId: string): Promise<JourneyItem[]> {
     const [result] = await dbClient.query<JourneyItemTable[][]>(
       `
       SELECT *
@@ -67,9 +66,10 @@ export const journeyItemRepo = {
       `
       SELECT math::max(reference) as max
       FROM ${TABLES.JOURNEY_ITEM}
-      WHERE user = $user AND interview_journey = $interviewJourney
+      WHERE user = $user AND journey = $journey
+      GROUP ALL
     `,
-      { user: userId, interviewJourney: interviewJourneyId }
+      { user: userId, journey: interviewJourneyId }
     );
 
     if (result.status === 'ERR') {
@@ -79,25 +79,44 @@ export const journeyItemRepo = {
     return result.result[0].max + 1;
   },
 
-  async create(
-    values: CreateInterviewJourneyCompany
-  ): Promise<string | undefined> {
+  async create(values: CreateInterviewJourneyCompany): Promise<CreateOutcomes> {
     const reference = await journeyItemRepo.getNextPersonalReferenceId(
       values.userId,
       values.journeyId
     );
 
-    const [result] = await dbClient.create(TABLES.JOURNEY_ITEM, {
-      ...values,
-      reference,
-    });
+    let creationResult;
 
-    return result.id;
+    try {
+      creationResult = await dbClient.create(TABLES.JOURNEY_ITEM, {
+        reference,
+        journey: values.journeyId,
+        user: values.userId,
+        company: values.companyId,
+        stage: values.stageId,
+        description: values.description,
+        color: values.color,
+      });
+
+      return {
+        success: true,
+        id: creationResult[0].id,
+      };
+    } catch (e: unknown) {
+      let message = '';
+      let formErrors = new Map<string, string>();
+      if (e instanceof Error && e.message.includes('unq_company_journey')) {
+        message =
+          'This company is already in your journey. Please select another company. Thanks';
+
+        formErrors.set('companyId', 'This company is already in your journey.');
+      }
+
+      return {
+        success: false,
+        message,
+        formErrors: formErrors.size <= 0 ? undefined : formErrors,
+      };
+    }
   },
-
-  // TODO: note for myself
-  // create() {
-  //    reference: getNextReferenceId();
-  // }
-  // getNextReferenceId(interviewJourneyId)
 };

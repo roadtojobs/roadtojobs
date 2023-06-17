@@ -178,7 +178,7 @@
 <script setup lang="ts">
 import Modal from '@/components/Modal/Modal.vue';
 import { computed, onMounted } from 'vue';
-import { JourneyItemCompany } from 'shared/entities/journeyItem.entity';
+import { JourneyItem } from 'shared/entities/journeyItem.entity';
 import {
   PencilIcon,
   CalendarIcon,
@@ -195,7 +195,7 @@ import StageText from '@/screens/InterviewJourneyView/components/Utils/StageText
 import { JourneyItemActivity } from 'shared/entities/journeyItemActivity.entity';
 
 type ViewCompanyModalProps = {
-  interviewJourneyCompany: JourneyItemCompany;
+  interviewJourneyCompany: JourneyItem;
   isOpen: boolean;
 };
 

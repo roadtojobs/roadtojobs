@@ -1,10 +1,10 @@
-import { JourneyItemCompany } from 'shared/entities/journeyItem.entity';
+import { JourneyItem } from 'shared/entities/journeyItem.entity';
 
 export const useViewInterviewJourneyCompany = () => {
-  const interviewJourneyCompany = ref<JourneyItemCompany | null>(null);
+  const interviewJourneyCompany = ref<JourneyItem | null>(null);
   const isOpen = ref<boolean>(false);
 
-  const viewJourneyItem = (journeyItem: JourneyItemCompany) => {
+  const viewJourneyItem = (journeyItem: JourneyItem) => {
     interviewJourneyCompany.value = { ...journeyItem };
     isOpen.value = true;
   };

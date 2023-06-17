@@ -30,12 +30,22 @@
           placeholder="Write a really detailed information about this company. Markdown syntax supported..."
           :error="errorsBag.get('description')"
         />
+        <ColorPicker
+          v-model="form.color"
+          label="Node Color"
+        />
       </form>
     </div>
     <template #bottom-buttons>
-      <Button @click="onClickSubmit">Add</Button>
+      <Button
+        @click="onClickSubmit"
+        :disabled="isLoading"
+      >
+        Add
+      </Button>
       <Button
         type="secondary"
+        :disabled="isLoading"
         @click="$emit('close')"
       >
         Close
@@ -58,10 +68,14 @@ import useValidation from '@/composable/useValidation';
 import {
   createJourneyItem,
   CreateJourneyItem,
-} from '@/screens/InterviewJourneyView/components/ActionModals/AddCompanyModal.methods';
+} from '@/screens/InterviewJourneyView/components/ActionModals/AddJourneyItemModal.methods';
 import { notify } from '@kyvg/vue3-notification';
 import { journeyItemRepo } from '@/repositories/journeyItem.repo';
 import { useCurrentUser } from '@/stores/useCurrentUser';
+import { useCurrentJourney } from '@/stores/useCurrentJourney';
+import ColorPicker from '@/components/ColorPicker/ColorPicker.vue';
+import { useLoading } from '@/composable/useLoading';
+import { CreateOutcomes } from '@/types/db';
 
 type AddCompanyModalProps = {
   stage: Stage;
@@ -83,6 +97,8 @@ const {
 } = useValidation<CreateJourneyItem>(createJourneyItem);
 const globalStages = useGlobalStages();
 const { userId } = useCurrentUser();
+const { journeyId } = useCurrentJourney();
+const { isLoading, withLoading } = useLoading();
 
 const form = ref<{
   stageId: string;
@@ -91,10 +107,12 @@ const form = ref<{
     text: string;
   } | null;
   description: string;
+  color: string;
 }>({
   stageId: props.stage.id,
   company: null,
   description: '',
+  color: 'rose',
 });
 
 const findCompanies = async (keyword: string): Promise<ComboboxItem[]> => {
@@ -112,7 +130,7 @@ const onClickSubmit = async () => {
     ...form.value,
     companyId: form.value.company?.value,
     userId,
-    journeyId: '', // add
+    journeyId,
   };
 
   const validateResult = validate(finalForm);
@@ -124,15 +142,24 @@ const onClickSubmit = async () => {
     });
   }
 
-  const creationResult = await journeyItemRepo.create(
-    validateResult.parsedObject
+  const creationResult = await withLoading<CreateOutcomes>(
+    async () => await journeyItemRepo.create(validateResult.parsedObject)
   );
 
-  if (!creationResult) {
+  if (!creationResult.success) {
+    if (creationResult.formErrors) {
+      errorsBag.value = creationResult.formErrors as Map<
+        keyof CreateJourneyItem,
+        string | undefined
+      >;
+    }
+
     return notify({
       type: 'error',
       title: 'Creation Error',
-      text: 'There was an error while handling the creation. Please try again.',
+      text:
+        creationResult.message ||
+        'There was an error while handling the creation. Please try again.',
     });
   }
 

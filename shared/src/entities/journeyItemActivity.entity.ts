@@ -1,7 +1,7 @@
 import { ActivityType } from '../constants/activityType';
 import {
   DynamicAttributes,
-  JourneyItemCompany,
+  JourneyItem,
   JourneyItemTable,
   journeyItemTableToJourneyItem,
 } from './journeyItem.entity';
@@ -32,7 +32,7 @@ export type JourneyItemActivity = {
   id: string;
   type: ActivityType;
   journeyItemId: string;
-  journeyItem?: JourneyItemCompany;
+  journeyItem?: JourneyItem;
   userId: string;
   user?: User;
   stageId: string | null;
@@ -50,7 +50,7 @@ export const journeyItemActivityTableToJourneyItem = (
 ): JourneyItemActivity => ({
   ...record,
   journeyItemId: parseThingId(record.journey_item),
-  journeyItem: parseThing<JourneyItemTable, JourneyItemCompany>(
+  journeyItem: parseThing<JourneyItemTable, JourneyItem>(
     record.journey_item,
     journeyItemTableToJourneyItem
   ),
