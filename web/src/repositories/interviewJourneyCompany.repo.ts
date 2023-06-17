@@ -1,13 +1,13 @@
 import { dbClient } from '@/libraries/surreal';
 import { TABLES } from 'shared/constants/tables';
 import {
-  InterviewJourneyCompany,
-  InterviewJourneyCompanyTable,
+  JourneyItemCompany,
+  JourneyItemTable,
   journeyItemTableToJourneyItem,
 } from 'shared/entities/journeyItem.entity';
 
 type CreateInterviewJourneyCompany = Omit<
-  InterviewJourneyCompany,
+  JourneyItemCompany,
   | 'id'
   | 'updatedAt'
   | 'createdAt'
@@ -25,8 +25,8 @@ export const interviewJourneyCompanyRepo = {
 
   async getByJourney(
     interviewJourneyId: string
-  ): Promise<InterviewJourneyCompany[]> {
-    const [result] = await dbClient.query<InterviewJourneyCompanyTable[][]>(
+  ): Promise<JourneyItemCompany[]> {
+    const [result] = await dbClient.query<JourneyItemTable[][]>(
       `
       SELECT *
       FROM ${interviewJourneyCompanyRepo.getTable()}
@@ -47,7 +47,7 @@ export const interviewJourneyCompanyRepo = {
 
   async update(
     journeyItemId: string,
-    values: Partial<InterviewJourneyCompanyTable>
+    values: Partial<JourneyItemTable>
   ): Promise<boolean> {
     delete values.id;
     delete values.created_at;

@@ -18,10 +18,10 @@
     </template>
     <template #item="{ element, index }">
       <StageCompanyItem
-        :key="(element as InterviewJourneyCompany).id"
+        :key="(element as JourneyItemCompany).id"
         :journey-company-item="element"
-        :attr-journey-item-id="(element as InterviewJourneyCompany).id"
-        :attr-stage-id="(element as InterviewJourneyCompany).stageId"
+        :attr-journey-item-id="(element as JourneyItemCompany).id"
+        :attr-stage-id="(element as JourneyItemCompany).stageId"
         @click="(item) => $emit('click', item)"
       />
     </template>
@@ -29,20 +29,20 @@
 </template>
 
 <script setup lang="ts">
-import { InterviewJourneyCompany } from 'shared/entities/journeyItem.entity';
+import { JourneyItemCompany } from 'shared/entities/journeyItem.entity';
 import { Stage } from 'shared/entities/stage.entity';
 import StageCompanyItem from '@/screens/InterviewJourneyView/components/StageCompanyList/StageCompanyItem.vue';
 import { Sortable } from 'sortablejs-vue3';
 
 type StageCompanyListProps = {
   stage: Stage;
-  journeyCompanyItems: InterviewJourneyCompany[];
+  journeyCompanyItems: JourneyItemCompany[];
 };
 
 const props = defineProps<StageCompanyListProps>();
 
 const emits = defineEmits<{
-  (e: 'click', journeyCompanyItem: InterviewJourneyCompany): void;
+  (e: 'click', journeyCompanyItem: JourneyItemCompany): void;
   (
     e: 'added',
     item: {

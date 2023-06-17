@@ -20,15 +20,15 @@ import {
 } from 'shared/entities/company.entity';
 import {
   DynamicAttributes,
-  InterviewJourneyCompany,
-  InterviewJourneyCompanyTable,
+  JourneyItemCompany,
+  JourneyItemTable,
   journeyItemTableToJourneyItem,
 } from 'shared/entities/journeyItem.entity';
 
 type InterviewJourneyCompanyActivityTable = {
   id: string;
   type: ActivityType;
-  interview_journey_company: string | InterviewJourneyCompanyTable;
+  interview_journey_company: string | JourneyItemTable;
   user: string | UserTable;
   stage: string | StageTable | undefined;
   company: string | CompanyTable | undefined;
@@ -42,7 +42,7 @@ export type InterviewJourneyCompanyActivity = {
   id: string;
   type: ActivityType;
   interviewJourneyCompanyId: string;
-  interviewJourneyCompany?: InterviewJourneyCompany;
+  interviewJourneyCompany?: JourneyItemCompany;
   userId: string;
   user?: User;
   stageId: string | null;
@@ -60,10 +60,10 @@ const tableToEntity = (
 ): InterviewJourneyCompanyActivity => ({
   ...record,
   interviewJourneyCompanyId: parseThingId(record.interview_journey_company),
-  interviewJourneyCompany: parseThing<
-    InterviewJourneyCompanyTable,
-    InterviewJourneyCompany
-  >(record.interview_journey_company, journeyItemTableToJourneyItem),
+  interviewJourneyCompany: parseThing<JourneyItemTable, JourneyItemCompany>(
+    record.interview_journey_company,
+    journeyItemTableToJourneyItem
+  ),
   userId: parseThingId(record.user),
   user: parseThing<UserTable, User>(record.user, userTableToUser),
   stageId: parseNullableThingId(record.stage),

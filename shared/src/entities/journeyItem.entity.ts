@@ -8,7 +8,7 @@ export type DynamicAttributes = {
   text: string;
 }[];
 
-export type InterviewJourneyCompanyTable = {
+export type JourneyItemTable = {
   id: string;
   reference: number;
   interview_journey: string;
@@ -22,7 +22,7 @@ export type InterviewJourneyCompanyTable = {
   updated_at: Date;
 };
 
-export type InterviewJourneyCompany = {
+export type JourneyItemCompany = {
   id: string;
   reference: number;
   interviewJourneyId: string;
@@ -40,8 +40,8 @@ export type InterviewJourneyCompany = {
 };
 
 export const journeyItemTableToJourneyItem = (
-  record: InterviewJourneyCompanyTable
-): InterviewJourneyCompany => ({
+  record: JourneyItemTable
+): JourneyItemCompany => ({
   id: record.id,
   reference: record.reference,
   interviewJourneyId: record.interview_journey,

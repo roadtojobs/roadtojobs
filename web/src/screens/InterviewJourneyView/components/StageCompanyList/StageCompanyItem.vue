@@ -8,15 +8,15 @@
 </template>
 
 <script setup lang="ts">
-import { InterviewJourneyCompany } from 'shared/entities/journeyItem.entity';
+import { JourneyItemCompany } from 'shared/entities/journeyItem.entity';
 
 type StageCompanyItemProps = {
-  journeyCompanyItem: InterviewJourneyCompany;
+  journeyCompanyItem: JourneyItemCompany;
 };
 
 defineProps<StageCompanyItemProps>();
 
 defineEmits<{
-  (e: 'click', journeyCompanyItem: InterviewJourneyCompany): void;
+  (e: 'click', journeyCompanyItem: JourneyItemCompany): void;
 }>();
 </script>
