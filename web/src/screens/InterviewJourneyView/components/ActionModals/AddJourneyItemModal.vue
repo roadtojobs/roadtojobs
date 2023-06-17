@@ -75,7 +75,6 @@ import { useCurrentUser } from '@/stores/useCurrentUser';
 import { useCurrentJourney } from '@/stores/useCurrentJourney';
 import ColorPicker from '@/components/ColorPicker/ColorPicker.vue';
 import { useLoading } from '@/composable/useLoading';
-import { CreateOutcomes } from '@/types/db';
 
 type AddCompanyModalProps = {
   stage: Stage;
@@ -98,7 +97,7 @@ const {
 const globalStages = useGlobalStages();
 const { userId } = useCurrentUser();
 const { journeyId } = useCurrentJourney();
-const { isLoading, withLoading } = useLoading();
+const { isLoading, startLoading, stopLoading } = useLoading();
 
 const form = ref<{
   stageId: string;
@@ -142,9 +141,11 @@ const onClickSubmit = async () => {
     });
   }
 
-  const creationResult = await withLoading<CreateOutcomes>(
-    async () => await journeyItemRepo.create(validateResult.parsedObject)
+  startLoading();
+  const creationResult = await journeyItemRepo.create(
+    validateResult.parsedObject
   );
+  stopLoading();
 
   if (!creationResult.success) {
     if (creationResult.formErrors) {
