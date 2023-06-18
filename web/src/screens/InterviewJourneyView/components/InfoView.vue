@@ -32,6 +32,7 @@
       <Button
         v-if="!isEditing"
         @click="onClickEdit"
+        is-loading
       >
         Edit
       </Button>
