@@ -32,7 +32,6 @@
       <Button
         v-if="!isEditing"
         @click="onClickEdit"
-        is-loading
       >
         Edit
       </Button>
@@ -47,6 +46,7 @@
       <Button
         v-if="isEditing"
         @click="onSubmitEdit"
+        :is-loading="isLoading"
       >
         Submit
       </Button>
@@ -54,6 +54,7 @@
         v-if="isEditing"
         type="secondary"
         @click="isEditing = false"
+        :is-loading="isLoading"
       >
         Cancel
       </Button>
@@ -77,6 +78,7 @@ import useValidation from '@/composable/useValidation';
 import { updateJourney } from '@/screens/InterviewJourneyView/components/InfoView.methods';
 import { notify } from '@kyvg/vue3-notification';
 import { useCurrentJourney } from '@/stores/useCurrentJourney';
+import { useLoading } from '@/composable/useLoading';
 
 type InfoViewProps = {
   interviewJourney: Journey;
@@ -101,6 +103,7 @@ const editForm = ref<UpdateJourney>({
 const { errorsBag, validate, reset } =
   useValidation<UpdateJourney>(updateJourney);
 const { mergePartial: updateJourneyPartially } = useCurrentJourney();
+const { isLoading, startLoading, stopLoading } = useLoading();
 
 const renderItems = computed<RenderItem[]>((): RenderItem[] => {
   const journey = props.interviewJourney;
@@ -211,10 +214,12 @@ const onSubmitEdit = async () => {
   }
 
   // update
+  startLoading();
   const updateResult = await journeyRepo.update(
     props.interviewJourney.id,
     validateResult.parsedObject
   );
+  stopLoading();
 
   if (!updateResult) {
     return notify({

@@ -1,5 +1,8 @@
 <template>
-  <div v-html="renderedMarkdownContent" />
+  <div
+    class="prose-sm prose-ul:list-disc prose-ol:list-decimal"
+    v-html="renderedMarkdownContent"
+  />
 </template>
 
 <script setup lang="ts">
