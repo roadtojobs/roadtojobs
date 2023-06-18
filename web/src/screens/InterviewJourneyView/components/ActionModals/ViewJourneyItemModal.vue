@@ -174,6 +174,20 @@
                 </li>
               </ul>
             </div>
+            <div>
+              <h2 class="text-sm font-medium text-gray-500 flex gap-2">
+                <ChatBubbleLeftIcon class="w-5 h-5" />
+                <span> Node Color </span>
+              </h2>
+              <div class="mt-2">
+                <span
+                  class="inline-flex items-center rounded-full px-3 py-2 text-xs font-medium select-none cursor-pointer"
+                  :class="nodeColor"
+                >
+                  {{ nodeColorName }}
+                </span>
+              </div>
+            </div>
           </div>
         </aside>
       </div>
@@ -191,6 +205,7 @@ import {
   PaperAirplaneIcon,
   StarIcon,
   TagIcon,
+  ChatBubbleLeftIcon,
 } from '@heroicons/vue/24/outline';
 import { journeyItemActivityRepo } from '@/repositories/journeyItemActivity.repo';
 import ActivityList from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/ActivityList.vue';
@@ -200,6 +215,7 @@ import { DISPLAY_DATE_FORMAT } from '@/constants';
 import StageText from '@/screens/InterviewJourneyView/components/Utils/StageText.vue';
 import { JourneyItemActivity } from 'shared/entities/journeyItemActivity.entity';
 import { Journey } from 'shared/entities/journey.entity';
+import { getNodeColor } from '@/screens/InterviewJourneyView/components/StageCompanyList/StageCompanyItem.methods';
 
 type ViewCompanyModalProps = {
   journey: Journey;
@@ -234,6 +250,16 @@ onMounted(async () => {
 
 const createdDateText = computed(() =>
   dayjs(props.interviewJourneyCompany.createdAt).format(DISPLAY_DATE_FORMAT)
+);
+
+const nodeColorName = computed(() => {
+  const color = props.interviewJourneyCompany.color;
+
+  return `${color.slice(0, 1).toUpperCase()}${color.slice(1)}`;
+});
+
+const nodeColor = computed(() =>
+  getNodeColor(props.interviewJourneyCompany.color)
 );
 
 const onActivityCreated = () => loadAllActivities();

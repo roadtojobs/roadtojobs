@@ -1,6 +1,6 @@
 <template>
   <Sortable
-    :list="journeyCompanyItems"
+    :list="journeyItems"
     item-key="stage-companies"
     tag="div"
     class="flex flex-row gap-2 w-full"
@@ -8,7 +8,7 @@
     @add="onAdded"
   >
     <template
-      v-if="!journeyCompanyItems.length"
+      v-if="!journeyItems.length"
       #header
     >
       <span>
@@ -19,7 +19,7 @@
     <template #item="{ element, index }">
       <StageCompanyItem
         :key="(element as JourneyItem).id"
-        :journey-company-item="element"
+        :journey-item="element"
         :attr-journey-item-id="(element as JourneyItem).id"
         :attr-stage-id="(element as JourneyItem).stageId"
         @click="(item) => $emit('click', item)"
@@ -36,13 +36,13 @@ import { Sortable } from 'sortablejs-vue3';
 
 type StageCompanyListProps = {
   stage: Stage;
-  journeyCompanyItems: JourneyItem[];
+  journeyItems: JourneyItem[];
 };
 
 const props = defineProps<StageCompanyListProps>();
 
 const emits = defineEmits<{
-  (e: 'click', journeyCompanyItem: JourneyItem): void;
+  (e: 'click', journeyItem: JourneyItem): void;
   (
     e: 'added',
     item: {

@@ -40,9 +40,7 @@
               <td class="whitespace-nowrap p-4 text-sm text-gray-500">
                 <StageCompanyList
                   :stage="stage"
-                  :journey-company-items="
-                    stageJourneyCompanyMap[stage.id] || []
-                  "
+                  :journey-items="stageJourneyCompanyMap[stage.id] || []"
                   @click="(item) => viewJourneyItem(item)"
                   @added="updateJourneyItemStage"
                 />
