@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { computed } from 'vue';
 import { Journey } from 'shared/entities/journey.entity';
+import { UpdateJourney } from '@/repositories/journey.repo';
 
 export const useCurrentJourney = defineStore('currentJourney', () => {
   // This is intended not to have a Journey | undefined
@@ -24,7 +25,14 @@ export const useCurrentJourney = defineStore('currentJourney', () => {
     journey.value = { ...currentJourney };
   };
 
+  const mergePartial = (currentJourney: UpdateJourney) => {
+    journey.value = {
+      ...journey.value,
+      ...currentJourney,
+    };
+  };
+
   const journeyId = computed(() => journey.value.id);
 
-  return { journey, setJourney, journeyId };
+  return { journey, setJourney, journeyId, mergePartial };
 });

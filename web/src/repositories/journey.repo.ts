@@ -8,6 +8,19 @@ import {
   interviewJourneyTableToInterviewJourney,
 } from 'shared/entities/journey.entity';
 
+export type UpdateJourney = Omit<
+  Journey,
+  | 'id'
+  | 'createdAt'
+  | 'archivedAt'
+  | 'updatedAt'
+  | 'totalJourneyItems'
+  | 'endedAt'
+  | 'endedReason'
+>;
+
+type UpdateJourneyOkResult = UpdateJourney & { id: string };
+
 export const journeyRepo = {
   getSingleThing(id: string) {
     return generateId(TABLES.JOURNEY, id);
@@ -54,5 +67,20 @@ export const journeyRepo = {
     }
 
     return interviewJourneyTableToInterviewJourney(result[0]);
+  },
+
+  async update(
+    id: string,
+    values: UpdateJourney
+  ): Promise<UpdateJourneyOkResult | undefined> {
+    try {
+      const [result] = await dbClient.merge<UpdateJourney>(id, values);
+
+      return result;
+    } catch (e) {
+      console.error(e);
+
+      return;
+    }
   },
 };

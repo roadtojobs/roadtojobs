@@ -1,13 +1,13 @@
 <template>
+  <NotFoundScreen v-if="notFound" />
   <AppPage
-    v-if="interviewJourney === undefined"
+    v-else-if="interviewJourney.id.length === 0"
     header-title="Loading..."
     description="Loading..."
     class="animate-pulse"
   >
     Loading...
   </AppPage>
-  <NotFoundScreen v-else-if="interviewJourney === null" />
   <AppPage
     v-else
     :header-title="`My journey: ${interviewJourney.name}`"
@@ -50,9 +50,10 @@ import { useCurrentJourney } from '@/stores/useCurrentJourney';
 const route = useRoute();
 const { user } = useCurrentUser();
 const { loadStages } = useGlobalStages();
-const { setJourney } = useCurrentJourney();
+const currentJourney = useCurrentJourney();
 
-const interviewJourney = ref<Journey | null>();
+const interviewJourney = computed(() => currentJourney.journey);
+const notFound = ref(false);
 const pageTabs: TabItem[] = [
   {
     id: 'info',
@@ -68,12 +69,12 @@ const pageTabs: TabItem[] = [
 
 onMounted(async () => {
   const record = await journeyRepo.getById(String(route.params.id));
-  interviewJourney.value = record ? { ...record } : null;
-
-  if (record) {
-    setJourney(record);
+  if (!record) {
+    notFound.value = true;
+    return;
   }
 
+  currentJourney.setJourney(record);
   await loadStages();
 });
 

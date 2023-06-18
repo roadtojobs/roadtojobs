@@ -31,7 +31,7 @@
       <!-- View -->
       <Button
         v-if="!isEditing"
-        @click="isEditing = true"
+        @click="onClickEdit"
       >
         Edit
       </Button>
@@ -45,7 +45,7 @@
       <!-- Editing -->
       <Button
         v-if="isEditing"
-        @click="isEditing = false"
+        @click="onSubmitEdit"
       >
         Submit
       </Button>
@@ -67,11 +67,15 @@ import { DISPLAY_DATE_FORMAT } from '@/constants';
 import Button from '@/components/Button/Button.vue';
 import MarkdownContent from '@/components/MarkdownContent/MarkdownContent.vue';
 import { VueComponent } from '@/types';
-import { isString } from 'lodash-es';
 import { Journey } from 'shared/entities/journey.entity';
 import Textarea from '@/components/Textarea/Textarea.vue';
 import Input from '@/components/Input/Input.vue';
 import { parseServerDate } from '@/utils/date';
+import { journeyRepo, UpdateJourney } from '@/repositories/journey.repo';
+import useValidation from '@/composable/useValidation';
+import { updateJourney } from '@/screens/InterviewJourneyView/components/InfoView.methods';
+import { notify } from '@kyvg/vue3-notification';
+import { useCurrentJourney } from '@/stores/useCurrentJourney';
 
 type InfoViewProps = {
   interviewJourney: Journey;
@@ -86,6 +90,17 @@ type RenderItem = {
   EditComponent?: VueComponent;
 };
 
+const isEditing = ref(false);
+const editForm = ref<UpdateJourney>({
+  name: '',
+  description: '',
+  note: '',
+  startedAt: new Date(),
+});
+const { errorsBag, validate, reset } =
+  useValidation<UpdateJourney>(updateJourney);
+const { mergePartial: updateJourneyPartially } = useCurrentJourney();
+
 const renderItems = computed<RenderItem[]>((): RenderItem[] => {
   const journey = props.interviewJourney;
 
@@ -93,13 +108,33 @@ const renderItems = computed<RenderItem[]>((): RenderItem[] => {
   // we don't need to render the VNode on runtime
   return [
     {
+      label: 'Journey Name 💼',
+      Text: () =>
+        h('span', {
+          innerText: journey.name,
+        }),
+      key: 'name',
+      EditComponent: () =>
+        h(Input, {
+          modelValue: editForm.value.name,
+          error: errorsBag.value.get('name'),
+          'onUpdate:modelValue'(value: string) {
+            editForm.value.name = value;
+          },
+        }),
+    },
+    {
       label: 'Journey Description 📖',
       Text: () => h(MarkdownContent, () => journey.description),
       key: 'description',
       EditComponent: () =>
         h(Textarea, {
-          modelValue: journey.description.trim(),
+          modelValue: editForm.value.description,
           rows: 8,
+          error: errorsBag.value.get('description'),
+          'onUpdate:modelValue'(value: string) {
+            editForm.value.description = value;
+          },
         }),
     },
     {
@@ -111,8 +146,12 @@ const renderItems = computed<RenderItem[]>((): RenderItem[] => {
       key: 'note',
       EditComponent: () =>
         h(Textarea, {
-          modelValue: journey.note?.trim() ?? '',
+          modelValue: editForm.value.note,
           rows: 8,
+          error: errorsBag.value.get('note'),
+          'onUpdate:modelValue'(value: string) {
+            editForm.value.note = value;
+          },
         }),
     },
     {
@@ -124,8 +163,12 @@ const renderItems = computed<RenderItem[]>((): RenderItem[] => {
       key: 'startedAt',
       EditComponent: () =>
         h(Input, {
-          modelValue: parseServerDate(journey.startedAt),
+          modelValue: parseServerDate(editForm.value.startedAt),
           type: 'date',
+          error: errorsBag.value.get('startedAt'),
+          'onUpdate:modelValue'(value: string) {
+            editForm.value.startedAt = new Date(value);
+          },
         }),
     },
     {
@@ -141,5 +184,52 @@ const renderItems = computed<RenderItem[]>((): RenderItem[] => {
   ];
 });
 
-const isEditing = ref(false);
+const onClickEdit = () => {
+  editForm.value = {
+    name: props.interviewJourney.name,
+    description: props.interviewJourney.description,
+    note: props.interviewJourney.note || '',
+    startedAt: props.interviewJourney.startedAt,
+  };
+
+  isEditing.value = true;
+};
+
+const onSubmitEdit = async () => {
+  reset();
+  const validateResult = validate({
+    ...editForm.value,
+  });
+
+  if (!validateResult.success) {
+    return notify({
+      type: 'error',
+      title: 'Validation Error',
+      text: 'Please check the error(s), fix and try again.',
+    });
+  }
+
+  // update
+  const updateResult = await journeyRepo.update(
+    props.interviewJourney.id,
+    validateResult.parsedObject
+  );
+
+  if (!updateResult) {
+    return notify({
+      type: 'error',
+      title: 'Update Error',
+      text: 'There was an error while updating your Journey. Please refresh the page and try again.',
+    });
+  }
+
+  updateJourneyPartially(updateResult);
+  isEditing.value = false;
+
+  return notify({
+    type: 'success',
+    title: 'Updated',
+    text: 'Your journey was updated successfully!',
+  });
+};
 </script>
