@@ -4,6 +4,7 @@ ROOT_DIR=$(pwd)
 
 echo "Bootstrapping the project...";
 
+cd $ROOT_DIR/shared && npm ci
 cd $ROOT_DIR/server && npm ci && cp .env.example .env
 cd $ROOT_DIR/web && npm ci  && cp .env.example .env
 
