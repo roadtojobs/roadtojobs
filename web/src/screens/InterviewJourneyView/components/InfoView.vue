@@ -4,7 +4,7 @@
       <dl class="divide-y divide-gray-100">
         <div
           v-for="item in renderItems"
-          :key="item.key"
+          :key="`${item.key}-show`"
           class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
         >
           <dt class="text-sm font-medium leading-6 text-gray-900">
@@ -14,12 +14,12 @@
             class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
           >
             <component
-              v-if="!isString(item.text)"
-              :is="item.text"
+              v-if="!isEditing || !item.EditComponent"
+              :is="item.Text"
             />
-            <span
+            <component
               v-else
-              v-text="item.text"
+              :is="item.EditComponent"
             />
           </dd>
         </div>
@@ -28,12 +28,33 @@
     <div
       class="mt-2 border-t border-t-gray-100 pt-4 flex flex-row-reverse items-center gap-x-2"
     >
-      <Button>Update Info</Button>
+      <!-- View -->
       <Button
+        v-if="!isEditing"
+        @click="isEditing = true"
+      >
+        Edit
+      </Button>
+      <Button
+        v-if="!isEditing"
         type="secondary"
         @click="$router.push({ name: 'interview-journey' })"
       >
         Back
+      </Button>
+      <!-- Editing -->
+      <Button
+        v-if="isEditing"
+        @click="isEditing = false"
+      >
+        Submit
+      </Button>
+      <Button
+        v-if="isEditing"
+        type="secondary"
+        @click="isEditing = false"
+      >
+        Cancel
       </Button>
     </div>
   </div>
@@ -48,6 +69,9 @@ import MarkdownContent from '@/components/MarkdownContent/MarkdownContent.vue';
 import { VueComponent } from '@/types';
 import { isString } from 'lodash-es';
 import { Journey } from 'shared/entities/journey.entity';
+import Textarea from '@/components/Textarea/Textarea.vue';
+import Input from '@/components/Input/Input.vue';
+import { parseServerDate } from '@/utils/date';
 
 type InfoViewProps = {
   interviewJourney: Journey;
@@ -58,42 +82,64 @@ const props = defineProps<InfoViewProps>();
 type RenderItem = {
   key: keyof Journey;
   label: string;
-  text: string | VueComponent;
-  type: 'text' | 'date';
+  Text: VueComponent;
+  EditComponent?: VueComponent;
 };
 
 const renderItems = computed<RenderItem[]>((): RenderItem[] => {
   const journey = props.interviewJourney;
 
+  // () => h(..) is a strategy to render on demand
+  // we don't need to render the VNode on runtime
   return [
     {
       label: 'Journey Description 📖',
-      text: h(MarkdownContent, () => journey.description),
+      Text: () => h(MarkdownContent, () => journey.description),
       key: 'description',
-      type: 'text',
+      EditComponent: () =>
+        h(Textarea, {
+          modelValue: journey.description.trim(),
+          rows: 8,
+        }),
     },
     {
       label: 'Personal Goals/Notes 🚀',
-      text: journey.note ? h(MarkdownContent, () => journey.note) : '-',
+      Text: () =>
+        journey.note
+          ? h(MarkdownContent, () => journey.note)
+          : h('span', { innerText: '-' }),
       key: 'note',
-      type: 'text',
+      EditComponent: () =>
+        h(Textarea, {
+          modelValue: journey.note?.trim() ?? '',
+          rows: 8,
+        }),
     },
     {
       label: 'Journey Started At 🏎️',
-      text: dayjs(journey.startedAt).format(DISPLAY_DATE_FORMAT),
+      Text: () =>
+        h('span', {
+          innerText: dayjs(journey.startedAt).format(DISPLAY_DATE_FORMAT),
+        }),
       key: 'startedAt',
-      type: 'date',
+      EditComponent: () =>
+        h(Input, {
+          modelValue: parseServerDate(journey.startedAt),
+          type: 'date',
+        }),
     },
     {
       label: 'Journey Ended At 🔥',
-      text: journey.endedAt
-        ? dayjs(journey.endedAt).format(DISPLAY_DATE_FORMAT)
-        : 'To be determined...',
+      Text: () =>
+        h('span', {
+          innerText: journey.endedAt
+            ? dayjs(journey.endedAt).format(DISPLAY_DATE_FORMAT)
+            : 'To be determined...',
+        }),
       key: 'endedAt',
-      type: 'date',
     },
   ];
 });
-</script>
 
-<style scoped></style>
+const isEditing = ref(false);
+</script>
