@@ -1,5 +1,7 @@
 # Road To Jobs - The open-source Interview Tracking app
 
+[![CI (Lint, TypeCheck, Build)](https://github.com/roadtojobs/roadtojobs/actions/workflows/ci.yml/badge.svg)](https://github.com/roadtojobs/roadtojobs/actions/workflows/ci.yml)
+
 <p align="center">
     <img src="https://raw.githubusercontent.com/roadtojobs/roadtojobs/main/web/src/assets/images/logo.png" />
 </p>

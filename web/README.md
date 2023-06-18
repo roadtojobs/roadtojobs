@@ -8,7 +8,7 @@ This contains the Web UI for the Interview Journey application
 - Vue 3 x TypeScript
 - Vue Router 4 for routes
 - Pinia for stores
-- Dayjs to handle datetime (small but awesome)
+- Dayjs to handle datetime (small but powerful)
 - Zod for object schema and validation
 - And Vite ⚡️
 
