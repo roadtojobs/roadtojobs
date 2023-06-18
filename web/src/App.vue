@@ -1,7 +1,7 @@
 <template>
   <div>
     <AppHeaderSidebar />
-    <main class="py-10 lg:pl-72">
+    <main class="py-10 lg:pl-64">
       <div class="px-4 sm:px-6 lg:px-8">
         <router-view />
       </div>

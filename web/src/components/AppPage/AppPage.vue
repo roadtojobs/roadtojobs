@@ -35,19 +35,18 @@
 </template>
 
 <script setup lang="ts">
-withDefaults(
-  defineProps<{
-    headerTitle: string;
-    description?: string;
-    descriptionTextClass?: string;
-    borderless?: boolean;
-    bodyMargin?: string;
-    bodyClasses?: string;
-  }>(),
-  {
-    bodyMargin: 'mt-8',
-    descriptionTextClass: 'text-md text-gray-500',
-    bodyClasses: 'mx-auto max-w-7xl px-4 sm:px-6 lg:px-8',
-  }
-);
+type AppPageProps = {
+  headerTitle: string;
+  description?: string;
+  descriptionTextClass?: string;
+  borderless?: boolean;
+  bodyMargin?: string;
+  bodyClasses?: string;
+};
+
+withDefaults(defineProps<AppPageProps>(), {
+  bodyMargin: 'mt-8',
+  descriptionTextClass: 'text-md text-gray-500',
+  bodyClasses: 'mx-auto max-w-7xl px-4 sm:px-6 lg:px-8',
+});
 </script>
