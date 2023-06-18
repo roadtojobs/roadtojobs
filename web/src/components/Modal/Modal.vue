@@ -36,7 +36,7 @@
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <DialogPanel
-              class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full"
+              class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full"
               :class="[
                 widthSize === 'lg' ? 'sm:max-w-lg' : '',
                 widthSize === 'xl' ? 'sm:max-w-xl' : '',

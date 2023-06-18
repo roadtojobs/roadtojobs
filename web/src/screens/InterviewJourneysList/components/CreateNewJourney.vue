@@ -19,12 +19,14 @@
         v-model="interviewJourney.name"
         id="journey_name"
         label="Journey Name"
+        placeholder="Put a lovely name for a big inspiration"
         :error="errorsBag.get('name')"
       />
       <Textarea
         v-model="interviewJourney.description"
         label="Journey Description"
-        rows="4"
+        placeholder="Give the journey some details. Markdown supported"
+        rows="6"
         :error="errorsBag.get('description')"
       />
       <Input
@@ -36,7 +38,8 @@
       <Textarea
         v-model="interviewJourney.note"
         label="Personal Goal/Note (Optional)"
-        rows="2"
+        placeholder="Always a good idea to note down the desired goals, notes. Markdown supported"
+        rows="6"
       />
     </form>
     <template

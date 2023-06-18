@@ -12,7 +12,7 @@
         :value="modelValue"
         @input="onInput"
         :class="[
-          'block w-full pl-3 rounded-md border-0 py-1.5 sm:text-sm sm:leading-6',
+          'block w-full pl-3 rounded-md border-0 py-1.5 text-sm leading-6',
           'ring-1 ring-inset focus:ring-2 focus:ring-inset',
           error
             ? 'text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500'
@@ -48,7 +48,9 @@ type TextareaProps = {
   error?: string;
 };
 
-defineProps<TextareaProps>();
+withDefaults(defineProps<TextareaProps>(), {
+  id: () => `text-area-${Math.random()}`,
+});
 
 type EmitActions = {
   (e: 'update:modelValue', value: string | undefined): void;
