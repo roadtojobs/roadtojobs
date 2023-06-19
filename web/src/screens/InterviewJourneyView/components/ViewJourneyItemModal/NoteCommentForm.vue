@@ -16,30 +16,27 @@
       />
     </div>
     <div class="mt-6 flex items-center justify-end space-x-4">
-      <button
+      <Button
         @click="onCloseAndArchive"
+        type="warning"
         :disabled="isLoading"
-        class="inline-flex justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+        :icon="XCircleIcon"
       >
-        <XCircleIcon
-          class="-ml-0.5 h-5 w-5 text-gray-500"
-          aria-hidden="true"
-        />
-        Close & Archive
-      </button>
-      <button
+        Note & Archive
+      </Button>
+      <Button
         @click="onSubmitCreateNote"
         :disabled="isLoading"
-        class="inline-flex items-center justify-center rounded-md bg-gray-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+        :icon="DocumentPlusIcon"
       >
         Note
-      </button>
+      </Button>
     </div>
   </form>
 </template>
 
 <script setup lang="ts">
-import { XCircleIcon } from '@heroicons/vue/24/outline';
+import { XCircleIcon, DocumentPlusIcon } from '@heroicons/vue/24/outline';
 import Textarea from '@/components/Textarea/Textarea.vue';
 import { JourneyItem } from 'shared/entities/journeyItem.entity';
 import { useLoading } from '@/composable/useLoading';
@@ -51,6 +48,7 @@ import {
 import { notify } from '@kyvg/vue3-notification';
 import { journeyItemActivityRepo } from '@/repositories/journeyItemActivity.repo';
 import { useCurrentUser } from '@/stores/useCurrentUser';
+import Button from '@/components/Button/Button.vue';
 
 type NoteCommentFormProps = {
   journeyItem: JourneyItem;
