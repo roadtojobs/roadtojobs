@@ -81,8 +81,19 @@
             empty-text="Select Color"
             :items="listColors"
             :model-value="colorValue"
+            item-classes="flex gap-2"
             @update:model-value="(value) => $emit('update:colorValue', value)"
-          />
+          >
+            <template #custom-item="{ currentValue, item }">
+              <span
+                class="block w-20 h-5 rounded-full"
+                :class="[colors[item.value].backgroundColor]"
+              />
+              <span class="font-medium">
+                {{ item.text }}
+              </span>
+            </template>
+          </Dropdown>
         </div>
       </div>
     </div>
