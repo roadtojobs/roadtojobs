@@ -47,7 +47,7 @@
                 v-if="typeof item.active !== 'undefined'"
                 :class="[
                   'inline-block h-2 w-2 flex-shrink-0 rounded-full',
-                  !item.active ? 'bg-green-400' : 'bg-gray-200',
+                  item.active ? 'bg-green-400' : 'bg-gray-200',
                 ]"
                 aria-hidden="true"
               />

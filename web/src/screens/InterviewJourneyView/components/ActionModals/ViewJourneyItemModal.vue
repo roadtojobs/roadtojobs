@@ -54,7 +54,7 @@
                 <div class="space-y-5">
                   <div class="flex items-center space-x-2">
                     <PaperAirplaneIcon
-                      class="h-5 w-5 text-green-500"
+                      class="h-5 w-5 text-gray-500"
                       aria-hidden="true"
                     />
                     <StageText
@@ -85,8 +85,12 @@
               </aside>
               <div class="py-3 xl:pb-0 xl:pt-6">
                 <h2 class="sr-only">Description</h2>
-                <div class="prose max-w-none">
-                  {{ interviewJourneyCompany.description }}
+                <div
+                  class="prose-xl prose-ul:list-disc prose-ol:list-decimal max-w-none"
+                >
+                  <MarkdownContent>{{
+                    interviewJourneyCompany.description
+                  }}</MarkdownContent>
                 </div>
               </div>
             </div>
@@ -216,6 +220,7 @@ import StageText from '@/screens/InterviewJourneyView/components/Utils/StageText
 import { JourneyItemActivity } from 'shared/entities/journeyItemActivity.entity';
 import { Journey } from 'shared/entities/journey.entity';
 import { getNodeColor } from '@/screens/InterviewJourneyView/components/StageCompanyList/StageCompanyItem.methods';
+import MarkdownContent from '@/components/MarkdownContent/MarkdownContent.vue';
 
 type ViewCompanyModalProps = {
   journey: Journey;
