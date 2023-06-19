@@ -176,6 +176,12 @@
                   />
                   {{ ' ' }}
                 </li>
+                <li
+                  v-if="!interviewJourneyCompany?.attributes?.length"
+                  class="text-sm font-medium"
+                >
+                  Empty
+                </li>
               </ul>
             </div>
             <div>
