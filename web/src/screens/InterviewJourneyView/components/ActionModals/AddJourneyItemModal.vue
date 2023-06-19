@@ -3,8 +3,9 @@
     v-if="isOpen"
     :is-open="isOpen"
     :title="isOpenAddCompany ? 'Add new Company' : 'Add new Journey Item'"
-    @close="$emit('close')"
+    :wants-close-on-click-outside="false"
     width-size="xl"
+    @close="$emit('close')"
   >
     <div class="my-4">
       <TransitionRoot
@@ -41,7 +42,7 @@
                 <div>
                   <Button
                     :icon="PlusIcon"
-                    @click="onClickOpenAddCompany"
+                    @click="onClickOpenAddCompany(query)"
                   >
                     Add new Company
                   </Button>
@@ -76,15 +77,23 @@
           @submit.prevent
           class="flex flex-col gap-3"
         >
-          <Input label="Company Name" />
+          <Input
+            v-model="addCompanyForm.name"
+            label="Company Name"
+            :error="addCompanyErrors.get('name')"
+          />
           <Textarea
+            v-model="addCompanyForm.description"
             label="Description (Optional)"
             placeholder="Markdown supported"
             rows="6"
+            :error="addCompanyErrors.get('description')"
           />
           <Input
+            v-model="addCompanyForm.homepage"
             label="Homepage URL (Optional)"
             placeholder="https://"
+            :error="addCompanyErrors.get('homepage')"
           />
         </form>
       </TransitionRoot>
@@ -107,14 +116,14 @@
       </template>
       <template v-else>
         <Button
-          @click="onClickSubmit"
-          :disabled="isLoading"
+          @click="onSubmitAddCompany"
+          :disabled="isLoadingAddCompany"
         >
           Add new Company
         </Button>
         <Button
           type="secondary"
-          :disabled="isLoading"
+          :disabled="isLoadingAddCompany"
           @click="onCloseAddCompany"
         >
           Back
@@ -173,8 +182,6 @@ const globalStages = useGlobalStages();
 const { userId } = useCurrentUser();
 const { journeyId } = useCurrentJourney();
 const { isLoading, startLoading, stopLoading } = useLoading();
-const { isOpenAddCompany, onClickOpenAddCompany, onCloseAddCompany } =
-  useCreateNewCompany();
 
 const form = ref<{
   stageId: string;
@@ -246,4 +253,22 @@ const onClickSubmit = async () => {
 
   emits('created');
 };
+
+//**********
+// Add Company
+//**********
+const {
+  isOpenAddCompany,
+  onClickOpenAddCompany,
+  onCloseAddCompany,
+  isLoadingAddCompany,
+  onSubmitAddCompany,
+  addCompanyForm,
+  addCompanyErrors,
+} = useCreateNewCompany((company) => {
+  form.value.company = {
+    text: company.name,
+    value: company.id,
+  };
+});
 </script>

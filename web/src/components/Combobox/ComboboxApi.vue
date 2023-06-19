@@ -153,6 +153,10 @@ const query = ref('');
 const selectedItem = ref<ComboboxItem | null>(props.modelValue || null);
 
 const selectItem = (item: ComboboxItem) => {
+  if (!item) {
+    return;
+  }
+
   selectedItem.value = { ...item };
   emits('update:modelValue', item);
 };

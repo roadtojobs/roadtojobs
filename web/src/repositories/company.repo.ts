@@ -6,6 +6,8 @@ import {
   companyTableToCompany,
 } from 'shared/entities/company.entity';
 
+type CreateCompany = Omit<Company, 'id' | 'source'>;
+
 export const companyRepo = {
   async getByKeyword(keyword: string): Promise<Company[]> {
     const [result] = await dbClient.query<CompanyTable[][]>(
@@ -22,5 +24,18 @@ export const companyRepo = {
     }
 
     return result.result.map(companyTableToCompany);
+  },
+
+  async create(values: CreateCompany): Promise<Company | undefined> {
+    try {
+      const [result] = await dbClient.create<CreateCompany>(
+        TABLES.COMPANY,
+        values
+      );
+
+      return companyTableToCompany(result as CompanyTable);
+    } catch (e) {
+      return undefined;
+    }
   },
 };
