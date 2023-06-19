@@ -71,19 +71,33 @@
           </li>
         </ComboboxOption>
         <ComboboxOption v-if="flexibleItems.length <= 0 && !query.length">
-          <span class="text-gray-900 ml-3 truncate text-sm my-4 select-none">
-            Hit some keywords to search 👀
-          </span>
+          <div class="my-2">
+            <span class="text-gray-900 ml-3 truncate text-sm select-none">
+              Hit some keywords to search 👀
+            </span>
+          </div>
         </ComboboxOption>
         <ComboboxOption v-if="isLoading">
-          <span class="text-gray-600 ml-3 truncate text-sm my-4 select-none">
-            Retrieving records...
-          </span>
+          <div class="my-2 flex animate-pulse">
+            <span class="text-gray-600 ml-3 truncate text-sm select-none">
+              Retrieving records...
+            </span>
+            <ArrowPathIcon class="w-5 h-5 animate-spin" />
+          </div>
         </ComboboxOption>
         <ComboboxOption
           v-if="!isLoading && flexibleItems.length <= 0 && query.length"
         >
-          <span class="text-gray-600 ml-3 truncate text-sm my-4 select-none">
+          <template v-if="$slots['empty-record']">
+            <slot
+              name="empty-record"
+              :query="query"
+            />
+          </template>
+          <span
+            v-else
+            class="text-gray-600 ml-3 truncate text-sm my-4 select-none"
+          >
             No record found with the "{{ query }}" keywords.
           </span>
         </ComboboxOption>
@@ -100,7 +114,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid';
+import {
+  CheckIcon,
+  ChevronUpDownIcon,
+  ArrowPathIcon,
+} from '@heroicons/vue/20/solid';
 import {
   Combobox,
   ComboboxButton,
@@ -143,10 +161,9 @@ const resetItems = () => (flexibleItems.value = []);
 
 const debouncedApiRequest = debounce(() => {
   if (!query.value) {
+    stopLoading();
     return resetItems();
   }
-
-  startLoading();
 
   props
     .apiRequest(query.value)
@@ -158,8 +175,11 @@ const debouncedApiRequest = debounce(() => {
 }, 500);
 
 const retrieveItems = async (keyword: string) => {
+  startLoading();
+
   query.value = keyword;
   if (!query.value) {
+    stopLoading();
     return resetItems();
   }
 

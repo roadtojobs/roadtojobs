@@ -22,7 +22,18 @@
           label="Choose Company"
           :api-request="findCompanies"
           :error="errorsBag.get('companyId')"
-        />
+        >
+          <template #empty-record="{ query }">
+            <div class="flex flex-col gap-3 py-2 ml-3">
+              <span class="text-gray-600 truncate text-sm select-none">
+                No company found with the "{{ query }}" keywords.
+              </span>
+              <div>
+                <Button :icon="PlusIcon">Add new Company</Button>
+              </div>
+            </div>
+          </template>
+        </ComboboxApi>
         <Textarea
           v-model="form.description"
           label="Description"
@@ -75,6 +86,7 @@ import { useCurrentUser } from '@/stores/useCurrentUser';
 import { useCurrentJourney } from '@/stores/useCurrentJourney';
 import ColorPicker from '@/components/ColorPicker/ColorPicker.vue';
 import { useLoading } from '@/composable/useLoading';
+import { PlusIcon } from '@heroicons/vue/24/outline';
 
 type AddCompanyModalProps = {
   stage: Stage;
