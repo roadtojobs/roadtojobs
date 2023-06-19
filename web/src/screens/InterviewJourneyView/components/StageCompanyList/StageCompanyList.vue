@@ -40,9 +40,7 @@ type StageCompanyListProps = {
   disabled?: boolean;
 };
 
-const props = defineProps<StageCompanyListProps>();
-
-const emits = defineEmits<{
+type StageCompanyListEmits = {
   (e: 'click', journeyItem: JourneyItem): void;
   (
     e: 'added',
@@ -51,7 +49,10 @@ const emits = defineEmits<{
       wantedStageId: string;
     }
   ): void;
-}>();
+};
+
+const props = defineProps<StageCompanyListProps>();
+const emits = defineEmits<StageCompanyListEmits>();
 
 const onAdded = (e: CustomEvent & { item: HTMLElement }) => {
   const journeyItemId = e.item.getAttribute('attr-journey-item-id') || '';
