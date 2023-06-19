@@ -3,6 +3,9 @@ import { Stage } from 'shared/entities/stage.entity';
 import { computed } from 'vue';
 import { stageRepo } from '@/repositories/stage.repo';
 
+const isArchived = (stage: Stage) => stage.isArchivedStage;
+const isNotArchived = (stage: Stage) => !stage.isArchivedStage;
+
 export const useGlobalStages = defineStore('stages', () => {
   const stages = ref<Stage[]>([]);
 
@@ -17,11 +20,14 @@ export const useGlobalStages = defineStore('stages', () => {
   };
 
   const comboboxStages = computed(() =>
-    stages.value.map((stage) => ({
+    stages.value.filter(isNotArchived).map((stage) => ({
       text: stage.name,
       value: stage.id,
     }))
   );
 
-  return { stages, loadStages, comboboxStages };
+  const activeStages = computed(() => stages.value.filter(isNotArchived));
+  const archivedStages = computed(() => stages.value.filter(isArchived));
+
+  return { stages, loadStages, comboboxStages, activeStages, archivedStages };
 });

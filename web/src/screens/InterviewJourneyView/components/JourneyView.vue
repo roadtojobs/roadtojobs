@@ -24,7 +24,7 @@
           </thead>
           <tbody class="divide-y divide-gray-200 bg-white">
             <tr
-              v-for="stage in stages"
+              v-for="stage in activeStages"
               :key="stage.id"
               class="divide-x divide-gray-200"
             >
@@ -91,8 +91,7 @@ const props = defineProps<InfoViewProps>();
 const tableKey = ref(`table-key-${Math.random()}`);
 const rerenderTable = () => (tableKey.value = `table-key-${Math.random()}`);
 
-const globalStages = useGlobalStages();
-const stages = computed(() => globalStages.stages);
+const { activeStages } = useGlobalStages();
 
 // Table Data
 const { stageJourneyCompanyMap, retrieveAll: refreshJourneyItems } =

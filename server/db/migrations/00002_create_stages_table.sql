@@ -7,6 +7,7 @@ DEFINE FIELD name ON TABLE stage TYPE string ASSERT $value != NONE;
 DEFINE FIELD description ON TABLE stage TYPE string ASSERT $value != NONE;
 DEFINE FIELD is_initial_stage ON TABLE stage TYPE bool VALUE $value OR false;
 DEFINE FIELD is_final_stage ON TABLE stage TYPE bool VALUE $value OR false;
+DEFINE FIELD is_archived_stage ON TABLE stage TYPE bool VALUE $value OR false;
 DEFINE FIELD position ON TABLE stage TYPE int VALUE $value OR 0;
 DEFINE FIELD color ON TABLE stage TYPE string VALUE $value OR 'rose';
 DEFINE FIELD created_at ON TABLE stage TYPE datetime VALUE $value OR time::now();
@@ -87,4 +88,13 @@ CREATE stage:rejected_offer CONTENT {
   is_final_stage: true,
   color: 'red',
   position: 90
+};
+
+CREATE stage:archived CONTENT {
+  name: 'Archived 📂',
+  description: 'Journey Item that you archived due to anything',
+  is_final_stage: true,
+  is_archived_stage: true,
+  color: 'amber',
+  position: 100
 };
