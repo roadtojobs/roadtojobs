@@ -92,7 +92,7 @@ CREATE stage:rejected_offer CONTENT {
 
 CREATE stage:archived CONTENT {
   name: 'Archived 📂',
-  description: 'Journey Item that you archived due to anything',
+  description: 'Journey Items that you archived due to any reason. Feel free to bring them back to the active stages.',
   is_final_stage: true,
   is_archived_stage: true,
   color: 'amber',

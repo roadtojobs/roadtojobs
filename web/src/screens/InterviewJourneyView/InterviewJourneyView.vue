@@ -25,6 +25,9 @@
           :user="user"
         />
       </template>
+      <template #archived>
+        <ArchivedJourneyView :journey="interviewJourney" />
+      </template>
     </Tabs>
   </AppPage>
 </template>
@@ -37,7 +40,11 @@ import { useRoute } from 'vue-router';
 import NotFoundScreen from '@/components/NotFoundScreen/NotFoundScreen.vue';
 import Tabs from '@/components/Tabs/Tabs.vue';
 import { TabItem } from '@/components/Tabs/Tabs.methods';
-import { BookmarkIcon, SparklesIcon } from '@heroicons/vue/24/outline';
+import {
+  BookmarkIcon,
+  SparklesIcon,
+  FolderIcon,
+} from '@heroicons/vue/24/outline';
 import dayjs from 'dayjs';
 import { DISPLAY_DATE_FORMAT } from '@/constants';
 import InfoView from '@/screens/InterviewJourneyView/components/InfoView.vue';
@@ -46,6 +53,7 @@ import { useCurrentUser } from '@/stores/useCurrentUser';
 import { useGlobalStages } from '@/stores/useGlobalStages';
 import { Journey } from 'shared/entities/journey.entity';
 import { useCurrentJourney } from '@/stores/useCurrentJourney';
+import ArchivedJourneyView from '@/screens/InterviewJourneyView/components/ArchivedJourneyView.vue';
 
 const route = useRoute();
 const { user } = useCurrentUser();
@@ -64,6 +72,11 @@ const pageTabs: TabItem[] = [
     id: 'journey',
     label: 'Journey',
     icon: SparklesIcon,
+  },
+  {
+    id: 'archived',
+    label: 'Archived',
+    icon: FolderIcon,
   },
 ];
 

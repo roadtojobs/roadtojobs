@@ -4,7 +4,7 @@
     item-key="stage-companies"
     tag="div"
     class="flex flex-row gap-2 w-full"
-    :options="{ group: 'stage-companies' }"
+    :options="{ group: 'stage-companies', disabled }"
     @add="onAdded"
   >
     <template
@@ -37,6 +37,7 @@ import { Sortable } from 'sortablejs-vue3';
 type StageCompanyListProps = {
   stage: Stage;
   journeyItems: JourneyItem[];
+  disabled?: boolean;
 };
 
 const props = defineProps<StageCompanyListProps>();
