@@ -6,6 +6,7 @@
     <Dialog
       as="div"
       class="relative z-50"
+      :class="[parentZIndex]"
       @close="handleClose(true)"
     >
       <TransitionChild
@@ -22,7 +23,10 @@
         />
       </TransitionChild>
 
-      <div class="fixed inset-0 z-10 overflow-y-auto">
+      <div
+        class="fixed inset-0 overflow-y-auto"
+        :class="[zIndex]"
+      >
         <div
           class="flex min-h-full justify-center p-4 text-center items-center sm:p-0"
         >
@@ -103,12 +107,16 @@ type ModalProps = {
   title?: string;
   widthSize?: 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | 'max';
   wantsCloseOnClickOutside?: boolean;
+  zIndex?: string;
+  parentZIndex?: string;
 };
 
 const props = withDefaults(defineProps<ModalProps>(), {
   isOpen: false,
   widthSize: 'lg',
   wantsCloseOnClickOutside: true,
+  zIndex: 'z-10',
+  parentZIndex: 'z-50',
 });
 
 const emits = defineEmits<{
@@ -123,3 +131,17 @@ const handleClose = (isOutsideClick: boolean) => {
   emits('close');
 };
 </script>
+
+<style scoped>
+.z-100 {
+  z-index: 100;
+}
+
+.z-150 {
+  z-index: 150;
+}
+
+.z-200 {
+  z-index: 200;
+}
+</style>
