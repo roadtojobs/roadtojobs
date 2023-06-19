@@ -4,10 +4,13 @@ export const useEditJourneyItem = (journeyItem: JourneyItem) => {
   const isEdit = ref(false);
   const editForm = ref({
     description: '',
+    color: '',
   });
 
   const onClickEdit = () => {
     editForm.value.description = journeyItem.description;
+    editForm.value.color = journeyItem.color;
+
     isEdit.value = true;
   };
 

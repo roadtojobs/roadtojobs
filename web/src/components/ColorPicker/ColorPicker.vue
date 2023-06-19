@@ -45,6 +45,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue';
+import { colors } from '@/constants/nodeColors';
 
 type ColorPickerType = {
   label: string;
@@ -53,55 +54,6 @@ type ColorPickerType = {
 
 type ColorPickerEmits = {
   (e: 'update:modelValue', value: string | undefined): void;
-};
-
-type ColorInfo = {
-  name: string;
-  backgroundColor: string;
-  ringColor: string;
-};
-
-const colors: Record<string, ColorInfo> = {
-  rose: {
-    name: 'Rose',
-    backgroundColor: 'bg-rose-500',
-    ringColor: 'ring-rose-500',
-  },
-  pink: {
-    name: 'Pink',
-    backgroundColor: 'bg-pink-500',
-    ringColor: 'ring-pink-500',
-  },
-  purple: {
-    name: 'Purple',
-    backgroundColor: 'bg-purple-500',
-    ringColor: 'ring-purple-500',
-  },
-  blue: {
-    name: 'Blue',
-    backgroundColor: 'bg-blue-500',
-    ringColor: 'ring-blue-500',
-  },
-  indigo: {
-    name: 'Indigo',
-    backgroundColor: 'bg-indigo-500',
-    ringColor: 'ring-indigo-500',
-  },
-  yellow: {
-    name: 'Yellow',
-    backgroundColor: 'bg-yellow-500',
-    ringColor: 'ring-yellow-500',
-  },
-  sky: {
-    name: 'Sky',
-    backgroundColor: 'bg-sky-500',
-    ringColor: 'ring-sky-500',
-  },
-  gray: {
-    name: 'Gray',
-    backgroundColor: 'bg-gray-500',
-    ringColor: 'ring-gray-500',
-  },
 };
 
 const props = defineProps<ColorPickerType>();

@@ -68,11 +68,21 @@
         </h2>
         <div class="mt-2">
           <span
+            v-if="!isEditing"
             class="inline-flex items-center rounded-full px-3 py-2 text-xs font-medium select-none cursor-pointer"
             :class="nodeColor"
           >
             {{ nodeColorName }}
           </span>
+          <Dropdown
+            class="w-full"
+            v-else
+            label=""
+            empty-text="Select Color"
+            :items="listColors"
+            :model-value="colorValue"
+            @update:model-value="(value) => $emit('update:colorValue', value)"
+          />
         </div>
       </div>
     </div>
@@ -95,14 +105,24 @@ import { computed } from 'vue';
 import { getDisplayDate } from '@/utils/date';
 import AttributeItem from '@/screens/InterviewJourneyView/components/Utils/AttributeItem.vue';
 import { getNodeColor } from '@/screens/InterviewJourneyView/components/StageCompanyList/StageCompanyItem.methods';
+import Dropdown from '@/components/Dropdown/Dropdown.vue';
+import { colors } from '@/constants/nodeColors';
+import { DropdownItem } from '@/components/Dropdown/Dropdown.types';
 
 type JourneyItemDetailMobileViewProps = {
   journey: Journey;
   journeyItem: JourneyItem;
   totalActivities: number;
+  isEditing: boolean;
+  colorValue: string;
+};
+
+type JourneyItemDetailMobileViewEmits = {
+  (e: 'update:colorValue', value: string | number): void;
 };
 
 const props = defineProps<JourneyItemDetailMobileViewProps>();
+const emits = defineEmits<JourneyItemDetailMobileViewEmits>();
 
 const createdDateText = computed(() =>
   getDisplayDate(props.journeyItem.createdAt)
@@ -115,4 +135,11 @@ const nodeColorName = computed(() => {
 });
 
 const nodeColor = computed(() => getNodeColor(props.journeyItem.color));
+
+const listColors = computed<DropdownItem[]>(() =>
+  Object.keys(colors).map((color) => ({
+    text: colors[color].name,
+    value: color,
+  }))
+);
 </script>

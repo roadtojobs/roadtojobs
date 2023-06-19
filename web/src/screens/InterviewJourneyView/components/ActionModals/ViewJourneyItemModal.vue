@@ -54,9 +54,11 @@
           </section>
         </div>
         <JourneyDetailDesktopView
+          v-model:color-value="editForm.color"
           :journey="journey"
           :journey-item="interviewJourneyCompany"
           :total-activities="journeyActivities.length"
+          :is-editing="isEdit"
         />
       </div>
     </div>

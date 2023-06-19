@@ -16,7 +16,7 @@
         }"
       >
         <span>
-          {{ itemValueMap[String(modelValue)] || 'Select Option' }}
+          {{ itemValueMap[String(modelValue)] || emptyText }}
         </span>
         <ChevronDownIcon
           class="-mr-1 h-5 w-5 text-gray-400"
@@ -76,13 +76,16 @@ type DropdownProps = {
   items: DropdownItem[];
   modelValue: string | number | null;
   error?: string;
+  emptyText?: string;
 };
 
 type DropdownEmits = {
   (e: 'update:modelValue', value: string | number): void;
 };
 
-const props = defineProps<DropdownProps>();
+const props = withDefaults(defineProps<DropdownProps>(), {
+  emptyText: 'Select Option',
+});
 defineEmits<DropdownEmits>();
 
 const itemValueMap = computed(() => {
