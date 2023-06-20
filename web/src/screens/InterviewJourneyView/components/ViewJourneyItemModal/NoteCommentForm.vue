@@ -18,7 +18,7 @@
     <div class="mt-6 flex items-center justify-end space-x-4">
       <Button
         v-if="!journeyItem.isArchived"
-        @click="onCloseAndArchive"
+        @click="onSubmitCreateNote(onCloseAndArchive)"
         type="warning"
         :disabled="isLoading"
         :icon="XCircleIcon"
@@ -50,6 +50,8 @@ import { notify } from '@kyvg/vue3-notification';
 import { journeyItemActivityRepo } from '@/repositories/journeyItemActivity.repo';
 import { useCurrentUser } from '@/stores/useCurrentUser';
 import Button from '@/components/Button/Button.vue';
+import { journeyItemRepo } from '@/repositories/journeyItem.repo';
+import { useGlobalStages } from '@/stores/useGlobalStages';
 
 type NoteCommentFormProps = {
   journeyItem: JourneyItem;
@@ -57,12 +59,14 @@ type NoteCommentFormProps = {
 
 type NoteCommentFormEmits = {
   (e: 'created'): void;
+  (e: 'created-with-archived'): void;
 };
 
 const props = defineProps<NoteCommentFormProps>();
 const emits = defineEmits<NoteCommentFormEmits>();
 
 const { userId } = useCurrentUser();
+const { archivedStages } = useGlobalStages();
 
 const form = ref({
   comment: '',
@@ -75,7 +79,7 @@ const { errorsBag, validate, reset } = useValidation<CreateCommentActivity>(
   createCommentActivity
 );
 
-const onSubmitCreateNote = async () => {
+const onSubmitCreateNote = async (customAction?: () => void) => {
   reset();
   const validateResult = validate({ ...form.value, userId });
 
@@ -93,9 +97,9 @@ const onSubmitCreateNote = async () => {
     validateResult.parsedObject
   );
 
-  stopLoading();
-
   if (!createdNote) {
+    stopLoading();
+
     return notify({
       type: 'error',
       title: 'Creation Error',
@@ -103,9 +107,29 @@ const onSubmitCreateNote = async () => {
     });
   }
 
-  emits('created');
   form.value.comment = '';
+
+  if (customAction) {
+    await customAction();
+    stopLoading();
+    return;
+  }
+
+  stopLoading();
+  emits('created');
 };
 
-const onCloseAndArchive = () => {};
+const onCloseAndArchive = async () => {
+  await journeyItemRepo.update(props.journeyItem.id, {
+    stageId: archivedStages[0].id,
+  });
+
+  notify({
+    type: 'warning',
+    title: 'Note & Archive',
+    text: 'Your note is added and this journey item has been archived.',
+  });
+
+  emits('created-with-archived');
+};
 </script>

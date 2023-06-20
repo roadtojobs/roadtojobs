@@ -52,7 +52,7 @@
     v-if="viewingJourneyItem"
     :journey="journey"
     :is-open="isOpenJourneyItemModal"
-    :interview-journey-company="viewingJourneyItem"
+    :journey-item="viewingJourneyItem"
     @close="closeViewJourneyItem"
   />
 </template>
