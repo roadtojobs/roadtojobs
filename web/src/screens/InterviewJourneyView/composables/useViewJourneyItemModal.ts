@@ -12,7 +12,7 @@ export const useViewJourneyItemModal = () => {
       return;
     }
 
-    viewingJourneyItem.value = { ...(journeyItem as StrictJourneyItem) };
+    viewingJourneyItem.value = journeyItem as StrictJourneyItem;
     isOpen.value = true;
   };
 
