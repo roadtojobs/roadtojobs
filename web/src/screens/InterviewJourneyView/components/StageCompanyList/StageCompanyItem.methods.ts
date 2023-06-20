@@ -14,6 +14,12 @@ export const getNodeColor = (color: string): string => {
       return 'bg-sky-100 text-sky-800';
     case 'blue':
       return 'bg-blue-100 text-blue-800';
+    case 'lime':
+      return 'bg-lime-100 text-lime-800';
+    case 'emerald':
+      return 'bg-emerald-100 text-emerald-800';
+    case 'orange':
+      return 'bg-orange-100 text-orange-800';
     default:
       return 'bg-rose-100 text-rose-800';
   }

@@ -40,6 +40,21 @@ export const colors: Record<string, ColorInfo> = {
     backgroundColor: 'bg-sky-500',
     ringColor: 'ring-sky-500',
   },
+  orange: {
+    name: 'Orange',
+    backgroundColor: 'bg-orange-500',
+    ringColor: 'ring-orange-500',
+  },
+  emerald: {
+    name: 'Emerald',
+    backgroundColor: 'bg-emerald-500',
+    ringColor: 'ring-emerald-500',
+  },
+  lime: {
+    name: 'Lime',
+    backgroundColor: 'bg-lime-500',
+    ringColor: 'ring-lime-500',
+  },
   gray: {
     name: 'Gray',
     backgroundColor: 'bg-gray-500',
