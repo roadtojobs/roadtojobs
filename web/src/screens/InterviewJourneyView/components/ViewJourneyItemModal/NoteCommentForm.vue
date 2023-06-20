@@ -17,7 +17,7 @@
     </div>
     <div class="mt-6 flex items-center justify-end space-x-4">
       <Button
-        v-if="journeyItem"
+        v-if="!journeyItem.isArchived"
         @click="onCloseAndArchive"
         type="warning"
         :disabled="isLoading"
