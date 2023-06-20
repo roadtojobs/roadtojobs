@@ -54,6 +54,7 @@
     :is-open="isOpenJourneyItemModal"
     :journey-item="viewingJourneyItem"
     @close="closeViewJourneyItem"
+    @journey-item-updated="updateJourneyItem"
   />
 </template>
 
@@ -75,8 +76,11 @@ const props = defineProps<JourneyViewProps>();
 const { archivedStages } = useGlobalStages();
 
 // Table Data
-const { stageJourneyCompanyMap, retrieveAll: refreshJourneyItems } =
-  useJourneyItems(props.journey);
+const {
+  stageJourneyCompanyMap,
+  retrieveAll: refreshJourneyItems,
+  updateJourneyItem,
+} = useJourneyItems(props.journey);
 
 // View Journey Item Feature
 const {

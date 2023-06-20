@@ -59,7 +59,7 @@ type NoteCommentFormProps = {
 
 type NoteCommentFormEmits = {
   (e: 'created'): void;
-  (e: 'created-with-archived'): void;
+  (e: 'created-with-archived', stageId: string): void;
 };
 
 const props = defineProps<NoteCommentFormProps>();
@@ -120,8 +120,9 @@ const onSubmitCreateNote = async (customAction?: () => void) => {
 };
 
 const onCloseAndArchive = async () => {
+  const archivedStageId = archivedStages[0].id;
   await journeyItemRepo.update(props.journeyItem.id, {
-    stageId: archivedStages[0].id,
+    stageId: archivedStageId,
   });
 
   notify({
@@ -130,6 +131,6 @@ const onCloseAndArchive = async () => {
     text: 'Your note is added and this journey item has been archived.',
   });
 
-  emits('created-with-archived');
+  emits('created-with-archived', archivedStageId);
 };
 </script>

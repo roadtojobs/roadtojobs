@@ -66,7 +66,10 @@
       <div class="min-w-0 flex-1">
         <NoteCommentForm
           :journey-item="journeyItem"
-          @created="onCreatedNote"
+          @created="$emit('created-note')"
+          @created-with-archived="
+            (stageId) => $emit('created-note-with-archived', stageId)
+          "
         />
       </div>
     </div>
@@ -83,17 +86,16 @@ import ActivityAdvanceToStage from '@/screens/InterviewJourneyView/components/Vi
 import { JourneyItemActivity } from 'shared/entities/journeyItemActivity.entity';
 import { JourneyItem } from 'shared/entities/journeyItem.entity';
 
-type ViewInterviewJourneyCompanyActivityListProps = {
+type ActivityListProps = {
   journeyItem: JourneyItem;
   activities: JourneyItemActivity[];
 };
 
-defineProps<ViewInterviewJourneyCompanyActivityListProps>();
-const emits = defineEmits<{
+type ActivityListEmits = {
   (e: 'created-note'): void;
-}>();
-
-const onCreatedNote = () => {
-  emits('created-note');
+  (e: 'created-note-with-archived', stageId: string): void;
 };
+
+defineProps<ActivityListProps>();
+defineEmits<ActivityListEmits>();
 </script>

@@ -51,6 +51,7 @@
                     :activities="journeyActivities"
                     :journey-item="journeyItem"
                     @created-note="onActivityCreated"
+                    @created-note-with-archived="onActivityCreatedWithArchived"
                   />
                 </div>
               </div>
@@ -97,6 +98,7 @@ type ViewCompanyModalProps = {
 type ViewCompanyModalEmits = {
   (e: 'close'): void;
   (e: 'journey-item-updated', id: string, values: EditJourneyItem): void;
+  (e: 'journey-item-archived', id: string, stageId: string): void;
 };
 
 const props = defineProps<ViewCompanyModalProps>();
@@ -117,6 +119,10 @@ onMounted(async () => {
 });
 
 const onActivityCreated = () => loadAllActivities();
+const onActivityCreatedWithArchived = (stageId: string) => {
+  emits('journey-item-archived', props.journeyItem.id, stageId);
+  loadAllActivities();
+};
 
 const onUpdatedJourneyItem = (updatedValues: EditJourneyItem) => {
   emits('journey-item-updated', props.journeyItem.id, updatedValues);

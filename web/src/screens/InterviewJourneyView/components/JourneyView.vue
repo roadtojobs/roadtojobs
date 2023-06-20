@@ -65,6 +65,7 @@
     :journey-item="viewingJourneyItem"
     @close="closeViewJourneyItem"
     @journey-item-updated="updateJourneyItem"
+    @journey-item-archived="updateJourneyItemToArchived"
   />
 </template>
 
@@ -101,6 +102,7 @@ const {
   stageJourneyCompanyMap,
   retrieveAll: refreshJourneyItems,
   updateJourneyItem,
+  updateJourneyItemStage: updateJourneyItemToArchived,
 } = useJourneyItems(props.interviewJourney);
 
 // Add Company Feature

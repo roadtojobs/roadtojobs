@@ -1,4 +1,3 @@
-import { Ref } from 'vue';
 import { journeyItemRepo } from '@/repositories/journeyItem.repo';
 import { notify } from '@kyvg/vue3-notification';
 
