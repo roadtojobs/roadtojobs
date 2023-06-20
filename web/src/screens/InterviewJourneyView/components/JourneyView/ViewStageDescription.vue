@@ -2,13 +2,13 @@
   <div class="flex view-stage-container">
     <a
       href="javascript:void(0)"
-      @click="isOpen = true"
+      @click="openModal"
       class="flex-1"
     >
       {{ stage.name }}
     </a>
     <span
-      v-if="!interviewJourney.endedAt"
+      v-if="!interviewJourney.endedAt && isDesktop"
       class="add-company hidden"
       @click="$emit('add-company', stage)"
     >
@@ -45,19 +45,31 @@ import Button from '@/components/Button/Button.vue';
 import { ref } from 'vue';
 import { PlusIcon } from '@heroicons/vue/24/outline';
 import { Journey } from 'shared/entities/journey.entity';
+import { useViewingMode } from '@/composable/useViewingMode';
 
 type ViewStageDescriptionProps = {
   interviewJourney: Journey;
   stage: Stage;
 };
 
-defineProps<ViewStageDescriptionProps>();
-
-defineEmits<{
+type ViewStageDescriptionEmits = {
   (e: 'add-company', stage: Stage): void;
-}>();
+};
+
+const props = defineProps<ViewStageDescriptionProps>();
+const emits = defineEmits<ViewStageDescriptionEmits>();
 
 const isOpen = ref(false);
+
+const { isDesktop, isMobile } = useViewingMode();
+
+const openModal = () => {
+  if (isMobile) {
+    return emits('add-company', props.stage);
+  }
+
+  isOpen.value = true;
+};
 </script>
 
 <style>
