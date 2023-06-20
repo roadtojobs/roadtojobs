@@ -120,6 +120,7 @@ const onActivityCreated = () => loadAllActivities();
 
 const onUpdatedJourneyItem = (updatedValues: EditJourneyItem) => {
   emits('journey-item-updated', props.journeyItem.id, updatedValues);
+  loadAllActivities();
 };
 
 const {
