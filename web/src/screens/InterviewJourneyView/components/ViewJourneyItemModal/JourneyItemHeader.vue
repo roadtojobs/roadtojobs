@@ -50,7 +50,12 @@
         >
           Cancel
         </Button>
-        <Button :icon="DocumentCheckIcon"> Save </Button>
+        <Button
+          :icon="DocumentCheckIcon"
+          @click="$emit('click-save')"
+        >
+          Save
+        </Button>
       </div>
     </div>
   </div>
@@ -76,6 +81,7 @@ type JourneyItemHeaderProps = {
 type JourneyItemHeaderEmits = {
   (e: 'click-edit'): void;
   (e: 'click-cancel'): void;
+  (e: 'click-save'): void;
 };
 
 const props = defineProps<JourneyItemHeaderProps>();

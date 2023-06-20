@@ -7,7 +7,7 @@ import {
 } from 'shared/entities/journeyItem.entity';
 import { CreateOutcomes } from '@/types/db';
 
-type CreateInterviewJourneyCompany = Omit<
+type CreateJourneyItem = Omit<
   JourneyItem,
   | 'id'
   | 'updatedAt'
@@ -17,6 +17,11 @@ type CreateInterviewJourneyCompany = Omit<
   | 'user'
   | 'reference'
   | 'attributes'
+>;
+
+type UpdateJourneyItem = Pick<
+  JourneyItem,
+  'stageId' | 'description' | 'attributes' | 'color'
 >;
 
 export const journeyItemRepo = {
@@ -38,20 +43,6 @@ export const journeyItemRepo = {
     }
 
     return result.result.map(journeyItemTableToJourneyItem);
-  },
-
-  async update(
-    journeyItemId: string,
-    values: Partial<JourneyItemTable>
-  ): Promise<boolean> {
-    delete values.id;
-    delete values.created_at;
-
-    const [result] = await dbClient.merge(journeyItemId, {
-      ...values,
-    });
-
-    return !!result.id;
   },
 
   async getNextPersonalReferenceId(
@@ -79,7 +70,7 @@ export const journeyItemRepo = {
     return result.result[0].max + 1;
   },
 
-  async create(values: CreateInterviewJourneyCompany): Promise<CreateOutcomes> {
+  async create(values: CreateJourneyItem): Promise<CreateOutcomes> {
     const reference = await journeyItemRepo.getNextPersonalReferenceId(
       values.userId,
       values.journeyId
@@ -117,6 +108,24 @@ export const journeyItemRepo = {
         message,
         formErrors: formErrors.size <= 0 ? undefined : formErrors,
       };
+    }
+  },
+
+  async update(
+    id: string,
+    values: Partial<UpdateJourneyItem>
+  ): Promise<string | undefined> {
+    try {
+      const [result] = await dbClient.merge(id, {
+        description: values.description,
+        color: values.color,
+        attributes: values.attributes || [],
+        stage: values.stageId,
+      });
+
+      return result.id;
+    } catch (e) {
+      return undefined;
     }
   },
 };

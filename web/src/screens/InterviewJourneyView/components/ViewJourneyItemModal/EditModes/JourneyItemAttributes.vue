@@ -28,9 +28,13 @@
       </li>
     </ul>
     <div v-else>
-      <div class="flex gap-2 items-center">
+      <div
+        v-for="(attribute, index) in modelValue"
+        :key="`${index}-attribute`"
+        class="flex gap-2 items-center"
+      >
         <Dropdown
-          v-model="test"
+          v-model="attribute.color"
           class="w-16 mt-2"
           label=""
           empty-text=""
@@ -51,10 +55,24 @@
           </template>
         </Dropdown>
         <Input
+          v-model="attribute.text"
           label=""
           class="flex-1"
         />
-        <span> X </span>
+        <span class="mt-2">
+          <XCircleIcon
+            @click="removeAttribute(index)"
+            class="w-5 h-5 cursor-pointer text-red-500"
+          />
+        </span>
+      </div>
+      <div class="mt-4">
+        <Button
+          v-if="isEditing"
+          @click="addNewAttribute"
+        >
+          + Add
+        </Button>
       </div>
     </div>
   </div>
@@ -62,7 +80,7 @@
 
 <script setup lang="ts">
 import AttributeItem from '@/screens/InterviewJourneyView/components/Utils/AttributeItem.vue';
-import { TagIcon } from '@heroicons/vue/24/outline';
+import { TagIcon, XCircleIcon } from '@heroicons/vue/24/outline';
 import {
   DynamicAttributes,
   JourneyItem,
@@ -73,6 +91,7 @@ import {
   attributeDotColors,
   attributeDotColorsDropdownItems,
 } from '@/constants/attributeDotColors';
+import Button from '@/components/Button/Button.vue';
 
 type JourneyItemDescriptionProps = {
   journeyItem: JourneyItem;
@@ -84,8 +103,17 @@ type JourneyItemDescriptionEmit = {
   (e: 'update:modelValue', value: DynamicAttributes): void;
 };
 
-defineProps<JourneyItemDescriptionProps>();
-defineEmits<JourneyItemDescriptionEmit>();
+const props = defineProps<JourneyItemDescriptionProps>();
+const emits = defineEmits<JourneyItemDescriptionEmit>();
 
-const test = ref('');
+const addNewAttribute = () => {
+  emits('update:modelValue', [...props.modelValue, { text: '', color: '' }]);
+};
+
+const removeAttribute = (index: number) => {
+  const newValues = [...props.modelValue];
+  newValues.splice(index, 1);
+
+  emits('update:modelValue', [...newValues]);
+};
 </script>

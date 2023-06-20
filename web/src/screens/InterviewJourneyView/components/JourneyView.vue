@@ -62,8 +62,9 @@
     v-if="viewingJourneyItem"
     :journey="interviewJourney"
     :is-open="isOpenJourneyItemModal"
-    :interview-journey-company="viewingJourneyItem"
+    :journey-item="viewingJourneyItem"
     @close="closeViewJourneyItem"
+    @journey-item-updated="updateJourneyItem"
   />
 </template>
 
@@ -96,8 +97,11 @@ const user = computed(() => currentUser.user);
 const { activeStages } = useGlobalStages();
 
 // Table Data
-const { stageJourneyCompanyMap, retrieveAll: refreshJourneyItems } =
-  useJourneyItems(props.interviewJourney);
+const {
+  stageJourneyCompanyMap,
+  retrieveAll: refreshJourneyItems,
+  updateJourneyItem,
+} = useJourneyItems(props.interviewJourney);
 
 // Add Company Feature
 const {

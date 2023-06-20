@@ -11,22 +11,24 @@
             <div>
               <JourneyItemHeader
                 :journey="journey"
-                :journey-item="interviewJourneyCompany"
+                :journey-item="journeyItem"
                 :is-editing="isEdit"
                 @click-edit="onClickEdit"
                 @click-cancel="onClickCancel"
+                @click-save="onSaveEditing"
               />
               <JourneyDetailMobileView
                 v-model:stage-value="editForm.stageId"
                 :journey="journey"
-                :journey-item="interviewJourneyCompany"
+                :journey-item="journeyItem"
                 :total-activities="journeyActivities.length"
                 :is-editing="isEdit"
               />
               <JourneyItemDescription
                 v-model="editForm.description"
-                :journey-item="interviewJourneyCompany"
+                :journey-item="journeyItem"
                 :is-editing="isEdit"
+                :error="editJourneyItemErrors.get('description')"
               />
             </div>
           </div>
@@ -47,7 +49,7 @@
                 <div class="pt-6">
                   <ActivityList
                     :activities="journeyActivities"
-                    :journey-item="interviewJourneyCompany"
+                    :journey-item="journeyItem"
                     @created-note="onActivityCreated"
                   />
                 </div>
@@ -60,7 +62,7 @@
           v-model:color-value="editForm.color"
           v-model:attributes-value="editForm.attributes"
           :journey="journey"
-          :journey-item="interviewJourneyCompany"
+          :journey-item="journeyItem"
           :total-activities="journeyActivities.length"
           :is-editing="isEdit"
         />
@@ -80,17 +82,21 @@ import JourneyItemHeader from '@/screens/InterviewJourneyView/components/ViewJou
 import JourneyDetailMobileView from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/JourneyDetailMobileView.vue';
 import JourneyDetailDesktopView from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/JourneyDetailDesktopView.vue';
 import JourneyItemDescription from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/EditModes/JourneyItemDescription.vue';
-import { useEditJourneyItem } from '@/screens/InterviewJourneyView/composables/useEditJourneyItem';
+import {
+  EditJourneyItem,
+  useEditJourneyItem,
+} from '@/screens/InterviewJourneyView/composables/useEditJourneyItem';
 import { StrictJourneyItem } from '@/screens/InterviewJourneyView/composables/useViewJourneyItemModal';
 
 type ViewCompanyModalProps = {
   journey: Journey;
-  interviewJourneyCompany: StrictJourneyItem;
+  journeyItem: StrictJourneyItem;
   isOpen: boolean;
 };
 
 type ViewCompanyModalEmits = {
   (e: 'close'): void;
+  (e: 'journey-item-updated', id: string, values: EditJourneyItem): void;
 };
 
 const props = defineProps<ViewCompanyModalProps>();
@@ -100,7 +106,7 @@ const journeyActivities = ref<JourneyItemActivity[]>([]);
 
 const loadAllActivities = async () => {
   const activities = await journeyItemActivityRepo.getByJourneyCompany(
-    props.interviewJourneyCompany.id
+    props.journeyItem.id
   );
 
   journeyActivities.value = [...activities];
@@ -112,7 +118,16 @@ onMounted(async () => {
 
 const onActivityCreated = () => loadAllActivities();
 
-const { isEdit, onClickEdit, editForm, onClickCancel } = useEditJourneyItem(
-  props.interviewJourneyCompany
-);
+const onUpdatedJourneyItem = (updatedValues: EditJourneyItem) => {
+  emits('journey-item-updated', props.journeyItem.id, updatedValues);
+};
+
+const {
+  isEdit,
+  onClickEdit,
+  editForm,
+  onClickCancel,
+  onSaveEditing,
+  editJourneyItemErrors,
+} = useEditJourneyItem(props.journeyItem, onUpdatedJourneyItem);
 </script>
