@@ -1,37 +1,13 @@
 <template>
   <aside class="hidden xl:block xl:pl-8">
     <h2 class="sr-only">Details</h2>
-    <div class="space-y-5">
-      <div class="flex items-center space-x-2">
-        <PaperAirplaneIcon
-          class="h-5 w-5 text-gray-500"
-          aria-hidden="true"
-        />
-        <StageText
-          v-if="journeyItem.stage"
-          :stage="journeyItem.stage"
-        />
-      </div>
-      <div class="flex items-center space-x-2">
-        <StarIcon
-          class="h-5 w-5 text-gray-500"
-          aria-hidden="true"
-        />
-        <span class="text-sm font-medium text-gray-900">
-          {{ totalActivities }} activities
-        </span>
-      </div>
-      <div class="flex items-center space-x-2">
-        <CalendarIcon
-          class="h-5 w-5 text-gray-500"
-          aria-hidden="true"
-        />
-        <span class="text-sm font-medium text-gray-900">
-          Created on
-          <time>{{ createdDateText }}</time>
-        </span>
-      </div>
-    </div>
+    <JourneyItemSpecs
+      :stage-value="stageValue"
+      :is-editing="isEditing"
+      :journey-item="journeyItem"
+      :total-activities="totalActivities"
+      @update:stage-value="(value) => $emit('update:stageValue', value)"
+    />
     <div class="mt-6 space-y-8 border-t border-gray-200 py-6">
       <div>
         <h2 class="text-sm font-medium text-gray-500 flex gap-2">
@@ -109,35 +85,34 @@ import {
   StarIcon,
   TagIcon,
 } from '@heroicons/vue/24/outline';
-
 import { Journey } from 'shared/entities/journey.entity';
 import { JourneyItem } from 'shared/entities/journeyItem.entity';
+import { Stage } from 'shared/entities/stage.entity';
 import { computed } from 'vue';
-import { getDisplayDate } from '@/utils/date';
 import AttributeItem from '@/screens/InterviewJourneyView/components/Utils/AttributeItem.vue';
 import { getNodeColor } from '@/screens/InterviewJourneyView/components/StageCompanyList/StageCompanyItem.methods';
 import Dropdown from '@/components/Dropdown/Dropdown.vue';
 import { colors } from '@/constants/nodeColors';
 import { DropdownItem } from '@/components/Dropdown/Dropdown.types';
+import JourneyItemSpecs from '@/screens/InterviewJourneyView/components/Utils/JourneyItemSpecs.vue';
+import { StrictJourneyItem } from '@/screens/InterviewJourneyView/composables/useViewJourneyItemModal';
 
 type JourneyItemDetailMobileViewProps = {
   journey: Journey;
-  journeyItem: JourneyItem;
+  journeyItem: StrictJourneyItem;
   totalActivities: number;
   isEditing: boolean;
   colorValue: string;
+  stageValue: string;
 };
 
 type JourneyItemDetailMobileViewEmits = {
   (e: 'update:colorValue', value: string | number): void;
+  (e: 'update:stageValue', value: string | number): void;
 };
 
 const props = defineProps<JourneyItemDetailMobileViewProps>();
 const emits = defineEmits<JourneyItemDetailMobileViewEmits>();
-
-const createdDateText = computed(() =>
-  getDisplayDate(props.journeyItem.createdAt)
-);
 
 const nodeColorName = computed(() => {
   const color = props.journeyItem.color;

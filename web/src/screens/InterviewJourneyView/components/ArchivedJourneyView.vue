@@ -64,7 +64,7 @@ import StageCompanyList from '@/screens/InterviewJourneyView/components/StageCom
 import ViewStageDescription from '@/screens/InterviewJourneyView/components/JourneyView/ViewStageDescription.vue';
 import { useJourneyItems } from '@/screens/InterviewJourneyView/composables/useJourneyItems';
 import ViewJourneyItemModal from '@/screens/InterviewJourneyView/components/ActionModals/ViewJourneyItemModal.vue';
-import { useViewInterviewJourneyCompany } from '@/screens/InterviewJourneyView/composables/useViewInterviewJourneyCompany';
+import { useViewJourneyItemModal } from '@/screens/InterviewJourneyView/composables/useViewJourneyItemModal';
 
 type JourneyViewProps = {
   journey: Journey;
@@ -83,6 +83,6 @@ const {
   isOpen: isOpenJourneyItemModal,
   viewJourneyItem,
   closeViewJourneyItem,
-  interviewJourneyCompany: viewingJourneyItem,
-} = useViewInterviewJourneyCompany();
+  viewingJourneyItem,
+} = useViewJourneyItemModal();
 </script>

@@ -17,9 +17,11 @@
                 @click-cancel="onClickCancel"
               />
               <JourneyDetailMobileView
+                v-model:stage-value="editForm.stageId"
                 :journey="journey"
                 :journey-item="interviewJourneyCompany"
                 :total-activities="journeyActivities.length"
+                :is-editing="isEdit"
               />
               <JourneyItemDescription
                 v-model="editForm.description"
@@ -54,6 +56,7 @@
           </section>
         </div>
         <JourneyDetailDesktopView
+          v-model:stage-value="editForm.stageId"
           v-model:color-value="editForm.color"
           :journey="journey"
           :journey-item="interviewJourneyCompany"
@@ -68,21 +71,20 @@
 <script setup lang="ts">
 import Modal from '@/components/Modal/Modal.vue';
 import { onMounted } from 'vue';
-import { JourneyItem } from 'shared/entities/journeyItem.entity';
 import { journeyItemActivityRepo } from '@/repositories/journeyItemActivity.repo';
 import ActivityList from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/ActivityList.vue';
 import { JourneyItemActivity } from 'shared/entities/journeyItemActivity.entity';
 import { Journey } from 'shared/entities/journey.entity';
-import MarkdownContent from '@/components/MarkdownContent/MarkdownContent.vue';
 import JourneyItemHeader from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/JourneyItemHeader.vue';
 import JourneyDetailMobileView from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/JourneyDetailMobileView.vue';
 import JourneyDetailDesktopView from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/JourneyDetailDesktopView.vue';
 import JourneyItemDescription from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/EditModes/JourneyItemDescription.vue';
 import { useEditJourneyItem } from '@/screens/InterviewJourneyView/composables/useEditJourneyItem';
+import { StrictJourneyItem } from '@/screens/InterviewJourneyView/composables/useViewJourneyItemModal';
 
 type ViewCompanyModalProps = {
   journey: Journey;
-  interviewJourneyCompany: JourneyItem;
+  interviewJourneyCompany: StrictJourneyItem;
   isOpen: boolean;
 };
 

@@ -72,7 +72,7 @@ import ViewStageDescription from '@/screens/InterviewJourneyView/components/Jour
 import { User } from 'shared/entities/user.entity';
 import AddJourneyItemModal from '@/screens/InterviewJourneyView/components/ActionModals/AddJourneyItemModal.vue';
 import StageCompanyList from '@/screens/InterviewJourneyView/components/StageCompanyList/StageCompanyList.vue';
-import { useViewInterviewJourneyCompany } from '@/screens/InterviewJourneyView/composables/useViewInterviewJourneyCompany';
+import { useViewJourneyItemModal } from '@/screens/InterviewJourneyView/composables/useViewJourneyItemModal';
 import ViewJourneyItemModal from '@/screens/InterviewJourneyView/components/ActionModals/ViewJourneyItemModal.vue';
 import { useJourneyItems } from '@/screens/InterviewJourneyView/composables/useJourneyItems';
 import { useGlobalStages } from '@/stores/useGlobalStages';
@@ -112,8 +112,8 @@ const {
   isOpen: isOpenJourneyItemModal,
   viewJourneyItem,
   closeViewJourneyItem,
-  interviewJourneyCompany: viewingJourneyItem,
-} = useViewInterviewJourneyCompany();
+  viewingJourneyItem,
+} = useViewJourneyItemModal();
 
 // Sortable
 const { updateJourneyItemStage } = useJourneyItemsStageChange(
