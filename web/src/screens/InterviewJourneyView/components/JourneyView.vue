@@ -130,6 +130,8 @@ const { updateJourneyItemStage } = useJourneyItemsStageChange(
   refreshJourneyItems
 );
 
+// Note: it is a good idea to hard-refresh after close the viewing modal, cuz after the modal action
+// there would be a lot of mutations and the data could go wild
 const closeViewJourneyItem = async () => {
   await refreshJourneyItems();
   closeViewJourneyItemModal();
