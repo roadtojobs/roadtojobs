@@ -1,5 +1,8 @@
 <template>
-  <NotFoundScreen v-if="notFound" />
+  <NotFoundScreen
+    v-if="notFound"
+    title="Journey does not exists 🫣"
+  />
   <AppPage
     v-else-if="interviewJourney.id.length === 0"
     header-title="Loading..."
@@ -24,10 +27,7 @@
         <InfoView :interview-journey="interviewJourney" />
       </template>
       <template #journey>
-        <JourneyView
-          :interview-journey="interviewJourney"
-          :user="user"
-        />
+        <JourneyView :interview-journey="interviewJourney" />
       </template>
       <template #archived>
         <ArchivedJourneyView :journey="interviewJourney" />

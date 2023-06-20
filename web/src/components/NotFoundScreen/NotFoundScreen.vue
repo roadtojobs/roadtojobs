@@ -2,7 +2,7 @@
   <div class="bg-white">
     <div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
       <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-        Page not found 😥
+        {{ title || 'Page not found 😥' }}
       </h2>
       <div class="mt-10 flex items-center gap-x-6">
         <Button @click="$router.push({ name: 'dashboard' })">
@@ -19,6 +19,10 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import Button from '@/components/Button/Button.vue';
+
+defineProps<{
+  title?: string;
+}>();
 </script>
