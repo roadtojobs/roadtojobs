@@ -13,8 +13,9 @@
         v-else
         label=""
         class="w-full"
+        item-classes="flex gap-2"
         :model-value="stageValue"
-        :items="[]"
+        :items="dropdownItems"
         @update:model-value="(value) => $emit('update:stageValue', value)"
       />
     </div>
@@ -52,6 +53,7 @@ import { computed } from 'vue';
 import { getDisplayDate } from '@/utils/date';
 import { Stage } from 'shared/entities/stage.entity';
 import { JourneyItem } from 'shared/entities/journeyItem.entity';
+import { useGlobalStages } from '@/stores/useGlobalStages';
 
 const createdDateText = computed(() =>
   getDisplayDate(props.journeyItem.createdAt)
@@ -70,4 +72,17 @@ type JourneyItemSpecsEmits = {
 
 const props = defineProps<JourneyItemSpecsProps>();
 const emits = defineEmits<JourneyItemSpecsEmits>();
+
+const globalStages = useGlobalStages();
+
+const dropdownItems = computed(() =>
+  globalStages.stages
+    .filter((stage) => {
+      return props.journeyItem.isArchived || !stage.isArchivedStage;
+    })
+    .map((stage) => ({
+      text: stage.name,
+      value: stage.id,
+    }))
+);
 </script>

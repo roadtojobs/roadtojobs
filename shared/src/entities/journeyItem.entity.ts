@@ -37,6 +37,7 @@ export type JourneyItem = {
   attributes: DynamicAttributes;
   createdAt: Date;
   updatedAt: Date;
+  isArchived?: boolean;
 };
 
 export const journeyItemTableToJourneyItem = (
@@ -59,4 +60,7 @@ export const journeyItemTableToJourneyItem = (
   attributes: record.attributes,
   createdAt: record.created_at,
   updatedAt: record.updated_at,
+  isArchived:
+    parseThing<StageTable, Stage>(record.stage, stageTableToStage)
+      ?.isArchivedStage ?? undefined,
 });
