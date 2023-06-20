@@ -64,7 +64,7 @@ const isOpen = ref(false);
 const { isDesktop, isMobile } = useViewingMode();
 
 const openModal = () => {
-  if (isMobile) {
+  if (isMobile.value) {
     return emits('add-company', props.stage);
   }
 
