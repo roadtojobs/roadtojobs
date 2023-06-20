@@ -1,5 +1,5 @@
 <template>
-  <div class="py-3 xl:pb-0 xl:pt-6">
+  <div class="py-3 xl:pb-0 xl:pt-3">
     <h2 class="sr-only">Description</h2>
     <div
       v-if="!isEditing"
@@ -13,6 +13,7 @@
         :model-value="modelValue"
         @update:model-value="(value) => $emit('update:modelValue', value)"
         rows="8"
+        :error="error"
       />
     </div>
   </div>
@@ -27,6 +28,7 @@ type JourneyItemDescriptionProps = {
   journeyItem: JourneyItem;
   isEditing?: boolean;
   modelValue?: string;
+  error?: string;
 };
 type JourneyItemDescriptionEmit = {
   (e: 'update:modelValue', value: string | undefined): void;
