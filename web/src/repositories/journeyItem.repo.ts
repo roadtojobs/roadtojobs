@@ -67,7 +67,7 @@ export const journeyItemRepo = {
       return -1;
     }
 
-    return result.result[0].max + 1;
+    return (result.result[0]?.max || 0) + 1;
   },
 
   async create(values: CreateJourneyItem): Promise<CreateOutcomes> {

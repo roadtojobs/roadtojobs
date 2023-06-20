@@ -109,7 +109,7 @@ const onSubmitCreateNote = async (customAction?: () => void) => {
 
   form.value.comment = '';
 
-  if (customAction) {
+  if (customAction && typeof customAction === 'function') {
     await customAction();
     stopLoading();
     return;
