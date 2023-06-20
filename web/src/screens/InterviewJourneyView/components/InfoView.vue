@@ -64,15 +64,13 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import dayjs from 'dayjs';
-import { DISPLAY_DATE_FORMAT } from '@/constants';
 import Button from '@/components/Button/Button.vue';
 import MarkdownContent from '@/components/MarkdownContent/MarkdownContent.vue';
 import { VueComponent } from '@/types';
 import { Journey } from 'shared/entities/journey.entity';
 import Textarea from '@/components/Textarea/Textarea.vue';
 import Input from '@/components/Input/Input.vue';
-import { parseServerDate } from '@/utils/date';
+import { getDisplayDate, parseServerDate } from '@/utils/date';
 import { journeyRepo, UpdateJourney } from '@/repositories/journey.repo';
 import useValidation from '@/composable/useValidation';
 import { updateJourney } from '@/screens/InterviewJourneyView/components/InfoView.methods';
@@ -162,7 +160,7 @@ const renderItems = computed<RenderItem[]>((): RenderItem[] => {
       label: 'Journey Started At 🏎️',
       Text: () =>
         h('span', {
-          innerText: dayjs(journey.startedAt).format(DISPLAY_DATE_FORMAT),
+          innerText: getDisplayDate(journey.startedAt),
         }),
       key: 'startedAt',
       EditComponent: () =>
@@ -180,7 +178,7 @@ const renderItems = computed<RenderItem[]>((): RenderItem[] => {
       Text: () =>
         h('span', {
           innerText: journey.endedAt
-            ? dayjs(journey.endedAt).format(DISPLAY_DATE_FORMAT)
+            ? getDisplayDate(journey.endedAt)
             : 'To be determined...',
         }),
       key: 'endedAt',

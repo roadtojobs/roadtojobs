@@ -42,14 +42,46 @@
 import { TabItem } from '@/components/Tabs/Tabs.methods';
 import { ref } from 'vue';
 
-const props = defineProps<{
+type TabsProps = {
   tabs: TabItem[];
   firstTab?: string;
-}>();
+  usesTabParams?: boolean;
+  tabParamName?: string;
+};
 
-const currentTabId = ref<string>(props.firstTab || props.tabs[0].id);
+type TabsEmits = {
+  (e: 'selected-tab', tab: TabItem): void;
+};
+
+const props = defineProps<TabsProps>();
+const emits = defineEmits<TabsEmits>();
+
+const getCurrentUrl = () => new URL(window.location.href);
+
+const getInitTab = () => {
+  const url = getCurrentUrl();
+
+  if (
+    props.usesTabParams &&
+    props.tabParamName &&
+    url.searchParams.get(props.tabParamName)
+  ) {
+    return url.searchParams.get(props.tabParamName);
+  }
+
+  return props.firstTab || props.tabs[0].id;
+};
+
+const currentTabId = ref<string>(getInitTab());
 
 const onClickChangeTab = (tabItem: TabItem) => {
   currentTabId.value = tabItem.id;
+  emits('selected-tab', tabItem);
+
+  if (props.usesTabParams) {
+    const url = getCurrentUrl();
+    url.searchParams.set(props.tabParamName || '', tabItem.id);
+    window.history.replaceState({}, '', url);
+  }
 };
 </script>

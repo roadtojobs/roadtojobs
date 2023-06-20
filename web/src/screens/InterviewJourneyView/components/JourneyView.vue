@@ -69,7 +69,6 @@
 
 <script setup lang="ts">
 import ViewStageDescription from '@/screens/InterviewJourneyView/components/JourneyView/ViewStageDescription.vue';
-import { User } from 'shared/entities/user.entity';
 import AddJourneyItemModal from '@/screens/InterviewJourneyView/components/ActionModals/AddJourneyItemModal.vue';
 import StageCompanyList from '@/screens/InterviewJourneyView/components/StageCompanyList/StageCompanyList.vue';
 import { useViewJourneyItemModal } from '@/screens/InterviewJourneyView/composables/useViewJourneyItemModal';
@@ -79,16 +78,20 @@ import { useGlobalStages } from '@/stores/useGlobalStages';
 import { useJourneyItemsStageChange } from '@/screens/InterviewJourneyView/composables/useJourneyItemsStageChange';
 import { useAddCompany } from '@/screens/InterviewJourneyView/composables/useAddCompany';
 import { Journey } from 'shared/entities/journey.entity';
+import { useCurrentUser } from '@/stores/useCurrentUser';
+import { computed } from 'vue';
 
 type JourneyViewProps = {
   interviewJourney: Journey;
-  user: User;
 };
 
 const props = defineProps<JourneyViewProps>();
 
 const tableKey = ref(`table-key-${Math.random()}`);
 const rerenderTable = () => (tableKey.value = `table-key-${Math.random()}`);
+
+const currentUser = useCurrentUser();
+const user = computed(() => currentUser.user);
 
 const { activeStages } = useGlobalStages();
 

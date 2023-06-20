@@ -15,7 +15,11 @@
     borderless
     body-margin="mt-1"
   >
-    <Tabs :tabs="pageTabs">
+    <Tabs
+      :tabs="pageTabs"
+      uses-tab-params
+      tab-param-name="tab"
+    >
       <template #info>
         <InfoView :interview-journey="interviewJourney" />
       </template>
@@ -45,18 +49,15 @@ import {
   SparklesIcon,
   FolderIcon,
 } from '@heroicons/vue/24/outline';
-import dayjs from 'dayjs';
-import { DISPLAY_DATE_FORMAT } from '@/constants';
 import InfoView from '@/screens/InterviewJourneyView/components/InfoView.vue';
 import JourneyView from '@/screens/InterviewJourneyView/components/JourneyView.vue';
-import { useCurrentUser } from '@/stores/useCurrentUser';
 import { useGlobalStages } from '@/stores/useGlobalStages';
 import { Journey } from 'shared/entities/journey.entity';
 import { useCurrentJourney } from '@/stores/useCurrentJourney';
 import ArchivedJourneyView from '@/screens/InterviewJourneyView/components/ArchivedJourneyView.vue';
+import { getDisplayDate } from '@/utils/date';
 
 const route = useRoute();
-const { user } = useCurrentUser();
 const { loadStages } = useGlobalStages();
 const currentJourney = useCurrentJourney();
 
@@ -81,6 +82,7 @@ const pageTabs: TabItem[] = [
 ];
 
 onMounted(async () => {
+  await loadStages();
   const record = await journeyRepo.getById(String(route.params.id));
   if (!record) {
     notFound.value = true;
@@ -88,15 +90,9 @@ onMounted(async () => {
   }
 
   currentJourney.setJourney(record);
-  await loadStages();
 });
 
-const formattedStartDate = computed(() => {
-  if (!interviewJourney.value?.startedAt) {
-    return '-';
-  }
-
-  const djsStartDate = dayjs(interviewJourney.value?.startedAt);
-  return djsStartDate.format(DISPLAY_DATE_FORMAT);
-});
+const formattedStartDate = computed(() =>
+  getDisplayDate(interviewJourney.value.startedAt)
+);
 </script>
