@@ -77,6 +77,7 @@ import { updateJourney } from '@/screens/InterviewJourneyView/components/InfoVie
 import { notify } from '@kyvg/vue3-notification';
 import { useCurrentJourney } from '@/stores/useCurrentJourney';
 import { useLoading } from '@/composable/useLoading';
+import { CheckBadgeIcon } from '@heroicons/vue/24/outline';
 
 type InfoViewProps = {
   interviewJourney: Journey;
@@ -176,11 +177,19 @@ const renderItems = computed<RenderItem[]>((): RenderItem[] => {
     {
       label: 'Journey Ended At 🔥',
       Text: () =>
-        h('span', {
-          innerText: journey.endedAt
-            ? getDisplayDate(journey.endedAt)
-            : 'To be determined...',
-        }),
+        journey.endedAt
+          ? h('span', {
+              innerText: getDisplayDate(journey.endedAt),
+            })
+          : h(
+              Button,
+              {
+                icon: h(CheckBadgeIcon),
+                type: 'neutral',
+                onClick: finalizeJourney,
+              },
+              () => 'Finalize / Mark as Ended'
+            ),
       key: 'endedAt',
     },
   ];
@@ -235,5 +244,9 @@ const onSubmitEdit = async () => {
     title: 'Updated',
     text: 'Your journey was updated successfully!',
   });
+};
+
+const finalizeJourney = () => {
+  alert('ok');
 };
 </script>
