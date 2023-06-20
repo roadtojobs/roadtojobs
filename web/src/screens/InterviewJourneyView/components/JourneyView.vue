@@ -120,7 +120,7 @@ const {
 const {
   isOpen: isOpenJourneyItemModal,
   viewJourneyItem,
-  closeViewJourneyItem,
+  closeViewJourneyItem: closeViewJourneyItemModal,
   viewingJourneyItem,
 } = useViewJourneyItemModal();
 
@@ -129,4 +129,9 @@ const { updateJourneyItemStage } = useJourneyItemsStageChange(
   rerenderTable,
   refreshJourneyItems
 );
+
+const closeViewJourneyItem = async () => {
+  await refreshJourneyItems();
+  closeViewJourneyItemModal();
+};
 </script>
