@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { computed } from 'vue';
 import { Journey } from 'shared/entities/journey.entity';
-import { UpdateJourney } from '@/repositories/journey.repo';
+import { journeyRepo, UpdateJourney } from '@/repositories/journey.repo';
 
 export const useCurrentJourney = defineStore('currentJourney', () => {
   // This is intended not to have a Journey | undefined
@@ -32,7 +32,20 @@ export const useCurrentJourney = defineStore('currentJourney', () => {
     };
   };
 
+  const forceRefresh = async () => {
+    if (!journey.value.id) {
+      return;
+    }
+
+    const remoteJourney = await journeyRepo.getById(journey.value.id);
+    if (!remoteJourney) {
+      return;
+    }
+
+    setJourney(remoteJourney);
+  };
+
   const journeyId = computed(() => journey.value.id);
 
-  return { journey, setJourney, journeyId, mergePartial };
+  return { journey, setJourney, journeyId, mergePartial, forceRefresh };
 });
