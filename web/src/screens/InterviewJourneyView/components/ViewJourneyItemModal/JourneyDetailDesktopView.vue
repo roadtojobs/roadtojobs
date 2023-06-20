@@ -9,34 +9,12 @@
       @update:stage-value="(value) => $emit('update:stageValue', value)"
     />
     <div class="mt-6 space-y-8 border-t border-gray-200 py-6">
-      <div>
-        <h2 class="text-sm font-medium text-gray-500 flex gap-2">
-          <TagIcon class="w-5 h-5" />
-          <span> Attributes </span>
-        </h2>
-        <ul
-          role="list"
-          class="mt-2 leading-8"
-        >
-          <li
-            v-for="(attribute, index) in journeyItem.attributes"
-            :key="`${index}-${attribute.text}`"
-            class="inline"
-          >
-            <AttributeItem
-              :color="attribute.color"
-              :text="attribute.text"
-            />
-            {{ ' ' }}
-          </li>
-          <li
-            v-if="!journeyItem?.attributes?.length"
-            class="text-sm font-medium"
-          >
-            Empty
-          </li>
-        </ul>
-      </div>
+      <JourneyItemAttributes
+        :model-value="attributesValue"
+        :journey-item="journeyItem"
+        :is-editing="isEditing"
+        @update:model-value="(value) => $emit('update:attributesValue', value)"
+      />
       <div>
         <h2 class="text-sm font-medium text-gray-500 flex gap-2">
           <ChatBubbleLeftIcon class="w-5 h-5" />
@@ -77,25 +55,17 @@
 </template>
 
 <script setup lang="ts">
-import StageText from '@/screens/InterviewJourneyView/components/Utils/StageText.vue';
-import {
-  CalendarIcon,
-  ChatBubbleLeftIcon,
-  PaperAirplaneIcon,
-  StarIcon,
-  TagIcon,
-} from '@heroicons/vue/24/outline';
+import { ChatBubbleLeftIcon } from '@heroicons/vue/24/outline';
 import { Journey } from 'shared/entities/journey.entity';
-import { JourneyItem } from 'shared/entities/journeyItem.entity';
-import { Stage } from 'shared/entities/stage.entity';
+import { DynamicAttributes } from 'shared/entities/journeyItem.entity';
 import { computed } from 'vue';
-import AttributeItem from '@/screens/InterviewJourneyView/components/Utils/AttributeItem.vue';
 import { getNodeColor } from '@/screens/InterviewJourneyView/components/StageCompanyList/StageCompanyItem.methods';
 import Dropdown from '@/components/Dropdown/Dropdown.vue';
 import { colors } from '@/constants/nodeColors';
 import { DropdownItem } from '@/components/Dropdown/Dropdown.types';
 import JourneyItemSpecs from '@/screens/InterviewJourneyView/components/Utils/JourneyItemSpecs.vue';
 import { StrictJourneyItem } from '@/screens/InterviewJourneyView/composables/useViewJourneyItemModal';
+import JourneyItemAttributes from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/EditModes/JourneyItemAttributes.vue';
 
 type JourneyItemDetailMobileViewProps = {
   journey: Journey;
@@ -104,11 +74,13 @@ type JourneyItemDetailMobileViewProps = {
   isEditing: boolean;
   colorValue: string;
   stageValue: string;
+  attributesValue: DynamicAttributes;
 };
 
 type JourneyItemDetailMobileViewEmits = {
   (e: 'update:colorValue', value: string | number): void;
   (e: 'update:stageValue', value: string | number): void;
+  (e: 'update:attributesValue', value: DynamicAttributes): void;
 };
 
 const props = defineProps<JourneyItemDetailMobileViewProps>();

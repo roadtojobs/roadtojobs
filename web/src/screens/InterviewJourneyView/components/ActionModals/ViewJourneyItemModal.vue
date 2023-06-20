@@ -58,6 +58,7 @@
         <JourneyDetailDesktopView
           v-model:stage-value="editForm.stageId"
           v-model:color-value="editForm.color"
+          v-model:attributes-value="editForm.attributes"
           :journey="journey"
           :journey-item="interviewJourneyCompany"
           :total-activities="journeyActivities.length"

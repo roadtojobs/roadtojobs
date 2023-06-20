@@ -5,16 +5,7 @@
     <div class="absolute flex flex-shrink-0 items-center justify-center">
       <span
         class="h-1.5 w-1.5 rounded-full"
-        :class="{
-          'bg-rose-500': color === 'rose',
-          'bg-blue-500': color === 'blue',
-          'bg-yellow-500': color === 'yellow',
-          'bg-red-500': color === 'red',
-          'bg-indigo-500': color === 'indigo',
-          'bg-violet-500': color === 'violet',
-          'bg-sky-500': color === 'sky',
-          'bg-pink-500': color === 'pink',
-        }"
+        :class="[attributeDotColors[color]]"
         aria-hidden="true"
       />
     </div>
@@ -25,18 +16,14 @@
 </template>
 
 <script setup lang="ts">
+import {
+  attributeDotColors,
+  AttributeDotColorType,
+} from '@/constants/attributeDotColors';
+
 type AttributeItemProps = {
   text: string;
-  color:
-    | 'rose'
-    | 'blue'
-    | 'yellow'
-    | 'red'
-    | 'indigo'
-    | 'violet'
-    | 'sky'
-    | 'pink'
-    | string;
+  color: AttributeDotColorType;
 };
 
 defineProps<AttributeItemProps>();

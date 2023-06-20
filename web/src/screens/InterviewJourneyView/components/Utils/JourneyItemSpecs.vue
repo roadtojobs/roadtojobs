@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-5">
+  <div class="space-y-5 mt-4">
     <div class="flex items-center space-x-2">
       <PaperAirplaneIcon
         class="h-5 w-5 text-gray-500"

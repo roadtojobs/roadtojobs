@@ -4,18 +4,23 @@
     class="relative inline-block text-left"
   >
     <label
+      v-if="label"
       class="block text-sm font-medium leading-6 text-gray-900 mb-2"
       v-text="label"
     />
     <div>
       <MenuButton
-        class="inline-flex w-full justify-between gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+        class="inline-flex w-full justify-between items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
         :class="{
           'text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500':
             !!error,
         }"
       >
-        <span>
+        <slot
+          name="custom-selected-item"
+          :currentValue="itemValueMap[String(modelValue)]"
+        />
+        <span v-if="!$slots['custom-selected-item']">
           {{ itemValueMap[String(modelValue)] || emptyText }}
         </span>
         <ChevronDownIcon
