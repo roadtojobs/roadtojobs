@@ -125,6 +125,7 @@ const renderItems = computed<RenderItem[]>((): RenderItem[] => {
 
   // () => h(..) is a strategy to render on demand
   // we don't need to render the VNode on runtime
+  // TODO: add archived at & archived reason info markdown here
   return [
     {
       label: 'Journey Name 💼',
@@ -197,7 +198,8 @@ const renderItems = computed<RenderItem[]>((): RenderItem[] => {
           ? h('span', {
               innerText: getDisplayDate(journey.endedAt),
             })
-          : h(
+          : !journey.archivedAt
+          ? h(
               Button,
               {
                 icon: h(CheckBadgeIcon),
@@ -205,7 +207,8 @@ const renderItems = computed<RenderItem[]>((): RenderItem[] => {
                 onClick: finalizeJourney,
               },
               () => 'Finalize / Mark as Ended'
-            ),
+            )
+          : '-',
       key: 'endedAt',
     },
   ];
