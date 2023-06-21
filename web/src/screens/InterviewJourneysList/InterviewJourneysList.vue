@@ -115,6 +115,7 @@ import { VNode } from 'vue';
 import CreateNewJourney from '@/screens/InterviewJourneysList/components/CreateNewJourney.vue';
 import { pickThingId } from '@/utils/surrealThing';
 import { Journey } from 'shared/entities/journey.entity';
+import ArchiveJourneyButton from '@/screens/Shared/components/ArchiveJourneyButton.vue';
 
 setPageTitle('Interview Journeys');
 
@@ -176,25 +177,23 @@ onMounted(async () => {
 });
 
 function renderActionItems(info: CellContext<Journey, unknown>): VNode {
+  const journey = info.row.original;
+
   const viewButton = h(
     Button,
     {
       onClick: () =>
         router.push({
           name: 'interview-journey-view',
-          params: { id: pickThingId(info.row.original.id) },
+          params: { id: pickThingId(journey.id) },
         }),
     },
     () => [h('span', 'View')]
   );
-  const archiveButton = h(
-    Button,
-    {
-      onClick: () => console.log('TBI'),
-      type: 'warning',
-    },
-    () => [h('span', 'Archive')]
-  );
+
+  const archiveButton = h(ArchiveJourneyButton, {
+    journey,
+  });
 
   return h({
     functional: true,
@@ -204,7 +203,7 @@ function renderActionItems(info: CellContext<Journey, unknown>): VNode {
         {
           className: 'flex gap-1',
         },
-        [viewButton, archiveButton]
+        [viewButton, !journey.archivedAt && archiveButton]
       );
     },
   });

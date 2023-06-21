@@ -1,7 +1,7 @@
 <template>
   <div>
     <label
-      class="block text-sm font-medium leading-6 text-gray-900"
+      class="block text-sm font-medium leading-6 text-gray-900 select-none"
       v-text="label"
       :for="id"
     />
