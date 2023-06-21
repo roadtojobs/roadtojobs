@@ -73,6 +73,7 @@ export const useJourneyItems = (interviewJourney: Journey) => {
     journeyItem.stage = globalStages.stages.find(
       (stage) => stage.id === stageId
     );
+    journeyItem.isArchived = !!journeyItem.stage?.isArchivedStage;
   };
 
   return {

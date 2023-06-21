@@ -26,7 +26,7 @@
         Note & Archive
       </Button>
       <Button
-        @click="onSubmitCreateNote"
+        @click="onSubmitCreateNote(undefined)"
         :disabled="isLoading"
         :icon="DocumentPlusIcon"
       >
