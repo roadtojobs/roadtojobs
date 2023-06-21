@@ -16,6 +16,7 @@ export const useCurrentJourney = defineStore('currentJourney', () => {
     startedAt: new Date(),
     endedAt: null,
     endedReason: null,
+    archivedReason: null,
     createdAt: new Date(),
     updatedAt: new Date(),
     archivedAt: null,

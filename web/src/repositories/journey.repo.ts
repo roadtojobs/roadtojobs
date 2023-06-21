@@ -33,7 +33,6 @@ export const journeyRepo = {
          *,
          array::len(->journey_items) as total_journey_items
        FROM ${TABLES.JOURNEY}
-       WHERE archived_at = NONE
        ORDER BY started_at DESC, created_at DESC
     `);
 

@@ -2,6 +2,7 @@
   <Button
     type="warning"
     @click="openConfirmationModal"
+    :is-loading="isLoading"
   >
     {{ label || 'Archive' }}
   </Button>
@@ -49,9 +50,15 @@
       </div>
     </div>
     <template #bottom-buttons>
-      <Button @click="onSubmitArchive">Submit</Button>
+      <Button
+        :is-loading="isLoading"
+        @click="onSubmitArchive"
+      >
+        Submit
+      </Button>
       <Button
         type="secondary"
+        :is-loading="isLoading"
         @click="closeConfirmationModal"
       >
         Close
@@ -69,6 +76,7 @@ import Textarea from '@/components/Textarea/Textarea.vue';
 import Input from '@/components/Input/Input.vue';
 import { journeyRepo } from '@/repositories/journey.repo';
 import { notify } from '@kyvg/vue3-notification';
+import { useLoading } from '@/composable/useLoading';
 
 type ArchiveJourneyButtonProps = {
   label?: string;
@@ -81,6 +89,8 @@ type ArchiveJourneyButtonEmits = {
 
 const props = defineProps<ArchiveJourneyButtonProps>();
 const emits = defineEmits<ArchiveJourneyButtonEmits>();
+
+const { isLoading, startLoading, stopLoading } = useLoading();
 
 const isOpen = ref(false);
 const confirmationText = ref({
@@ -113,10 +123,12 @@ const onSubmitArchive = async () => {
     return;
   }
 
+  startLoading();
   const archiveResult = await journeyRepo.archive(
     props.journey.id,
     archiveNote.value
   );
+  stopLoading();
 
   if (!archiveResult) {
     return notify({

@@ -4,16 +4,16 @@
     item-key="stage-companies"
     tag="div"
     class="flex flex-row gap-2 w-full"
-    :options="{ group: 'stage-companies', disabled }"
+    :options="{ group: 'stage-companies', disabled: disabledDragDrop }"
     @add="onAdded"
   >
     <template
       v-if="!journeyItems.length"
       #header
     >
-      <span>
-        No company here 👀 You can add one or drag & drop existing node to
-        advance status.
+      <span> No company here 👀</span>
+      <span v-if="!journey.archivedAt">
+        You can add one or drag & drop existing node to advance status.
       </span>
     </template>
     <template #item="{ element, index }">
@@ -33,6 +33,8 @@ import { JourneyItem } from 'shared/entities/journeyItem.entity';
 import { Stage } from 'shared/entities/stage.entity';
 import StageCompanyItem from '@/screens/InterviewJourneyView/components/StageCompanyList/StageCompanyItem.vue';
 import { Sortable } from 'sortablejs-vue3';
+import { useCurrentJourney } from '@/stores/useCurrentJourney';
+import { computed } from 'vue';
 
 type StageCompanyListProps = {
   stage: Stage;
@@ -53,6 +55,13 @@ type StageCompanyListEmits = {
 
 const props = defineProps<StageCompanyListProps>();
 const emits = defineEmits<StageCompanyListEmits>();
+
+const currentJourney = useCurrentJourney();
+const journey = computed(() => currentJourney.journey);
+
+const disabledDragDrop = computed(
+  () => journey.value.archivedAt || props.disabled
+);
 
 const onAdded = (e: CustomEvent & { item: HTMLElement }) => {
   const journeyItemId = e.item.getAttribute('attr-journey-item-id') || '';

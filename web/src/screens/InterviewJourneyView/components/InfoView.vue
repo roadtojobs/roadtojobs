@@ -26,38 +26,53 @@
       </dl>
     </div>
     <div
-      class="mt-2 border-t border-t-gray-100 pt-4 flex flex-row-reverse items-center gap-x-2"
+      class="mt-2 border-t border-t-gray-100 pt-4 flex justify-between items-center gap-x-2"
     >
-      <!-- View -->
-      <Button
+      <div
         v-if="!isEditing"
-        @click="onClickEdit"
+        class="flex gap-2"
       >
-        Edit
-      </Button>
-      <Button
-        v-if="!isEditing"
-        type="secondary"
-        @click="$router.push({ name: 'interview-journey' })"
+        <!-- View -->
+        <Button
+          v-if="!interviewJourney.archivedAt"
+          @click="onClickEdit"
+        >
+          Edit
+        </Button>
+        <Button
+          type="secondary"
+          @click="$router.push({ name: 'interview-journey' })"
+        >
+          Back
+        </Button>
+      </div>
+      <div
+        v-else
+        class="flex gap-2"
       >
-        Back
-      </Button>
-      <!-- Editing -->
-      <Button
-        v-if="isEditing"
-        @click="onSubmitEdit"
-        :is-loading="isLoading"
-      >
-        Submit
-      </Button>
-      <Button
-        v-if="isEditing"
-        type="secondary"
-        @click="isEditing = false"
-        :is-loading="isLoading"
-      >
-        Cancel
-      </Button>
+        <!-- Editing -->
+        <Button
+          v-if="isEditing"
+          @click="onSubmitEdit"
+          :is-loading="isLoading"
+        >
+          Submit
+        </Button>
+        <Button
+          v-if="isEditing"
+          type="secondary"
+          @click="isEditing = false"
+          :is-loading="isLoading"
+        >
+          Cancel
+        </Button>
+      </div>
+      <!-- Archive -->
+      <ArchiveJourneyButton
+        v-if="!interviewJourney.archivedAt"
+        :journey="interviewJourney"
+        @archived="onArchivedJourney"
+      />
     </div>
   </div>
 </template>
@@ -78,6 +93,7 @@ import { notify } from '@kyvg/vue3-notification';
 import { useCurrentJourney } from '@/stores/useCurrentJourney';
 import { useLoading } from '@/composable/useLoading';
 import { CheckBadgeIcon } from '@heroicons/vue/24/outline';
+import ArchiveJourneyButton from '@/screens/Shared/components/ArchiveJourneyButton.vue';
 
 type InfoViewProps = {
   interviewJourney: Journey;
@@ -244,6 +260,10 @@ const onSubmitEdit = async () => {
     title: 'Updated',
     text: 'Your journey was updated successfully!',
   });
+};
+
+const onArchivedJourney = (journey: Journey) => {
+  updateJourneyPartially(journey);
 };
 
 const finalizeJourney = () => {
