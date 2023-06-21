@@ -67,6 +67,8 @@ import Modal from '@/components/Modal/Modal.vue';
 import { ref } from 'vue';
 import Textarea from '@/components/Textarea/Textarea.vue';
 import Input from '@/components/Input/Input.vue';
+import { journeyRepo } from '@/repositories/journey.repo';
+import { notify } from '@kyvg/vue3-notification';
 
 type ArchiveJourneyButtonProps = {
   label?: string;
@@ -101,7 +103,7 @@ const closeConfirmationModal = () => {
   isOpen.value = false;
 };
 
-const onSubmitArchive = () => {
+const onSubmitArchive = async () => {
   confirmationText.value.error = '';
 
   if (confirmationText.value.text !== 'yes') {
@@ -110,5 +112,27 @@ const onSubmitArchive = () => {
 
     return;
   }
+
+  const archiveResult = await journeyRepo.archive(
+    props.journey.id,
+    archiveNote.value
+  );
+
+  if (!archiveResult) {
+    return notify({
+      type: 'error',
+      title: 'Archive Error',
+      text: 'There was an error while archiving your journey. Please try again.',
+    });
+  }
+
+  closeConfirmationModal();
+  emits('archived', archiveResult);
+
+  return notify({
+    type: 'error',
+    title: 'Archived',
+    text: 'Journey archived!',
+  });
 };
 </script>

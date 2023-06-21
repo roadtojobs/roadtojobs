@@ -17,6 +17,7 @@ export type UpdateJourney = Omit<
   | 'totalJourneyItems'
   | 'endedAt'
   | 'endedReason'
+  | 'archivedReason'
 >;
 
 type UpdateJourneyOkResult = UpdateJourney & { id: string };
@@ -32,6 +33,7 @@ export const journeyRepo = {
          *,
          array::len(->journey_items) as total_journey_items
        FROM ${TABLES.JOURNEY}
+       WHERE archived_at = NONE
        ORDER BY started_at DESC, created_at DESC
     `);
 
@@ -74,12 +76,26 @@ export const journeyRepo = {
     values: UpdateJourney
   ): Promise<UpdateJourneyOkResult | undefined> {
     try {
-      const [result] = await dbClient.merge<UpdateJourney>(id, values);
+      const [result] = await dbClient.merge(id, {
+        ...values,
+        started_at: values.startedAt,
+      });
 
-      return result;
+      return interviewJourneyTableToInterviewJourney(result as JourneyTable);
     } catch (e) {
-      console.error(e);
+      return;
+    }
+  },
 
+  async archive(id: string, reason: string) {
+    try {
+      const [result] = await dbClient.merge(id, {
+        archived_reason: reason,
+        archived_at: new Date(),
+      });
+
+      return interviewJourneyTableToInterviewJourney(result as JourneyTable);
+    } catch (e) {
       return;
     }
   },

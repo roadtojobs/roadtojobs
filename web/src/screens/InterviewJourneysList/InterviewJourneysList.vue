@@ -171,10 +171,12 @@ const table = useVueTable<Journey>({
   getSortedRowModel: getSortedRowModel(),
 });
 
-onMounted(async () => {
+const loadAllJourneys = async () => {
   const journeys = await journeyRepo.getAll();
   interviewJourneys.value = [...journeys];
-});
+};
+
+onMounted(loadAllJourneys);
 
 function renderActionItems(info: CellContext<Journey, unknown>): VNode {
   const journey = info.row.original;
@@ -193,6 +195,7 @@ function renderActionItems(info: CellContext<Journey, unknown>): VNode {
 
   const archiveButton = h(ArchiveJourneyButton, {
     journey,
+    onArchived: loadAllJourneys,
   });
 
   return h({
