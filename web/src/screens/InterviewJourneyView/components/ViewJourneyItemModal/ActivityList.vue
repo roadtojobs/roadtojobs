@@ -43,7 +43,10 @@
       </li>
     </ul>
   </div>
-  <div class="mt-6">
+  <div
+    v-if="!isJourneyArchived"
+    class="mt-6"
+  >
     <div class="flex space-x-3">
       <div class="flex-shrink-0">
         <div class="relative">
@@ -74,6 +77,10 @@
       </div>
     </div>
   </div>
+  <div
+    v-else
+    class="h-32"
+  ></div>
 </template>
 
 <script setup lang="ts">
@@ -85,6 +92,8 @@ import ActivityAttributes from '@/screens/InterviewJourneyView/components/ViewJo
 import ActivityAdvanceToStage from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/ActivityItems/ActivityAdvanceToStage.vue';
 import { JourneyItemActivity } from 'shared/entities/journeyItemActivity.entity';
 import { JourneyItem } from 'shared/entities/journeyItem.entity';
+import { useCurrentJourney } from '@/stores/useCurrentJourney';
+import { computed } from 'vue';
 
 type ActivityListProps = {
   journeyItem: JourneyItem;
@@ -98,4 +107,7 @@ type ActivityListEmits = {
 
 defineProps<ActivityListProps>();
 defineEmits<ActivityListEmits>();
+
+const currentJourney = useCurrentJourney();
+const isJourneyArchived = computed(() => !!currentJourney.journey.archivedAt);
 </script>

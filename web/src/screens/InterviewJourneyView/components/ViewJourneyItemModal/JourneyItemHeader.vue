@@ -26,7 +26,10 @@
         </a>
       </p>
     </div>
-    <div class="mt-4 flex space-x-3 md:mt-0">
+    <div
+      v-if="!journey.archivedAt"
+      class="mt-4 flex space-x-3 md:mt-0"
+    >
       <button
         v-if="!isEditing"
         @click="$emit('click-edit')"
