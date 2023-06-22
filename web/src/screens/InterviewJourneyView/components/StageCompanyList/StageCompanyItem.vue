@@ -1,6 +1,6 @@
 <template>
   <div
-    class="inline-flex items-center rounded-full px-3 py-2 text-md font-medium select-none cursor-pointer"
+    class="journey-node-item inline-flex items-center rounded-full px-3 py-2 text-md font-medium select-none cursor-pointer"
     :class="nodeColor"
     @click="$emit('click', journeyItem)"
   >

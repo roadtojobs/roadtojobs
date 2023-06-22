@@ -1,20 +1,30 @@
 <template>
   <Sortable
+    ref="sortable"
     :list="journeyItems"
     item-key="stage-companies"
     tag="div"
     class="flex flex-row gap-2 w-full"
-    :options="{ group: 'stage-companies', disabled: disabledDragDrop }"
+    :options="{
+      group: 'stage-companies',
+      disabled: disabledDragDrop,
+      draggable: '.journey-node-item',
+    }"
     @add="onAdded"
+    @move.capture="draggingState.markAsDragging"
+    @end="draggingState.markAsDropped"
   >
     <template
       v-if="!journeyItems.length"
       #header
     >
-      <span> No company here 👀</span>
-      <span v-if="!journey.archivedAt">
-        You can add one or drag & drop existing node to advance status.
-      </span>
+      <div v-if="!isDragging">
+        <span> No company here 👀</span>
+        <span v-if="!journey.archivedAt && !journey.endedAt">
+          You can add one or drag & drop existing node to advance status.
+        </span>
+      </div>
+      <span>&nbsp;</span>
     </template>
     <template #item="{ element, index }">
       <StageCompanyItem
@@ -35,6 +45,7 @@ import StageCompanyItem from '@/screens/InterviewJourneyView/components/StageCom
 import { Sortable } from 'sortablejs-vue3';
 import { useCurrentJourney } from '@/stores/useCurrentJourney';
 import { computed } from 'vue';
+import { useDraggingState } from '@/stores/useDraggingState';
 
 type StageCompanyListProps = {
   stage: Stage;
@@ -62,6 +73,12 @@ const journey = computed(() => currentJourney.journey);
 const disabledDragDrop = computed(
   () => !!journey.value.archivedAt || !!journey.value.endedAt || props.disabled
 );
+
+const draggingState = useDraggingState();
+
+const isDragging = computed(() => {
+  return draggingState.dragging;
+});
 
 const onAdded = (e: CustomEvent & { item: HTMLElement }) => {
   const journeyItemId = e.item.getAttribute('attr-journey-item-id') || '';
