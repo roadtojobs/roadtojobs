@@ -80,19 +80,13 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import Button from '@/components/Button/Button.vue';
-import MarkdownContent from '@/components/MarkdownContent/MarkdownContent.vue';
-import { VueComponent } from '@/types';
 import { Journey } from 'shared/entities/journey.entity';
-import Textarea from '@/components/Textarea/Textarea.vue';
-import Input from '@/components/Input/Input.vue';
-import { getDisplayDate, parseServerDate } from '@/utils/date';
 import { journeyRepo, UpdateJourney } from '@/repositories/journey.repo';
 import useValidation from '@/composable/useValidation';
 import { updateJourney } from '@/screens/InterviewJourneyView/components/InfoView.methods';
 import { notify } from '@kyvg/vue3-notification';
 import { useCurrentJourney } from '@/stores/useCurrentJourney';
 import { useLoading } from '@/composable/useLoading';
-import { CheckBadgeIcon } from '@heroicons/vue/24/outline';
 import ArchiveJourneyButton from '@/screens/Shared/components/ArchiveJourneyButton.vue';
 import { useInfoViewRenderItems } from '@/screens/InterviewJourneyView/composables/useInfoViewRenderItems';
 
