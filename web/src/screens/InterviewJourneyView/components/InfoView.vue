@@ -94,6 +94,7 @@ import { useCurrentJourney } from '@/stores/useCurrentJourney';
 import { useLoading } from '@/composable/useLoading';
 import { CheckBadgeIcon } from '@heroicons/vue/24/outline';
 import ArchiveJourneyButton from '@/screens/Shared/components/ArchiveJourneyButton.vue';
+import { useInfoViewRenderItems } from '@/screens/InterviewJourneyView/composables/useInfoViewRenderItems';
 
 type InfoViewProps = {
   interviewJourney: Journey;
@@ -101,12 +102,7 @@ type InfoViewProps = {
 
 const props = defineProps<InfoViewProps>();
 
-type RenderItem = {
-  key: keyof Journey;
-  label: string;
-  Text: VueComponent;
-  EditComponent?: VueComponent;
-};
+const journey = computed(() => props.interviewJourney);
 
 const isEditing = ref(false);
 const editForm = ref<UpdateJourney>({
@@ -119,100 +115,6 @@ const { errorsBag, validate, reset } =
   useValidation<UpdateJourney>(updateJourney);
 const { mergePartial: updateJourneyPartially } = useCurrentJourney();
 const { isLoading, startLoading, stopLoading } = useLoading();
-
-const renderItems = computed<RenderItem[]>((): RenderItem[] => {
-  const journey = props.interviewJourney;
-
-  // () => h(..) is a strategy to render on demand
-  // we don't need to render the VNode on runtime
-  // TODO: add archived at & archived reason info markdown here
-  return [
-    {
-      label: 'Journey Name 💼',
-      Text: () =>
-        h('span', {
-          innerText: journey.name,
-        }),
-      key: 'name',
-      EditComponent: () =>
-        h(Input, {
-          modelValue: editForm.value.name,
-          error: errorsBag.value.get('name'),
-          'onUpdate:modelValue'(value: string) {
-            editForm.value.name = value;
-          },
-        }),
-    },
-    {
-      label: 'Journey Description 📖',
-      Text: () => h(MarkdownContent, () => journey.description),
-      key: 'description',
-      EditComponent: () =>
-        h(Textarea, {
-          modelValue: editForm.value.description,
-          rows: 8,
-          error: errorsBag.value.get('description'),
-          'onUpdate:modelValue'(value: string) {
-            editForm.value.description = value;
-          },
-        }),
-    },
-    {
-      label: 'Personal Goals/Notes 🚀',
-      Text: () =>
-        journey.note
-          ? h(MarkdownContent, () => journey.note)
-          : h('span', { innerText: '-' }),
-      key: 'note',
-      EditComponent: () =>
-        h(Textarea, {
-          modelValue: editForm.value.note,
-          rows: 8,
-          error: errorsBag.value.get('note'),
-          'onUpdate:modelValue'(value: string) {
-            editForm.value.note = value;
-          },
-        }),
-    },
-    {
-      label: 'Journey Started At 🏎️',
-      Text: () =>
-        h('span', {
-          innerText: getDisplayDate(journey.startedAt),
-        }),
-      key: 'startedAt',
-      EditComponent: () =>
-        h(Input, {
-          modelValue: parseServerDate(editForm.value.startedAt),
-          type: 'date',
-          error: errorsBag.value.get('startedAt'),
-          'onUpdate:modelValue'(value: string) {
-            editForm.value.startedAt = new Date(value);
-          },
-        }),
-    },
-    {
-      label: 'Journey Ended At 🔥',
-      Text: () =>
-        journey.endedAt
-          ? h('span', {
-              innerText: getDisplayDate(journey.endedAt),
-            })
-          : !journey.archivedAt
-          ? h(
-              Button,
-              {
-                icon: h(CheckBadgeIcon),
-                type: 'neutral',
-                onClick: finalizeJourney,
-              },
-              () => 'Finalize / Mark as Ended'
-            )
-          : '-',
-      key: 'endedAt',
-    },
-  ];
-});
 
 const onClickEdit = () => {
   editForm.value = {
@@ -272,4 +174,11 @@ const onArchivedJourney = (journey: Journey) => {
 const finalizeJourney = () => {
   alert('ok');
 };
+
+const { renderItems } = useInfoViewRenderItems({
+  journey,
+  editForm,
+  errorsBag,
+  onClickFinalizeJourney: finalizeJourney,
+});
 </script>
