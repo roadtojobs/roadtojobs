@@ -128,4 +128,25 @@ export const journeyItemRepo = {
       return undefined;
     }
   },
+
+  async getOfferedItemsOfJourney(journeyId: string): Promise<JourneyItem[]> {
+    console.log(journeyId);
+    // TODO: use stage.is_good_stage = true && stage.is_final_stage
+    const [result] = await dbClient.query<JourneyItemTable[][]>(
+      `
+      SELECT *
+      FROM ${TABLES.JOURNEY_ITEM}
+      WHERE
+        journey = $journey AND
+        stage = stage:accepted_offer
+    `,
+      { journey: journeyId }
+    );
+
+    if (result.status === 'ERR') {
+      return [];
+    }
+
+    return result.result.map(journeyItemTableToJourneyItem);
+  },
 };

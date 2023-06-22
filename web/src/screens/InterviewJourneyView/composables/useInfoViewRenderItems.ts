@@ -5,9 +5,8 @@ import Input from '@/components/Input/Input.vue';
 import MarkdownContent from '@/components/MarkdownContent/MarkdownContent.vue';
 import Textarea from '@/components/Textarea/Textarea.vue';
 import { getDisplayDate, parseServerDate } from '@/utils/date';
-import Button from '@/components/Button/Button.vue';
-import { CheckBadgeIcon } from '@heroicons/vue/24/outline';
 import { VueComponent } from '@/types';
+import FinalizeJourneyButton from '@/screens/InterviewJourneyView/components/InfoView/FinalizeJourneyButton.vue';
 
 type Props = {
   journey: ComputedRef<Journey>;
@@ -106,17 +105,9 @@ export const useInfoViewRenderItems = ({
             ? h('span', {
                 innerText: getDisplayDate(journey.value.endedAt),
               })
-            : !journey.value.archivedAt
-            ? h(
-                Button,
-                {
-                  icon: h(CheckBadgeIcon),
-                  type: 'neutral',
-                  onClick: onClickFinalizeJourney,
-                },
-                () => 'Finalize / Mark as Ended'
-              )
-            : '-',
+            : h(FinalizeJourneyButton, {
+                journey: journey.value,
+              }),
         key: 'endedAt',
       },
     ];

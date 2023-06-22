@@ -27,12 +27,13 @@ export const journeyRepo = {
     return generateId(TABLES.JOURNEY, id);
   },
 
-  async getAll(): Promise<Journey[]> {
+  async getAll(filterArchived: boolean = true): Promise<Journey[]> {
     const [result] = await dbClient.query<JourneyTable[][]>(`
        SELECT
          *,
          array::len(->journey_items) as total_journey_items
        FROM ${TABLES.JOURNEY}
+       ${filterArchived ? 'WHERE archived_at = NONE' : ''}
        ORDER BY started_at DESC, created_at DESC
     `);
 

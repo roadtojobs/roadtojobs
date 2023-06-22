@@ -172,7 +172,7 @@ const table = useVueTable<Journey>({
 });
 
 const loadAllJourneys = async () => {
-  const journeys = await journeyRepo.getAll();
+  const journeys = await journeyRepo.getAll(true);
   interviewJourneys.value = [...journeys];
 };
 
