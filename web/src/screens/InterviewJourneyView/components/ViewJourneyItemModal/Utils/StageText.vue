@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { Stage } from 'shared/entities/stage.entity';
+import { Stage } from '../../../../../../../shared/src/entities/stage.entity';
 import { computed } from 'vue';
 
 const props = defineProps<{

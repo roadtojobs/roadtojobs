@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import StageText from '@/screens/InterviewJourneyView/components/Utils/StageText.vue';
+import StageText from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/Utils/StageText.vue';
 import Dropdown from '@/components/Dropdown/Dropdown.vue';
 import {
   CalendarIcon,
@@ -51,8 +51,8 @@ import {
 } from '@heroicons/vue/24/outline';
 import { computed } from 'vue';
 import { getDisplayDate } from '@/utils/date';
-import { Stage } from 'shared/entities/stage.entity';
-import { JourneyItem } from 'shared/entities/journeyItem.entity';
+import { Stage } from '../../../../../../../shared/src/entities/stage.entity';
+import { JourneyItem } from '../../../../../../../shared/src/entities/journeyItem.entity';
 import { useGlobalStages } from '@/stores/useGlobalStages';
 
 const createdDateText = computed(() =>

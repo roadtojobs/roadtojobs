@@ -79,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-import AttributeItem from '@/screens/InterviewJourneyView/components/Utils/AttributeItem.vue';
+import AttributeItem from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/Utils/AttributeItem.vue';
 import { TagIcon, XCircleIcon } from '@heroicons/vue/24/outline';
 import {
   DynamicAttributes,

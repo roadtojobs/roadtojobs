@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import { Journey } from 'shared/entities/journey.entity';
-import JourneyItemSpecs from '@/screens/InterviewJourneyView/components/Utils/JourneyItemSpecs.vue';
+import JourneyItemSpecs from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/Utils/JourneyItemSpecs.vue';
 import { StrictJourneyItem } from '@/screens/InterviewJourneyView/composables/useViewJourneyItemModal';
 
 type JourneyItemDetailMobileViewProps = {

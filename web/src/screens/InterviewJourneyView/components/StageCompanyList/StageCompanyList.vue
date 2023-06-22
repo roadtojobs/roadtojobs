@@ -60,7 +60,7 @@ const currentJourney = useCurrentJourney();
 const journey = computed(() => currentJourney.journey);
 
 const disabledDragDrop = computed(
-  () => journey.value.archivedAt || props.disabled
+  () => !!journey.value.archivedAt || !!journey.value.endedAt || props.disabled
 );
 
 const onAdded = (e: CustomEvent & { item: HTMLElement }) => {

@@ -44,7 +44,7 @@
 <script setup lang="ts">
 import { TagIcon } from '@heroicons/vue/24/outline';
 import { computed } from 'vue';
-import AttributeItem from '@/screens/InterviewJourneyView/components/Utils/AttributeItem.vue';
+import AttributeItem from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/Utils/AttributeItem.vue';
 import { getFromAgoTime } from '@/utils/date';
 import { JourneyItemActivity } from 'shared/entities/journeyItemActivity.entity';
 

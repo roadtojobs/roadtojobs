@@ -63,7 +63,7 @@ import { getNodeColor } from '@/screens/InterviewJourneyView/components/StageCom
 import Dropdown from '@/components/Dropdown/Dropdown.vue';
 import { colors } from '@/constants/nodeColors';
 import { DropdownItem } from '@/components/Dropdown/Dropdown.types';
-import JourneyItemSpecs from '@/screens/InterviewJourneyView/components/Utils/JourneyItemSpecs.vue';
+import JourneyItemSpecs from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/Utils/JourneyItemSpecs.vue';
 import { StrictJourneyItem } from '@/screens/InterviewJourneyView/composables/useViewJourneyItemModal';
 import JourneyItemAttributes from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/EditModes/JourneyItemAttributes.vue';
 

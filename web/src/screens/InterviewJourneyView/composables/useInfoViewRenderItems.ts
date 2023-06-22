@@ -29,11 +29,11 @@ export const useInfoViewRenderItems = ({
   errorsBag,
   onClickFinalizeJourney,
 }: Props) => {
-  // () => h(..) is a strategy to render on demand
-  // we don't need to render the VNode on runtime
   const renderItems = computed<RenderItem[]>((): RenderItem[] => {
     const isArchived = !!journey.value.archivedAt;
 
+    // () => h(..) is a strategy to render on demand
+    // we don't need to render the VNode on runtime
     const items: RenderItem[] = [
       {
         label: 'Journey Name 💼',
