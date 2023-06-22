@@ -48,5 +48,16 @@ export const useCurrentJourney = defineStore('currentJourney', () => {
 
   const journeyId = computed(() => journey.value.id);
 
-  return { journey, setJourney, journeyId, mergePartial, forceRefresh };
+  const canEditJourney = computed(
+    () => !journey.value.endedAt && !journey.value.archivedAt
+  );
+
+  return {
+    journey,
+    setJourney,
+    journeyId,
+    mergePartial,
+    forceRefresh,
+    canEditJourney,
+  };
 });

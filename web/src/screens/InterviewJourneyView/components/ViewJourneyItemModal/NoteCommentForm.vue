@@ -17,7 +17,7 @@
     </div>
     <div class="mt-6 flex items-center justify-end space-x-4">
       <Button
-        v-if="!journeyItem.isArchived"
+        v-if="!journeyItem.isArchived && canEditJourney"
         @click="onSubmitCreateNote(onCloseAndArchive)"
         type="warning"
         :disabled="isLoading"
@@ -52,6 +52,7 @@ import { useCurrentUser } from '@/stores/useCurrentUser';
 import Button from '@/components/Button/Button.vue';
 import { journeyItemRepo } from '@/repositories/journeyItem.repo';
 import { useGlobalStages } from '@/stores/useGlobalStages';
+import { useCurrentJourney } from '@/stores/useCurrentJourney';
 
 type NoteCommentFormProps = {
   journeyItem: JourneyItem;
@@ -67,6 +68,7 @@ const emits = defineEmits<NoteCommentFormEmits>();
 
 const { userId } = useCurrentUser();
 const { archivedStages } = useGlobalStages();
+const { canEditJourney } = useCurrentJourney();
 
 const form = ref({
   comment: '',

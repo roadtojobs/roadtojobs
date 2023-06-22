@@ -6,11 +6,11 @@
         aria-hidden="true"
       />
       <StageText
-        v-if="!isEditing"
+        v-if="!canEditJourney || !isEditing"
         :stage="journeyItem.stage"
       />
       <Dropdown
-        v-else
+        v-else-if="isEditing"
         label=""
         class="w-full"
         item-classes="flex gap-2"
@@ -51,9 +51,10 @@ import {
 } from '@heroicons/vue/24/outline';
 import { computed } from 'vue';
 import { getDisplayDate } from '@/utils/date';
-import { Stage } from '../../../../../../../shared/src/entities/stage.entity';
-import { JourneyItem } from '../../../../../../../shared/src/entities/journeyItem.entity';
+import { Stage } from 'shared/entities/stage.entity';
+import { JourneyItem } from 'shared/entities/journeyItem.entity';
 import { useGlobalStages } from '@/stores/useGlobalStages';
+import { useCurrentJourney } from '@/stores/useCurrentJourney';
 
 const createdDateText = computed(() =>
   getDisplayDate(props.journeyItem.createdAt)
@@ -74,6 +75,7 @@ const props = defineProps<JourneyItemSpecsProps>();
 const emits = defineEmits<JourneyItemSpecsEmits>();
 
 const globalStages = useGlobalStages();
+const { canEditJourney } = useCurrentJourney();
 
 const dropdownItems = computed(() =>
   globalStages.stages

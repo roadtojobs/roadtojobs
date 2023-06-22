@@ -114,11 +114,10 @@ const loadAllActivities = async () => {
   journeyActivities.value = [...activities];
 };
 
-onMounted(async () => {
-  await loadAllActivities();
-});
+onMounted(loadAllActivities);
 
 const onActivityCreated = () => loadAllActivities();
+
 const onActivityCreatedWithArchived = (stageId: string) => {
   emits('journey-item-archived', props.journeyItem.id, stageId);
   loadAllActivities();
