@@ -142,7 +142,7 @@ const onSubmitArchive = async () => {
   emits('archived', archiveResult);
 
   return notify({
-    type: 'error',
+    type: 'success',
     title: 'Archived',
     text: 'Journey archived!',
   });

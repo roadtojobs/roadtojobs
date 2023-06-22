@@ -87,11 +87,24 @@ export const journeyRepo = {
     }
   },
 
-  async archive(id: string, reason: string) {
+  async archive(id: string, reason: string): Promise<Journey | undefined> {
     try {
       const [result] = await dbClient.merge(id, {
         archived_reason: reason,
         archived_at: new Date(),
+      });
+
+      return interviewJourneyTableToInterviewJourney(result as JourneyTable);
+    } catch (e) {
+      return;
+    }
+  },
+
+  async end(id: string, reason: string): Promise<Journey | undefined> {
+    try {
+      const [result] = await dbClient.merge(id, {
+        ended_reason: reason,
+        ended_at: new Date(),
       });
 
       return interviewJourneyTableToInterviewJourney(result as JourneyTable);

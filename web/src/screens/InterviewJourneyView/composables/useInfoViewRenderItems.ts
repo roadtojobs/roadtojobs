@@ -12,7 +12,7 @@ type Props = {
   journey: ComputedRef<Journey>;
   editForm: Ref<UpdateJourney>;
   errorsBag: Ref<Map<keyof UpdateJourney, string | undefined>>;
-  onClickFinalizeJourney: () => void;
+  onFinalizedJourney: (journey: Journey) => void;
 };
 
 type RenderItem = {
@@ -26,10 +26,11 @@ export const useInfoViewRenderItems = ({
   journey,
   editForm,
   errorsBag,
-  onClickFinalizeJourney,
+  onFinalizedJourney,
 }: Props) => {
   const renderItems = computed<RenderItem[]>((): RenderItem[] => {
     const isArchived = !!journey.value.archivedAt;
+    const isEnded = !!journey.value.endedAt;
 
     // () => h(..) is a strategy to render on demand
     // we don't need to render the VNode on runtime
@@ -107,10 +108,22 @@ export const useInfoViewRenderItems = ({
               })
             : h(FinalizeJourneyButton, {
                 journey: journey.value,
+                onEnded: onFinalizedJourney,
               }),
         key: 'endedAt',
       },
     ];
+
+    if (isEnded) {
+      items.push({
+        label: 'Journey Ended Reason 😎',
+        Text: () =>
+          journey.value.endedReason
+            ? h(MarkdownContent, () => journey.value.endedReason)
+            : h('span', { innerText: '-' }),
+        key: 'endedReason',
+      });
+    }
 
     if (isArchived) {
       items.push({
@@ -128,7 +141,7 @@ export const useInfoViewRenderItems = ({
           journey.value.archivedReason
             ? h(MarkdownContent, () => journey.value.archivedReason)
             : h('span', { innerText: '-' }),
-        key: 'archivedAt',
+        key: 'archivedReason',
       });
     }
 

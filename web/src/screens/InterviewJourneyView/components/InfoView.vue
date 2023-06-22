@@ -167,14 +167,10 @@ const onArchivedJourney = (journey: Journey) => {
   updateJourneyPartially(journey);
 };
 
-const finalizeJourney = () => {
-  alert('ok');
-};
-
 const { renderItems } = useInfoViewRenderItems({
   journey,
   editForm,
   errorsBag,
-  onClickFinalizeJourney: finalizeJourney,
+  onFinalizedJourney: onArchivedJourney,
 });
 </script>
