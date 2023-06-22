@@ -82,7 +82,7 @@ const features = [
   {
     name: 'Manage your Companies list',
     description: `
-      The first priority, the go-to, the good, the bad, the blacklist,...
+      The first priority, the go-to, the good, the bad, the avoid-list,...
       Manage them in your point of view.
     `,
     icon: ListBulletIcon,
@@ -91,14 +91,14 @@ const features = [
     name: 'Avoid future mistakes',
     description: `
       We all have mistakes, that's inevitable. But we can prevent it by proper notes and analytics.
-      Road To Jobs will always here for you.
+      Road To Jobs would do that for you!
     `,
     icon: XMarkIcon,
   },
   {
     name: 'Start Interview',
     description: `
-      With the support from Road To Jobs app, start interview now and do your bests!
+      With the super platform support from Road To Jobs, start interview now and do your bests!
     `,
     icon: PaperAirplaneIcon,
   },
