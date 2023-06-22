@@ -29,6 +29,12 @@ const routes = [
     component: (): Promise<RouteComponent> =>
       import('./screens/Analytics/Analytics.vue'),
   },
+  {
+    path: '/companies',
+    name: 'companies',
+    component: (): Promise<RouteComponent> =>
+      import('./screens/Companies/Companies.vue'),
+  },
 ];
 
 const router = createRouter({

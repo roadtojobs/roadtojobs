@@ -144,7 +144,7 @@ const menuItems = ref<MenuItem[]>([
   {
     id: 'companies',
     name: 'Companies',
-    routeName: 'analytics',
+    routeName: 'companies',
     icon: BuildingOffice2Icon,
   },
   {

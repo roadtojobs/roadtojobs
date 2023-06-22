@@ -1,7 +1,7 @@
 <template>
   <AppPage
-    header-title="Interview Journeys"
-    description="Manage your Road To Jobs / Interview Journeys 💼"
+    header-title="Companies"
+    description="Your Companies List 🏢"
   >
     <template #right-buttons>
       <CreateNewJourney />
@@ -111,7 +111,7 @@ import { DATE_FORMAT } from '@/constants';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/outline';
 import Button from '@/components/Button/Button.vue';
 import { useRouter } from 'vue-router';
-import { VNode, ref, onMounted } from 'vue';
+import { VNode, ref, onMounted, h } from 'vue';
 import CreateNewJourney from '@/screens/InterviewJourneysList/components/CreateNewJourney.vue';
 import { pickThingId } from '@/utils/surrealThing';
 import { Journey } from 'shared/entities/journey.entity';
