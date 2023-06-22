@@ -6,6 +6,7 @@ import {
   journeyItemActivityTableToJourneyItem,
 } from 'shared/entities/journeyItemActivity.entity';
 import { generateId } from '@/utils/surrealThing';
+import { DynamicAttributes } from 'shared';
 
 export type CreateNoteJourneyItemActivity = Omit<
   JourneyItemActivity,
@@ -63,6 +64,26 @@ export const journeyItemActivityRepo = {
         journey_item: values.journeyItemId,
         type: values.type,
         user: values.userId,
+      });
+
+      return result.id;
+    } catch (e) {
+      return undefined;
+    }
+  },
+
+  async appendAttributes(props: {
+    journeyItemId: string;
+    userId: string;
+    type: 'ADDED_ATTRIBUTES' | 'REMOVED_ATTRIBUTES';
+    attributes: DynamicAttributes;
+  }): Promise<string | undefined> {
+    try {
+      const [result] = await dbClient.create(TABLES.JOURNEY_ITEM_ACTIVITY, {
+        journey_item: props.journeyItemId,
+        type: props.type,
+        user: props.userId,
+        attributes: props.attributes,
       });
 
       return result.id;

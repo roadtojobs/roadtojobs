@@ -3,6 +3,8 @@ import { z } from 'zod';
 import useValidation from '@/composable/useValidation';
 import { notify } from '@kyvg/vue3-notification';
 import { journeyItemRepo } from '@/repositories/journeyItem.repo';
+import { journeyItemActivityRepo } from '@/repositories/journeyItemActivity.repo';
+import { useCurrentUser } from '@/stores/useCurrentUser';
 
 const editJourneyItem = z.object({
   description: z
@@ -35,6 +37,7 @@ export const useEditJourneyItem = (
     stageId: '',
     attributes: [],
   });
+  const { userId } = useCurrentUser();
 
   const onClickEdit = () => {
     editForm.value.description = journeyItem.description;
@@ -60,10 +63,8 @@ export const useEditJourneyItem = (
       });
     }
 
-    const updateResult = await journeyItemRepo.update(
-      journeyItem.id,
-      validateResult.parsedObject
-    );
+    const parsed = validateResult.parsedObject;
+    const updateResult = await journeyItemRepo.update(journeyItem.id, parsed);
     if (!updateResult) {
       return notify({
         type: 'error',
@@ -71,6 +72,49 @@ export const useEditJourneyItem = (
         text: 'There was an error while updating your Journey Item. Please refresh the page and try again.',
       });
     }
+
+    // compare the 2 attributes
+    const originalAttrs = journeyItem.attributes || [];
+    const removedAttrs = originalAttrs.filter((originalAttr) => {
+      return !parsed.attributes.some(
+        (updatedAttr) =>
+          originalAttr.color === updatedAttr.color &&
+          originalAttr.text === updatedAttr.text
+      );
+    });
+    const addedAttrs = parsed.attributes.filter((updatedAttr) => {
+      return !originalAttrs.some(
+        (originalAttr) =>
+          originalAttr.color === updatedAttr.color &&
+          originalAttr.text === updatedAttr.text
+      );
+    });
+
+    // append added
+    const activityPromises = [];
+    if (addedAttrs.length) {
+      activityPromises.push(
+        journeyItemActivityRepo.appendAttributes({
+          type: 'ADDED_ATTRIBUTES',
+          attributes: addedAttrs,
+          userId,
+          journeyItemId: journeyItem.id,
+        })
+      );
+    }
+
+    if (removedAttrs.length) {
+      activityPromises.push(
+        journeyItemActivityRepo.appendAttributes({
+          type: 'REMOVED_ATTRIBUTES',
+          attributes: removedAttrs,
+          userId,
+          journeyItemId: journeyItem.id,
+        })
+      );
+    }
+
+    await Promise.all(activityPromises);
 
     isEdit.value = false;
     onUpdateOk(validateResult.parsedObject);
