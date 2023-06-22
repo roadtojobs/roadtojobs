@@ -5,6 +5,9 @@
     item-key="stage-companies"
     tag="div"
     class="flex flex-row gap-2 w-full"
+    :class="{
+      'border-2 border-rose-300 rounded border-dashed py-4': isDragging,
+    }"
     :options="{
       group: 'stage-companies',
       disabled: disabledDragDrop,
@@ -14,17 +17,13 @@
     @move.capture="draggingState.markAsDragging"
     @end="draggingState.markAsDropped"
   >
-    <template
-      v-if="!journeyItems.length"
-      #header
-    >
-      <div v-if="!isDragging">
+    <template #header>
+      <div v-if="!journeyItems.length && !isDragging">
         <span> No company here 👀</span>
         <span v-if="!journey.archivedAt && !journey.endedAt">
           You can add one or drag & drop existing node to advance status.
         </span>
       </div>
-      <span>&nbsp;</span>
     </template>
     <template #item="{ element, index }">
       <StageCompanyItem
@@ -34,6 +33,9 @@
         :attr-stage-id="(element as JourneyItem).stageId"
         @click="(item) => $emit('click', item)"
       />
+    </template>
+    <template #footer>
+      <span>&nbsp;</span>
     </template>
   </Sortable>
 </template>
