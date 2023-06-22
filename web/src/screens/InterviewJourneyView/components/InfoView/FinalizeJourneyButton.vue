@@ -135,6 +135,9 @@ const finalizeStateType = computed(() => {
 
 const openModal = () => {
   confirmationText.value.error = '';
+  confirmationText.value.text = '';
+  endedNote.value = '';
+
   isOpenModal.value = true;
 };
 

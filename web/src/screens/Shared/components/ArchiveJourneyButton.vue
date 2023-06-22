@@ -105,6 +105,7 @@ const confirmInputLabel = `Please enter "yes" to confirm`;
 const openConfirmationModal = () => {
   archiveNote.value = '';
   confirmationText.value.error = '';
+  confirmationText.value.text = '';
 
   isOpen.value = true;
 };
