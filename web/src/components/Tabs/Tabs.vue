@@ -58,18 +58,19 @@ const emits = defineEmits<TabsEmits>();
 
 const getCurrentUrl = () => new URL(window.location.href);
 
-const getInitTab = () => {
+const getInitTab = (): string => {
   const url = getCurrentUrl();
+  const defaultTab = props.firstTab || props.tabs[0].id;
 
   if (
     props.usesTabParams &&
     props.tabParamName &&
     url.searchParams.get(props.tabParamName)
   ) {
-    return url.searchParams.get(props.tabParamName);
+    return url.searchParams.get(props.tabParamName) || defaultTab;
   }
 
-  return props.firstTab || props.tabs[0].id;
+  return defaultTab;
 };
 
 const currentTabId = ref<string>(getInitTab());

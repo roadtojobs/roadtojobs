@@ -18,8 +18,8 @@ type Props = {
 type RenderItem = {
   key: keyof Journey;
   label: string;
-  Text: VueComponent;
-  EditComponent?: VueComponent;
+  Text: () => VueComponent;
+  EditComponent?: () => VueComponent;
 };
 
 export const useInfoViewRenderItems = ({
@@ -46,8 +46,8 @@ export const useInfoViewRenderItems = ({
           h(Input, {
             modelValue: editForm.value.name,
             error: errorsBag.value.get('name'),
-            'onUpdate:modelValue'(value: string) {
-              editForm.value.name = value;
+            'onUpdate:modelValue'(value: string | undefined) {
+              editForm.value.name = value || '';
             },
           }),
       },
@@ -60,8 +60,8 @@ export const useInfoViewRenderItems = ({
             modelValue: editForm.value.description,
             rows: 8,
             error: errorsBag.value.get('description'),
-            'onUpdate:modelValue'(value: string) {
-              editForm.value.description = value;
+            'onUpdate:modelValue'(value: string | undefined) {
+              editForm.value.description = value || '';
             },
           }),
       },
@@ -74,11 +74,11 @@ export const useInfoViewRenderItems = ({
         key: 'note',
         EditComponent: () =>
           h(Textarea, {
-            modelValue: editForm.value.note,
+            modelValue: editForm.value.note || '',
             rows: 8,
             error: errorsBag.value.get('note'),
-            'onUpdate:modelValue'(value: string) {
-              editForm.value.note = value;
+            'onUpdate:modelValue'(value: string | undefined) {
+              editForm.value.note = value || '';
             },
           }),
       },
@@ -94,8 +94,8 @@ export const useInfoViewRenderItems = ({
             modelValue: parseServerDate(editForm.value.startedAt),
             type: 'date',
             error: errorsBag.value.get('startedAt'),
-            'onUpdate:modelValue'(value: string) {
-              editForm.value.startedAt = new Date(value);
+            'onUpdate:modelValue'(value: string | Date | undefined) {
+              editForm.value.startedAt = value ? new Date(value) : new Date();
             },
           }),
       },
