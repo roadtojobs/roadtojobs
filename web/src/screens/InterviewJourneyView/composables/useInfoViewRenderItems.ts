@@ -32,8 +32,9 @@ export const useInfoViewRenderItems = ({
   // () => h(..) is a strategy to render on demand
   // we don't need to render the VNode on runtime
   const renderItems = computed<RenderItem[]>((): RenderItem[] => {
-    // TODO: add archived at & archived reason info markdown here
-    return [
+    const isArchived = !!journey.value.archivedAt;
+
+    const items: RenderItem[] = [
       {
         label: 'Journey Name 💼',
         Text: () =>
@@ -119,6 +120,28 @@ export const useInfoViewRenderItems = ({
         key: 'endedAt',
       },
     ];
+
+    if (isArchived) {
+      items.push({
+        label: 'Journey Archived At 🎃',
+        Text: () =>
+          h('span', {
+            innerText: getDisplayDate(journey.value.archivedAt as Date),
+          }),
+        key: 'archivedAt',
+      });
+
+      items.push({
+        label: 'Archive Reason 🔰',
+        Text: () =>
+          journey.value.archivedReason
+            ? h(MarkdownContent, () => journey.value.archivedReason)
+            : h('span', { innerText: '-' }),
+        key: 'archivedAt',
+      });
+    }
+
+    return items;
   });
 
   return {
