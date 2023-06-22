@@ -69,7 +69,7 @@
       </div>
       <!-- Archive -->
       <ArchiveJourneyButton
-        v-if="!interviewJourney.archivedAt"
+        v-if="isAbleToArchive"
         :journey="interviewJourney"
         @archived="onArchivedJourney"
       />
@@ -109,6 +109,8 @@ const { errorsBag, validate, reset } =
   useValidation<UpdateJourney>(updateJourney);
 const { mergePartial: updateJourneyPartially } = useCurrentJourney();
 const { isLoading, startLoading, stopLoading } = useLoading();
+
+const isAbleToArchive = computed(() => !journey.value.archivedAt);
 
 const onClickEdit = () => {
   editForm.value = {

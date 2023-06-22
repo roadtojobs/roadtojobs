@@ -193,10 +193,7 @@ function renderActionItems(info: CellContext<Journey, unknown>): VNode {
     () => [h('span', 'View')]
   );
 
-  const archiveButton = h(ArchiveJourneyButton, {
-    journey,
-    onArchived: loadAllJourneys,
-  });
+  const canArchive = !journey.archivedAt;
 
   return h({
     functional: true,
@@ -206,7 +203,14 @@ function renderActionItems(info: CellContext<Journey, unknown>): VNode {
         {
           className: 'flex gap-1',
         },
-        [viewButton, !journey.archivedAt && archiveButton]
+        [
+          viewButton,
+          canArchive &&
+            h(ArchiveJourneyButton, {
+              journey,
+              onArchived: loadAllJourneys,
+            }),
+        ]
       );
     },
   });
