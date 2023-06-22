@@ -34,7 +34,7 @@
       >
         <!-- View -->
         <Button
-          v-if="!interviewJourney.archivedAt"
+          v-if="isAbleToEdit"
           @click="onClickEdit"
         >
           Edit
@@ -110,6 +110,9 @@ const { errorsBag, validate, reset } =
 const { mergePartial: updateJourneyPartially } = useCurrentJourney();
 const { isLoading, startLoading, stopLoading } = useLoading();
 
+const isAbleToEdit = computed(
+  () => !journey.value.archivedAt && !journey.value.endedAt
+);
 const isAbleToArchive = computed(() => !journey.value.archivedAt);
 
 const onClickEdit = () => {
