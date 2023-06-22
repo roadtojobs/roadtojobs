@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { Stage } from '../../../../../../../shared/src/entities/stage.entity';
+import { Stage } from 'shared/entities/stage.entity';
 import { computed } from 'vue';
 
 const props = defineProps<{
@@ -35,6 +35,8 @@ const textColor = computed(() => {
       return 'text-rose-500';
     case 'pink':
       return 'text-pink-500';
+    case 'amber':
+      return 'text-amber-600';
     default:
       return 'text-black';
   }

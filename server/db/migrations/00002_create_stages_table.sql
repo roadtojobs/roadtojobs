@@ -8,6 +8,8 @@ DEFINE FIELD description ON TABLE stage TYPE string ASSERT $value != NONE;
 DEFINE FIELD is_initial_stage ON TABLE stage TYPE bool VALUE $value OR false;
 DEFINE FIELD is_final_stage ON TABLE stage TYPE bool VALUE $value OR false;
 DEFINE FIELD is_archived_stage ON TABLE stage TYPE bool VALUE $value OR false;
+DEFINE FIELD is_good_stage ON TABLE stage TYPE bool VALUE $value OR false;
+DEFINE FIELD is_bad_stage ON TABLE stage TYPE bool VALUE $value OR false;
 DEFINE FIELD position ON TABLE stage TYPE int VALUE $value OR 0;
 DEFINE FIELD color ON TABLE stage TYPE string VALUE $value OR 'rose';
 DEFINE FIELD created_at ON TABLE stage TYPE datetime VALUE $value OR time::now();
@@ -57,11 +59,11 @@ CREATE stage:offered CONTENT {
   position: 50
 };
 
-
 CREATE stage:ghosted CONTENT {
   name: 'Ghosted/No reply 😞',
   description: 'Companies that did not response to your job application',
   is_final_stage: true,
+  is_bad_stage: true,
   color: 'black',
   position: 60
 };
@@ -70,6 +72,7 @@ CREATE stage:failed CONTENT {
   name: 'Failed 😭',
   description: 'Companies that you did not pass their interview sessions',
   is_final_stage: true,
+  is_bad_stage: true,
   color: 'red',
   position: 70
 };
@@ -78,6 +81,7 @@ CREATE stage:accepted_offer CONTENT {
   name: 'Accepted Offer ✅',
   description: 'Companies that you accepted their offers',
   is_final_stage: true,
+  is_good_stage: true,
   color: 'green',
   position: 80
 };
@@ -86,6 +90,7 @@ CREATE stage:rejected_offer CONTENT {
   name: 'Rejected Offer ❌',
   description: 'Companies that you rejected their offers',
   is_final_stage: true,
+  is_bad_stage: true,
   color: 'red',
   position: 90
 };
