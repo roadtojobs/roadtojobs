@@ -112,4 +112,17 @@ export const journeyRepo = {
       return;
     }
   },
+
+  async unarchive(id: string): Promise<Journey | undefined> {
+    try {
+      const [result] = await dbClient.merge(id, {
+        archived_reason: '',
+        archived_at: null,
+      });
+
+      return interviewJourneyTableToInterviewJourney(result as JourneyTable);
+    } catch (e) {
+      return;
+    }
+  },
 };
