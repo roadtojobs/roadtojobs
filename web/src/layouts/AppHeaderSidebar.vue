@@ -108,7 +108,7 @@ import {
   HomeIcon,
   XMarkIcon,
   ClipboardDocumentCheckIcon,
-  ChatBubbleBottomCenterTextIcon,
+  BuildingOffice2Icon,
 } from '@heroicons/vue/24/outline';
 import {
   Dialog,
@@ -142,10 +142,10 @@ const menuItems = ref<MenuItem[]>([
     childRoutes: ['interview-journey-view'],
   },
   {
-    id: 'company-notes',
-    name: 'My Company Notes',
+    id: 'companies',
+    name: 'Companies',
     routeName: 'analytics',
-    icon: ChatBubbleBottomCenterTextIcon,
+    icon: BuildingOffice2Icon,
   },
   {
     id: 'analytics',

@@ -3,6 +3,7 @@
     header-title="Analytics"
     description="Check your performance across all journeys"
   >
+    <h2 class="text-2xl mt-2 mb-6 font-medium">Performance of 2023 💪</h2>
     <dl
       class="grid grid-cols-1 gap-0.5 overflow-hidden rounded-2xl text-center sm:grid-cols-2 lg:grid-cols-4"
     >
@@ -21,6 +22,7 @@
         </dd>
       </div>
     </dl>
+    <h2 class="text-2xl my-6 font-medium">Overall Performance ⚡️</h2>
   </AppPage>
 </template>
 
