@@ -1,5 +1,5 @@
 <template>
-  <div class="flex view-stage-container">
+  <div class="flex view-stage-container md:w-56">
     <a
       href="javascript:void(0)"
       @click="openModal"

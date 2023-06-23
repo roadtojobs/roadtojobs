@@ -10,7 +10,7 @@
             <tr class="divide-x divide-gray-200">
               <th
                 scope="col"
-                class="w-64 py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                class="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-0"
               >
                 Stage
               </th>

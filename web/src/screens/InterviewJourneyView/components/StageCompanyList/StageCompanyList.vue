@@ -4,7 +4,7 @@
     :list="journeyItems"
     item-key="stage-companies"
     tag="div"
-    class="flex flex-row gap-2 w-full relative"
+    class="flex flex-row gap-2 relative flex-wrap"
     :class="{
       'border-2 border-rose-300 rounded border-dashed py-2': isDragging,
     }"
@@ -20,13 +20,16 @@
     <template #header>
       <div v-if="!journeyItems.length && !isDragging">
         <span> No company here 👀</span>
-        <span v-if="!journey.archivedAt && !journey.endedAt">
-          You can add one or drag & drop existing node to advance status.
+        <span
+          v-if="!journey.archivedAt && !journey.endedAt"
+          class="hidden lg:inline-block"
+        >
+          &nbsp;You can add one or drag & drop existing node to advance status.
         </span>
       </div>
       <span
         v-if="isDragging"
-        class="absolute top-2 left-1/2 text-center"
+        class="absolute top-2 left-1/2 text-center z-0"
       >
         {{ stage.name }}
       </span>
