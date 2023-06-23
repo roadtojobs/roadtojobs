@@ -21,13 +21,16 @@
       </div>
       <div class="mt-2">
         <InlineRadio
+          v-model="form.feeling"
           label="Your feeling"
           sub-label="Your truly feeling after reached this stage"
+          name="feeling"
           :items="feelingItems"
         />
       </div>
       <div class="mt-2">
         <Textarea
+          v-model="form.feelingNote"
           label="Feeling Note (Optional)"
           placeholder="Always a good idea to note down everything in your road. Markdown supported!"
           rows="4"
@@ -38,8 +41,10 @@
         class="mt-2"
       >
         <InlineRadio
+          v-model="form.opinion"
           label="Your opinion"
           sub-label="Your opinion on this company when reached this stage"
+          name="opinion"
           :items="badOpinionItems"
         />
       </div>
@@ -48,6 +53,7 @@
         class="mt-2"
       >
         <Textarea
+          v-model="form.opinionNote"
           label="Opinion Note (Optional)"
           placeholder="Always a good idea to note down everything in your road. Markdown supported!"
           rows="4"
@@ -55,6 +61,7 @@
       </div>
       <div class="mt-2">
         <Textarea
+          v-model="form.note"
           label="Other Notes (if any, optional)"
           placeholder="Always a good idea to note down everything in your road. Markdown supported!"
           rows="4"
@@ -77,12 +84,14 @@ import Modal from '@/components/Modal/Modal.vue';
 import { Stage, JourneyItem } from 'shared';
 import InlineRadio from '@/components/RadioGroup/InlineRadio.vue';
 import {
+  AddFinalStageNote,
   getBadOpinionRadioItems,
   getFeelingRadioItems,
 } from '@/screens/InterviewJourneyView/components/ActionModals/AddNoteFinalStageModal.methods';
 import Textarea from '@/components/Textarea/Textarea.vue';
 import Button from '@/components/Button/Button.vue';
 import { useLoading } from '@/composable/useLoading';
+import { ref } from 'vue';
 
 type AddNoteFinalStageModalProps = {
   isOpen: boolean;
@@ -101,6 +110,18 @@ const feelingItems = getFeelingRadioItems();
 const badOpinionItems = getBadOpinionRadioItems();
 
 const { isLoading } = useLoading();
+
+const form = ref<AddFinalStageNote>({
+  companyId: props.journeyItem.companyId,
+  stageId: props.stage.id,
+  userId: props.journeyItem.userId,
+  journeyItemId: props.journeyItem.id,
+  feeling: 'good',
+  feelingNote: '',
+  opinion: '',
+  opinionNote: '',
+  note: '',
+});
 
 const onClickAddNote = () => {};
 </script>

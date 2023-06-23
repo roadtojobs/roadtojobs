@@ -7,7 +7,7 @@
             <tr class="divide-x divide-gray-200">
               <th
                 scope="col"
-                class="w-64 py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                class="w-64 md:w-56 py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-0"
               >
                 Stage
               </th>
@@ -26,7 +26,7 @@
               class="divide-x divide-gray-200"
             >
               <td
-                class="whitespace-nowrap py-6 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-0"
+                class="whitespace-nowrap md:w-56 py-6 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-0"
               >
                 <ViewStageDescription
                   :interview-journey="journey"

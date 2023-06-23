@@ -19,10 +19,11 @@
         >
           <input
             :id="item.value"
-            name="notification-method"
+            :name="name"
             type="radio"
             :checked="item.value === modelValue"
             class="h-4 w-4 border-gray-300 text-rose-600 focus:ring-rose-600"
+            @input="$emit('update:modelValue', item.value)"
           />
           <label
             :for="item.value"
@@ -40,6 +41,7 @@
 import { RadioItem } from '@/components/RadioGroup/RadioGroup.methods';
 
 type InlineRadioProps = {
+  name: string;
   label: string;
   subLabel?: string;
   modelValue?: string;
