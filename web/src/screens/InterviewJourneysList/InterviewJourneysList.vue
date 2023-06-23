@@ -6,6 +6,15 @@
     <template #right-buttons>
       <CreateNewJourney />
     </template>
+    <template #before-body>
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-4 mt-1">
+        <ToggleButton
+          :model-value="isIncludingArchive"
+          label="Include Archived"
+          @update:model-value="toggleArchive"
+        />
+      </div>
+    </template>
     <table class="min-w-full">
       <thead class="bg-white">
         <tr
@@ -116,12 +125,14 @@ import CreateNewJourney from '@/screens/InterviewJourneysList/components/CreateN
 import { pickThingId } from '@/utils/surrealThing';
 import { Journey } from 'shared/entities/journey.entity';
 import ArchiveJourneyButton from '@/screens/Shared/components/ArchiveJourneyButton.vue';
+import ToggleButton from '@/components/ToggleButton/ToggleButton.vue';
 
 setPageTitle('Interview Journeys');
 
 const router = useRouter();
 const interviewJourneys = ref<Journey[]>([]);
 const sorting = ref<SortingState>([]);
+const isIncludingArchive = ref(false);
 
 const columnHelper = createColumnHelper<Journey>();
 
@@ -171,8 +182,8 @@ const table = useVueTable<Journey>({
   getSortedRowModel: getSortedRowModel(),
 });
 
-const loadAllJourneys = async () => {
-  const journeys = await journeyRepo.getAll(true);
+const loadAllJourneys = async (includeArchived = false) => {
+  const journeys = await journeyRepo.getAll(!includeArchived);
   interviewJourneys.value = [...journeys];
 };
 
@@ -208,11 +219,16 @@ function renderActionItems(info: CellContext<Journey, unknown>): VNode {
           canArchive &&
             h(ArchiveJourneyButton, {
               journey,
-              onArchived: loadAllJourneys,
+              onArchived: () => loadAllJourneys(isIncludingArchive.value),
             }),
         ]
       );
     },
   });
 }
+
+const toggleArchive = (value: boolean) => {
+  isIncludingArchive.value = value;
+  loadAllJourneys(isIncludingArchive.value);
+};
 </script>

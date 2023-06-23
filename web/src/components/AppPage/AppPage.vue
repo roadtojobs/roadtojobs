@@ -27,9 +27,11 @@
       class="flow-root overflow-hidden"
       :class="bodyMargin"
     >
+      <slot name="before-body" />
       <div :class="[bodyClasses]">
         <slot />
       </div>
+      <slot name="after-body" />
     </div>
   </div>
 </template>
