@@ -6,14 +6,16 @@ import {
 import { Company, CompanyTable, companyTableToCompany } from './company.entity';
 import { Stage, StageTable, stageTableToStage } from './stage.entity';
 import { parseThing, parseThingId } from '../utils/surreal';
+import { User, UserTable, userTableToUser } from './user.entity';
 
 export type CompanyNoteTable = {
   id: string;
   journey_item: string | JourneyItemTable;
   company: string | CompanyTable;
   stage: string | StageTable;
-  user: string;
+  user: string | UserTable;
   feeling: string;
+  feeling_note: string;
   opinion: string;
   opinion_note: string;
   note: string;
@@ -25,11 +27,14 @@ export type CompanyNote = {
   id: string;
   journeyItemId: string;
   journeyItem?: JourneyItem;
+  userId: string;
+  user?: User;
   companyId: string;
   company?: Company;
   stageId: string;
   stage?: Stage;
   feeling: string;
+  feelingNote: string;
   opinion: string;
   opinionNote: string;
   note: string;
@@ -46,6 +51,8 @@ export const companyNoteTableToCompanyNote = (
     record.journey_item,
     journeyItemTableToJourneyItem
   ),
+  userId: parseThingId(record.user),
+  user: parseThing<UserTable, User>(record.user, userTableToUser),
   companyId: parseThingId(record.company),
   company: parseThing<CompanyTable, Company>(
     record.company,
@@ -54,6 +61,7 @@ export const companyNoteTableToCompanyNote = (
   stageId: parseThingId(record.stage),
   stage: parseThing<StageTable, Stage>(record.journey_item, stageTableToStage),
   feeling: record.feeling,
+  feelingNote: record.feeling_note,
   opinion: record.opinion,
   opinionNote: record.opinion_note,
   note: record.note,

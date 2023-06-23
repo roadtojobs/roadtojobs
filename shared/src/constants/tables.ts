@@ -5,4 +5,5 @@ export const TABLES = {
   JOURNEY_ITEM_ACTIVITY: 'journey_item_activity',
   USER: 'user',
   STAGE: 'stage',
+  COMPANY_NOTE: 'company_note',
 } as const;
