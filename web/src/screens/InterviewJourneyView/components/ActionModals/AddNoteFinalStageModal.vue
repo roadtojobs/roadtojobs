@@ -17,15 +17,71 @@
           It is too bad that you arrived to the
           <strong>{{ stage.name }}</strong> stage 😥!
         </p>
-        <p>Let's add some notes for your future references 😉</p>
+        <p>Let's add some notes for your future references ✌️</p>
+      </div>
+      <div class="mt-2">
+        <InlineRadio
+          label="Your feeling"
+          sub-label="Your truly feeling after reached this stage"
+          :items="feelingItems"
+        />
+      </div>
+      <div class="mt-2">
+        <Textarea
+          label="Feeling Note (Optional)"
+          placeholder="Always a good idea to note down everything in your road. Markdown supported!"
+          rows="4"
+        />
+      </div>
+      <div
+        v-if="stage.isBadStage"
+        class="mt-2"
+      >
+        <InlineRadio
+          label="Your opinion"
+          sub-label="Your opinion on this company"
+          :items="badOpinionItems"
+        />
+      </div>
+      <div
+        v-if="stage.isBadStage"
+        class="mt-2"
+      >
+        <Textarea
+          label="Opinion Note (Optional)"
+          placeholder="Always a good idea to note down everything in your road. Markdown supported!"
+          rows="4"
+        />
+      </div>
+      <div class="mt-2">
+        <Textarea
+          label="Other Notes (if any, optional)"
+          placeholder="Always a good idea to note down everything in your road. Markdown supported!"
+          rows="4"
+        />
       </div>
     </div>
+    <template #bottom-buttons>
+      <Button
+        @click="true"
+        :disabled="false"
+      >
+        Note
+      </Button>
+    </template>
   </Modal>
 </template>
 
 <script setup lang="ts">
 import Modal from '@/components/Modal/Modal.vue';
 import { Stage, JourneyItem } from 'shared';
+import InlineRadio from '@/components/RadioGroup/InlineRadio.vue';
+import {
+  getBadOpinionRadioItems,
+  getFeelingRadioItems,
+} from '@/screens/InterviewJourneyView/components/ActionModals/AddNoteFinalStageModal.methods';
+import Textarea from '@/components/Textarea/Textarea.vue';
+import Button from '@/components/Button/Button.vue';
 
 type AddNoteFinalStageModalProps = {
   isOpen: boolean;
@@ -39,4 +95,7 @@ type AddNoteFinalStageModalEmits = {
 
 const props = defineProps<AddNoteFinalStageModalProps>();
 const emits = defineEmits<AddNoteFinalStageModalEmits>();
+
+const feelingItems = getFeelingRadioItems();
+const badOpinionItems = getBadOpinionRadioItems();
 </script>

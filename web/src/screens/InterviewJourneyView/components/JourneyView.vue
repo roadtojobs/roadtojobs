@@ -68,7 +68,7 @@
     @journey-item-archived="updateJourneyItemToArchived"
   />
   <AddNoteFinalStageModal
-    v-if="isOpenFinalStageNoteModal"
+    v-if="isOpenFinalStageNoteModal && finalNoteStage && finalNoteJourneyItem"
     :is-open="isOpenFinalStageNoteModal"
     :stage="finalNoteStage"
     :journey-item="finalNoteJourneyItem"
