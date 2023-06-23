@@ -15,12 +15,18 @@ export default async function seedJourneys() {
       userAdminDbClient.create(`${TABLES.JOURNEY}${customId}`, {
         user: userId,
         name: `This is my interview journey ${faker.internet.emoji()}`,
-        description: `
-Find new job for the position **${faker.person.jobTitle()}**
-
-Expectation: awesome workspace
-        `,
-        note: 'Goal: big earning, best benefits,...',
+        description: faker.lorem.paragraphs(
+          faker.helpers.rangeToNumber({
+            min: 2,
+            max: 5,
+          })
+        ),
+        note: faker.lorem.paragraphs(
+          faker.helpers.rangeToNumber({
+            min: 2,
+            max: 5,
+          })
+        ),
         started_at: new Date(`2023-01-0${i}`),
         ended_at: i === total ? null : new Date(`2023-02-0${i}`),
       })

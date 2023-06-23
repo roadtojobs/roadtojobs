@@ -6,16 +6,28 @@ import { TABLES } from 'shared/constants/tables';
 type Result = Record<string, unknown>[][];
 
 export default async function seedJourneyItems() {
-  const [activeJourney] = await db.select(`${TABLES.JOURNEY}:active_journey`);
-  if (!activeJourney) {
-    console.log('No active journey to insert. Stop the seedJourneyItems');
+  const journeys = await db.select(`${TABLES.JOURNEY}`);
+  if (!journeys.length) {
+    console.log('No journey to insert. Stop the seedJourneyItems');
 
     return;
   }
 
+  for (const journey of journeys) {
+    await seedJourneyItemsForJourney(
+      journey,
+      journey.id === 'journey:active_journey' ? 20 : 10
+    );
+  }
+}
+
+async function seedJourneyItemsForJourney(
+  activeJourney: Record<string, unknown>,
+  total: number
+) {
   const [companyResult, stageResult, userResult] = await Promise.all([
     db.query<Result>(
-      `SELECT * FROM ${TABLES.COMPANY} ORDER BY rand() LIMIT 10`
+      `SELECT * FROM ${TABLES.COMPANY} ORDER BY rand() LIMIT ${total}`
     ),
     db.query<Result>(`SELECT * FROM ${TABLES.STAGE} ORDER BY rand()`),
     db.select(`${TABLES.USER}:admin`),
@@ -26,7 +38,9 @@ export default async function seedJourneyItems() {
   const companies = companyResult[0].result;
   const stages = stageResult[0].result;
 
-  console.log(`Creating 10 journey items for active journey...`);
+  console.log(
+    `Creating ${total} journey items for ${activeJourney.name} journey...`
+  );
 
   const promises = companies?.map(async (company, index) => {
     const companyId = company.id;
@@ -106,5 +120,7 @@ export default async function seedJourneyItems() {
 
   await Promise.all(promises ?? []);
 
-  console.log(`Created 10 journey items for active journey.`);
+  console.log(
+    `Created ${total} journey items for ${activeJourney.name} journey...`
+  );
 }
