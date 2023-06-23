@@ -23,9 +23,11 @@ DEFINE FIELD feeling ON TABLE company_note
   TYPE string
   ASSERT $value != NONE;
 
+DEFINE FIELD feeling_note ON TABLE company_note
+  TYPE string;
+
 DEFINE FIELD opinion ON TABLE company_note
-  TYPE string
-  ASSERT $value != NONE;
+  TYPE string;
 
 DEFINE FIELD opinion_note ON TABLE company_note
   TYPE string;

@@ -17,7 +17,7 @@
           It is too bad that you arrived to the
           <strong>{{ stage.name }}</strong> stage 😥!
         </p>
-        <p>Let's add some notes for your future references ✌️</p>
+        <p>Let's add some information for your future references ✌️</p>
       </div>
       <div class="mt-2">
         <InlineRadio
@@ -39,7 +39,7 @@
       >
         <InlineRadio
           label="Your opinion"
-          sub-label="Your opinion on this company"
+          sub-label="Your opinion on this company when reached this stage"
           :items="badOpinionItems"
         />
       </div>
@@ -63,8 +63,8 @@
     </div>
     <template #bottom-buttons>
       <Button
-        @click="true"
-        :disabled="false"
+        @click="onClickAddNote"
+        :isLoading="isLoading"
       >
         Note
       </Button>
@@ -82,6 +82,7 @@ import {
 } from '@/screens/InterviewJourneyView/components/ActionModals/AddNoteFinalStageModal.methods';
 import Textarea from '@/components/Textarea/Textarea.vue';
 import Button from '@/components/Button/Button.vue';
+import { useLoading } from '@/composable/useLoading';
 
 type AddNoteFinalStageModalProps = {
   isOpen: boolean;
@@ -98,4 +99,8 @@ const emits = defineEmits<AddNoteFinalStageModalEmits>();
 
 const feelingItems = getFeelingRadioItems();
 const badOpinionItems = getBadOpinionRadioItems();
+
+const { isLoading } = useLoading();
+
+const onClickAddNote = () => {};
 </script>
