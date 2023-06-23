@@ -4,3 +4,4 @@ export * from './journey.entity';
 export * from './journeyItem.entity';
 export * from './journeyItemActivity.entity';
 export * from './stage.entity';
+export * from './companyNote.entity';

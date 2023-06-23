@@ -149,11 +149,11 @@ const onSubmitEdit = async () => {
   stopLoading();
 
   if (!updateResult) {
-    return notify({
+    `    return notify({
       type: 'error',
       title: 'Update Error',
       text: 'There was an error while updating your Journey. Please refresh the page and try again.',
-    });
+    });`;
   }
 
   updateJourneyPartially(updateResult);

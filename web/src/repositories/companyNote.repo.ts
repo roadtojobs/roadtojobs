@@ -20,22 +20,49 @@ type CreateCompanyNote = Pick<
 >;
 
 export const companyNoteRepo = {
-  async create(values: CreateCompanyNote): Promise<CompanyNote | undefined> {
+  async getByJourneyItemId(
+    journeyItemId: string
+  ): Promise<CompanyNote | undefined> {
+    const [result] = await dbClient.query<CompanyNoteTable[][]>(
+      `
+      SELECT *
+      FROM ${TABLES.COMPANY_NOTE}
+      WHERE journey_item = $journeyItemId
+    `,
+      { journeyItemId }
+    );
+
+    if (result.status === 'ERR' || !result.result[0]) {
+      return;
+    }
+
+    return companyNoteTableToCompanyNote(result.result[0] as CompanyNoteTable);
+  },
+
+  async upsert(values: CreateCompanyNote): Promise<CompanyNote | undefined> {
+    const oldRecord = await companyNoteRepo.getByJourneyItemId(
+      values.journeyItemId
+    );
+
+    const persistValues: Partial<CompanyNoteTable> = {
+      journey_item: values.journeyItemId,
+      user: values.userId,
+      stage: values.stageId,
+      company: values.companyId,
+      note: values.note,
+      feeling: values.feeling,
+      feeling_note: values.feelingNote,
+      opinion: values.opinion,
+      opinion_note: values.opinionNote,
+    };
+
     try {
-      const [result] = await dbClient.create(TABLES.COMPANY_NOTE, {
-        journey_item: values.journeyItemId,
-        user: values.userId,
-        stage: values.stageId,
-        company: values.companyId,
-        note: values.note,
-        feeling: values.feeling,
-        feeling_note: values.feelingNote,
-        opinion: values.opinion,
-        opinion_note: values.opinionNote,
-      });
+      const [result] = oldRecord
+        ? await dbClient.merge(oldRecord.id, persistValues)
+        : await dbClient.create(TABLES.COMPANY_NOTE, persistValues);
 
       return companyNoteTableToCompanyNote(result as CompanyNoteTable);
-    } catch (e) {
+    } catch (error) {
       return undefined;
     }
   },

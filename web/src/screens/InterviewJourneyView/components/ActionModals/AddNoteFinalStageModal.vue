@@ -81,9 +81,10 @@
 
 <script setup lang="ts">
 import Modal from '@/components/Modal/Modal.vue';
-import { Stage, JourneyItem } from 'shared';
+import { Stage, JourneyItem, CompanyNote } from 'shared';
 import InlineRadio from '@/components/RadioGroup/InlineRadio.vue';
 import {
+  addFinalStageNote,
   AddFinalStageNote,
   getBadOpinionRadioItems,
   getFeelingRadioItems,
@@ -92,6 +93,9 @@ import Textarea from '@/components/Textarea/Textarea.vue';
 import Button from '@/components/Button/Button.vue';
 import { useLoading } from '@/composable/useLoading';
 import { ref } from 'vue';
+import useValidation from '@/composable/useValidation';
+import { notify } from '@kyvg/vue3-notification';
+import { companyNoteRepo } from '@/repositories/companyNote.repo';
 
 type AddNoteFinalStageModalProps = {
   isOpen: boolean;
@@ -100,7 +104,7 @@ type AddNoteFinalStageModalProps = {
 };
 
 type AddNoteFinalStageModalEmits = {
-  (e: 'close'): void;
+  (e: 'added-note', companyNote: CompanyNote): void;
 };
 
 const props = defineProps<AddNoteFinalStageModalProps>();
@@ -109,6 +113,8 @@ const emits = defineEmits<AddNoteFinalStageModalEmits>();
 const feelingItems = getFeelingRadioItems();
 const badOpinionItems = getBadOpinionRadioItems();
 
+const { validate, errorsBag, reset } =
+  useValidation<AddFinalStageNote>(addFinalStageNote);
 const { isLoading } = useLoading();
 
 const form = ref<AddFinalStageNote>({
@@ -123,5 +129,39 @@ const form = ref<AddFinalStageNote>({
   note: '',
 });
 
-const onClickAddNote = () => {};
+const onClickAddNote = async () => {
+  reset();
+
+  const validateResult = validate({ ...form.value });
+
+  if (props.stage.isBadStage && !form.value.opinion) {
+    errorsBag.value.set('opinion', 'Opinion is required');
+  }
+
+  if (!validateResult.success) {
+    return notify({
+      type: 'error',
+      title: 'Validation Error',
+      text: 'Please check the error(s), fix and try again.',
+    });
+  }
+
+  const parsed = validateResult.parsedObject;
+  const addNoteResult = await companyNoteRepo.upsert(parsed);
+  if (!addNoteResult) {
+    return notify({
+      type: 'error',
+      title: 'Add Note Error',
+      text: 'There was an error while adding your note. Please try again.',
+    });
+  }
+
+  emits('added-note', addNoteResult);
+
+  return notify({
+    type: 'success',
+    title: 'Added Note',
+    text: 'Added the note for your journey item.',
+  });
+};
 </script>
