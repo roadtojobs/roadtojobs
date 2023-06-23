@@ -37,10 +37,17 @@ export const useFinalStageNote = ({
     isOpenFinalStageNoteModal.value = true;
   };
 
+  const addedCompanyNote = () => {
+    finalNoteStage.value = undefined;
+    finalNoteJourneyItem.value = undefined;
+    isOpenFinalStageNoteModal.value = false;
+  };
+
   return {
     isOpenFinalStageNoteModal,
     openFinalStageNoteModal,
     finalNoteStage,
     finalNoteJourneyItem,
+    addedCompanyNote,
   };
 };

@@ -26,6 +26,7 @@
           sub-label="Your truly feeling after reached this stage"
           name="feeling"
           :items="feelingItems"
+          :error="errorsBag.get('feeling')"
         />
       </div>
       <div class="mt-2">
@@ -46,6 +47,7 @@
           sub-label="Your opinion on this company when reached this stage"
           name="opinion"
           :items="badOpinionItems"
+          :error="errorsBag.get('opinion')"
         />
       </div>
       <div
@@ -138,7 +140,7 @@ const onClickAddNote = async () => {
     errorsBag.value.set('opinion', 'Opinion is required');
   }
 
-  if (!validateResult.success) {
+  if (!validateResult.success || errorsBag.value.get('opinion')) {
     return notify({
       type: 'error',
       title: 'Validation Error',

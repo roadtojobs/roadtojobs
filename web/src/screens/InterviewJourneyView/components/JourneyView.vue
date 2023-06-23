@@ -72,6 +72,7 @@
     :is-open="isOpenFinalStageNoteModal"
     :stage="finalNoteStage"
     :journey-item="finalNoteJourneyItem"
+    @added-note="addedCompanyNote"
   />
 </template>
 
@@ -139,6 +140,7 @@ const {
   openFinalStageNoteModal,
   finalNoteStage,
   finalNoteJourneyItem,
+  addedCompanyNote,
 } = useFinalStageNote({ journeyItems });
 
 // Sortable

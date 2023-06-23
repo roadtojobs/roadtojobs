@@ -33,6 +33,12 @@
           </label>
         </div>
       </div>
+      <p
+        v-if="error"
+        class="mt-2 text-xs text-red-600"
+      >
+        {{ error }}
+      </p>
     </fieldset>
   </div>
 </template>
@@ -46,6 +52,7 @@ type InlineRadioProps = {
   subLabel?: string;
   modelValue?: string;
   items: RadioItem[];
+  error?: string;
 };
 
 type InlineRadioEmits = {
