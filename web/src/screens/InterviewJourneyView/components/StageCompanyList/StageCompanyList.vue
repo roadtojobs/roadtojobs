@@ -4,9 +4,9 @@
     :list="journeyItems"
     item-key="stage-companies"
     tag="div"
-    class="flex flex-row gap-2 w-full"
+    class="flex flex-row gap-2 w-full relative"
     :class="{
-      'border-2 border-rose-300 rounded border-dashed py-4': isDragging,
+      'border-2 border-rose-300 rounded border-dashed py-2': isDragging,
     }"
     :options="{
       group: 'stage-companies',
@@ -24,6 +24,12 @@
           You can add one or drag & drop existing node to advance status.
         </span>
       </div>
+      <span
+        v-if="isDragging"
+        class="absolute top-2 left-1/2 text-center"
+      >
+        {{ stage.name }}
+      </span>
     </template>
     <template #item="{ element, index }">
       <StageCompanyItem
@@ -35,7 +41,7 @@
       />
     </template>
     <template #footer>
-      <span>&nbsp;</span>
+      <span v-if="!journeyItems.length || isDragging">&nbsp;</span>
     </template>
   </Sortable>
 </template>
