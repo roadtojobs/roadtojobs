@@ -15,10 +15,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         name: Checkout
+
       - uses: actions/setup-node@v3
         name: Install Node v18
         with:
           node-version: 18
+
       - run: |
           sh ./bin/bootstrap.sh
           sh ./bin/type-check.sh

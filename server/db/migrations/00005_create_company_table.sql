@@ -1,5 +1,6 @@
 DEFINE TABLE company SCHEMAFULL
   PERMISSIONS
+    FOR select, update WHERE $auth.id != NONE,
     FOR update, delete NONE;
 
 DEFINE FIELD name ON TABLE company
@@ -13,6 +14,9 @@ DEFINE FIELD source ON TABLE company
   TYPE string;
 
 DEFINE FIELD homepage ON TABLE company
+  TYPE string;
+
+DEFINE FIELD country_code ON TABLE company
   TYPE string;
 
 DEFINE FIELD created_at ON TABLE company
@@ -30,5 +34,3 @@ DEFINE FIELD deleted_at ON TABLE company
   PERMISSIONS NONE;
 
 DEFINE FIELD user_added ON TABLE company TYPE record (user);
-
-DEFINE INDEX unq_company_name ON TABLE company COLUMNS name UNIQUE;
