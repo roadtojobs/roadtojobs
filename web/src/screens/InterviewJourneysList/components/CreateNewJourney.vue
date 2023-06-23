@@ -12,12 +12,12 @@
     @close="onClickCloseModal"
   >
     <form
-      @submit.prevent
       class="my-4 flex flex-col gap-3"
+      @submit.prevent
     >
       <Input
-        v-model="interviewJourney.name"
         id="journey_name"
+        v-model="interviewJourney.name"
         label="Journey Name"
         placeholder="Put a lovely name for a big inspiration"
         :error="errorsBag.get('name')"
@@ -42,10 +42,7 @@
         rows="6"
       />
     </form>
-    <template
-      #bottom-buttons
-      class="gap-2"
-    >
+    <template #bottom-buttons>
       <Button @click="onClickSubmit">Create</Button>
       <Button
         type="secondary"

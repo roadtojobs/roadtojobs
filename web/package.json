@@ -8,6 +8,7 @@
     "preview": "vite build && vite preview",
     "start": "npm run dev",
     "tsc": "tsc",
+    "lint": "eslint --ext .jsx --ext .js 'src/**'",
     "type-check": "vue-tsc --noEmit --composite false"
   },
   "dependencies": {

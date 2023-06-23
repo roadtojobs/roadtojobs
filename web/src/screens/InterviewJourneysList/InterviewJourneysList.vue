@@ -33,8 +33,8 @@
             @click="header.column.getToggleSortingHandler()?.($event)"
           >
             <div
-              class="flex gap-1"
               v-if="!header.isPlaceholder"
+              class="flex gap-1"
             >
               <FlexRender
                 :render="header.column.columnDef.header"
@@ -43,14 +43,14 @@
 
               <span>
                 <component
+                  :is="ChevronUpIcon"
                   v-show="header.column.getIsSorted() === 'asc'"
                   class="h-4 w-4 shrink-0"
-                  :is="ChevronUpIcon"
                 />
                 <component
+                  :is="ChevronDownIcon"
                   v-show="header.column.getIsSorted() === 'desc'"
                   class="h-4 w-4 shrink-0"
-                  :is="ChevronDownIcon"
                 />
               </span>
             </div>

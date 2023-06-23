@@ -1,8 +1,8 @@
 <template>
   <Button
     type="warning"
-    @click="openConfirmationModal"
     :is-loading="isLoading"
+    @click="openConfirmationModal"
   >
     {{ label || 'Archive' }}
   </Button>
