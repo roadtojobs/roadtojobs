@@ -51,7 +51,10 @@
                 widthSize === 'max' ? 'sm:max-w-full' : '',
               ]"
             >
-              <div class="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
+              <div
+                v-if="!hideTopCloseButton"
+                class="absolute right-0 top-0 hidden pr-4 pt-4 sm:block"
+              >
                 <a
                   type="button"
                   class="rounded-md cursor-pointer bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -107,6 +110,7 @@ type ModalProps = {
   title?: string;
   widthSize?: 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | 'max';
   wantsCloseOnClickOutside?: boolean;
+  hideTopCloseButton?: boolean;
   zIndex?: string;
   parentZIndex?: string;
 };

@@ -17,11 +17,12 @@ type StageCompanyItemProps = {
   journeyItem: JourneyItem;
 };
 
-const props = defineProps<StageCompanyItemProps>();
-
-defineEmits<{
+type StageCompanyItemEmits = {
   (e: 'click', journeyCompanyItem: JourneyItem): void;
-}>();
+};
+
+const props = defineProps<StageCompanyItemProps>();
+defineEmits<StageCompanyItemEmits>();
 
 const nodeColor = computed(() => getNodeColor(props.journeyItem.color));
 </script>

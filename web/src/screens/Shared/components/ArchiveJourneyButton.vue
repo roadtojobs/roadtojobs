@@ -14,7 +14,7 @@
     @close="closeConfirmationModal"
   >
     <div class="my-4 flex flex-col gap-3">
-      <div class="text-sm prose">
+      <div class="text-sm prose text-black">
         <p>
           Are you sure you want to archive the
           <strong>

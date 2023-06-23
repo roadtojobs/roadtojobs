@@ -67,6 +67,12 @@
     @journey-item-updated="updateJourneyItem"
     @journey-item-archived="updateJourneyItemToArchived"
   />
+  <AddNoteFinalStageModal
+    v-if="isOpenFinalStageNoteModal"
+    :is-open="isOpenFinalStageNoteModal"
+    :stage="finalNoteStage"
+    :journey-item="finalNoteJourneyItem"
+  />
 </template>
 
 <script setup lang="ts">
@@ -82,6 +88,8 @@ import { useAddCompany } from '@/screens/InterviewJourneyView/composables/useAdd
 import { Journey } from 'shared/entities/journey.entity';
 import { useCurrentUser } from '@/stores/useCurrentUser';
 import { computed } from 'vue';
+import { useFinalStageNote } from '@/screens/InterviewJourneyView/composables/useFinalStageNote';
+import AddNoteFinalStageModal from '@/screens/InterviewJourneyView/components/ActionModals/AddNoteFinalStageModal.vue';
 
 type JourneyViewProps = {
   interviewJourney: Journey;
@@ -99,6 +107,7 @@ const { activeStages } = useGlobalStages();
 
 // Table Data
 const {
+  journeyItems,
   stageJourneyCompanyMap,
   retrieveAll: refreshJourneyItems,
   updateJourneyItem,
@@ -124,14 +133,24 @@ const {
   viewingJourneyItem,
 } = useViewJourneyItemModal();
 
+// Add note for final stage
+const {
+  isOpenFinalStageNoteModal,
+  openFinalStageNoteModal,
+  finalNoteStage,
+  finalNoteJourneyItem,
+} = useFinalStageNote({ journeyItems });
+
 // Sortable
 const { updateJourneyItemStage } = useJourneyItemsStageChange(
   rerenderTable,
-  refreshJourneyItems
+  refreshJourneyItems,
+  openFinalStageNoteModal
 );
 
 // Note: it is a good idea to hard-refresh after close the viewing modal, cuz after the modal action
 // there would be a lot of mutations and the data could go wild
+// Future improvement: add a check (isDirty) to know the JourneyItem has been updated, so we'll update it on true
 const closeViewJourneyItem = async () => {
   await refreshJourneyItems();
   closeViewJourneyItemModal();

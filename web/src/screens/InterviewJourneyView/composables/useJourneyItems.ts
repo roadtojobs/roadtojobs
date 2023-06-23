@@ -7,14 +7,14 @@ import { useGlobalStages } from '@/stores/useGlobalStages';
 import { isString } from 'lodash-es';
 
 export const useJourneyItems = (interviewJourney: Journey) => {
-  const interviewJourneyCompanyItems = ref<JourneyItem[]>([]);
+  const journeyItems = ref<JourneyItem[]>([]);
   const globalStages = useGlobalStages();
 
   const retrieveAll = async () => {
     const journeyCompanyItems = await journeyItemRepo.getByJourney(
       interviewJourney.id
     );
-    interviewJourneyCompanyItems.value = [...journeyCompanyItems];
+    journeyItems.value = [...journeyCompanyItems];
   };
 
   onMounted(async () => {
@@ -22,21 +22,22 @@ export const useJourneyItems = (interviewJourney: Journey) => {
   });
 
   const stageJourneyCompanyMap = computed(() => {
-    return interviewJourneyCompanyItems.value.reduce<
-      Record<string, JourneyItem[]>
-    >((record, journeyCompany) => {
-      record[journeyCompany.stageId] ??= [];
-      record[journeyCompany.stageId].push(journeyCompany);
+    return journeyItems.value.reduce<Record<string, JourneyItem[]>>(
+      (record, journeyCompany) => {
+        record[journeyCompany.stageId] ??= [];
+        record[journeyCompany.stageId].push(journeyCompany);
 
-      return record;
-    }, {});
+        return record;
+      },
+      {}
+    );
   });
 
   const updateJourneyItem = (
     journeyItemId: string,
     values: EditJourneyItem
   ) => {
-    const journeyItem = interviewJourneyCompanyItems.value.find(
+    const journeyItem = journeyItems.value.find(
       (item) => item.id === journeyItemId
     );
     if (!journeyItem) {
@@ -56,7 +57,7 @@ export const useJourneyItems = (interviewJourney: Journey) => {
     // NOTE: not sure if we have another elegant way to code these ifs
     let journeyItem: string | JourneyItem;
     if (isString(journeyItemId)) {
-      const foundItem = interviewJourneyCompanyItems.value.find(
+      const foundItem = journeyItems.value.find(
         (item) => item.id === journeyItemId
       );
 
@@ -77,7 +78,7 @@ export const useJourneyItems = (interviewJourney: Journey) => {
   };
 
   return {
-    interviewJourneyCompanyItems,
+    journeyItems,
     stageJourneyCompanyMap,
     retrieveAll,
     updateJourneyItem,
