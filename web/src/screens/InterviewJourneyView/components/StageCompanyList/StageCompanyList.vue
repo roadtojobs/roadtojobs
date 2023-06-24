@@ -54,6 +54,7 @@ import { Sortable } from 'sortablejs-vue3';
 import { useCurrentJourney } from '@/stores/useCurrentJourney';
 import { computed } from 'vue';
 import { useDraggingState } from '@/stores/useDraggingState';
+import { JourneyItemAdvancedStage } from '@/screens/InterviewJourneyView/composables/useJourneyItemsStageChange';
 
 type StageCompanyListProps = {
   stage: Stage;
@@ -63,13 +64,7 @@ type StageCompanyListProps = {
 
 type StageCompanyListEmits = {
   (e: 'click', journeyItem: JourneyItem): void;
-  (
-    e: 'added',
-    item: {
-      journeyItemId: string;
-      wantedStageId: string;
-    }
-  ): void;
+  (e: 'added', item: JourneyItemAdvancedStage): void;
 };
 
 const props = defineProps<StageCompanyListProps>();
@@ -88,8 +83,8 @@ const isDragging = computed(() => {
   return draggingState.dragging;
 });
 
-const onAdded = (e: CustomEvent & { item: HTMLElement }) => {
-  const journeyItemId = e.item.getAttribute('attr-journey-item-id') || '';
+const onAdded = (event: CustomEvent & { item: HTMLElement }) => {
+  const journeyItemId = event.item.getAttribute('attr-journey-item-id') || '';
   const wantedStageId = props.stage.id;
 
   emits('added', {

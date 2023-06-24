@@ -130,7 +130,6 @@ export const journeyItemRepo = {
   },
 
   async getOfferedItemsOfJourney(journeyId: string): Promise<JourneyItem[]> {
-    console.log(journeyId);
     // TODO: use stage.is_good_stage = true && stage.is_final_stage
     const [result] = await dbClient.query<JourneyItemTable[][]>(
       `
