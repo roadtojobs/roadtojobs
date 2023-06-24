@@ -7,15 +7,30 @@ import { useCurrentUser } from '@/stores/useCurrentUser';
 import { companyRepo } from '@/repositories/company.repo';
 import { Company } from 'shared/entities/company.entity';
 
-const createCompany = z.object({
-  name: z.string().min(1, 'Company name is required'),
+export const createCompany = z.object({
+  name: z
+    .string({
+      required_error: 'Company name is required',
+    })
+    .min(1, 'Company name is required'),
   description: z.string().default(''),
   homepage: z.string().default(''),
-  countryCode: z.string().default(''),
+  countryCode: z
+    .string()
+    .min(2, 'Please use ALPHA-2 Country Code')
+    .max(2, 'Please use ALPHA-2 Country Code'),
   userId: z.string().min(1),
 });
 
-type CreateCompany = z.infer<typeof createCompany>;
+export type CreateCompany = z.infer<typeof createCompany>;
+
+export const getBlankCreateCompany = (userId: string): CreateCompany => ({
+  name: '',
+  description: '',
+  homepage: '',
+  countryCode: '',
+  userId,
+});
 
 export const useCreateNewCompany = (onAdded: (company: Company) => void) => {
   const isOpenAddCompany = ref(false);
@@ -25,13 +40,7 @@ export const useCreateNewCompany = (onAdded: (company: Company) => void) => {
   const { errorsBag, validate, reset } =
     useValidation<CreateCompany>(createCompany);
 
-  const addCompanyForm = ref<CreateCompany>({
-    name: '',
-    description: '',
-    homepage: '',
-    countryCode: '',
-    userId,
-  });
+  const addCompanyForm = ref<CreateCompany>(getBlankCreateCompany(userId));
 
   const onClickOpenAddCompany = (query: string) => {
     isOpenAddCompany.value = true;

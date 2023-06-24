@@ -83,10 +83,10 @@ export const companyRepo = {
 
   async create(values: CreateCompany): Promise<Company | undefined> {
     try {
-      const [result] = await dbClient.create<UnknownRecord>(
-        TABLES.COMPANY,
-        values
-      );
+      const [result] = await dbClient.create<UnknownRecord>(TABLES.COMPANY, {
+        ...values,
+        country_code: values.countryCode,
+      });
 
       return companyTableToCompany(result as CompanyTable);
     } catch (e) {

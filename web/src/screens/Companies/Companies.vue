@@ -3,6 +3,9 @@
     header-title="Companies"
     description="Manage your companies list 🏢"
   >
+    <template #right-buttons>
+      <AddCompanySlideOver @added="loadCompanies" />
+    </template>
     <table class="min-w-full">
       <thead class="bg-white">
         <tr
@@ -113,6 +116,7 @@ import { Company } from 'shared';
 import { companyRepo } from '@/repositories/company.repo';
 import ViewCompanySlideOver from '@/screens/Companies/components/ViewCompanySlideOver.vue';
 import { getActionButton } from '@/screens/Companies/Companies.methods';
+import AddCompanySlideOver from '@/screens/Companies/components/AddCompanySlideOver.vue';
 
 setPageTitle('Companies');
 
