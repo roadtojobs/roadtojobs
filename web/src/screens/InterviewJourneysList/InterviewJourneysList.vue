@@ -116,8 +116,6 @@ import {
   SortingState,
   useVueTable,
 } from '@tanstack/vue-table';
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/outline';
 import Button from '@/components/Button/Button.vue';
 import { useRouter } from 'vue-router';
@@ -127,6 +125,7 @@ import { pickThingId } from '@/utils/surrealThing';
 import { Journey } from 'shared/entities/journey.entity';
 import ArchiveJourneyButton from '@/screens/Shared/components/ArchiveJourneyButton.vue';
 import ToggleButton from '@/components/ToggleButton/ToggleButton.vue';
+import { getDisplayDate } from '@/utils/date';
 
 setPageTitle('Interview Journeys');
 
@@ -148,16 +147,15 @@ const table = useVueTable<Journey>({
     }),
     columnHelper.accessor('startedAt', {
       header: 'Started At',
-      cell: (info) => dayjs(info.getValue()).format(DATE_FORMAT),
+      cell: (info) => getDisplayDate(info.getValue()),
     }),
     columnHelper.accessor('endedAt', {
       header: 'Ended At',
-      cell: (info) =>
-        info.getValue() ? dayjs(info.getValue()).format(DATE_FORMAT) : '-',
+      cell: (info) => (info.getValue() ? getDisplayDate(info.getValue()) : '-'),
     }),
     columnHelper.accessor('createdAt', {
       header: 'Created At',
-      cell: (info) => dayjs(info.getValue()).format(DATE_FORMAT),
+      cell: (info) => getDisplayDate(info.getValue()),
     }),
     columnHelper.display({
       id: 'actions',
