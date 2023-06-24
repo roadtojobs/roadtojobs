@@ -44,6 +44,10 @@ export const getFeelingRadioItems = (): RadioItem[] => {
 export const getBadOpinionRadioItems = (): RadioItem[] => {
   return [
     {
+      text: 'Will try again 👀',
+      value: 'will_try_again',
+    },
+    {
       text: 'Underwhelming Offer 🥲',
       value: 'unmatched-offer',
     },
@@ -56,8 +60,8 @@ export const getBadOpinionRadioItems = (): RadioItem[] => {
       value: 'unprofessional',
     },
     {
-      text: 'Too long ⏰',
-      value: 'too_long',
+      text: 'Took too long ⏰',
+      value: 'took_too_long',
     },
     {
       text: 'Other ✍️',

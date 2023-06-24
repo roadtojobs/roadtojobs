@@ -33,7 +33,7 @@
         <Textarea
           v-model="form.feelingNote"
           label="Feeling Note (Optional)"
-          placeholder="Always a good idea to note down everything in your road. Markdown supported!"
+          :placeholder="notePlaceholder"
           rows="4"
         />
       </div>
@@ -57,7 +57,7 @@
         <Textarea
           v-model="form.opinionNote"
           label="Opinion Note (Optional)"
-          placeholder="Always a good idea to note down everything in your road. Markdown supported!"
+          :placeholder="notePlaceholder"
           rows="4"
         />
       </div>
@@ -65,7 +65,7 @@
         <Textarea
           v-model="form.note"
           label="Other Notes (if any, optional)"
-          placeholder="Always a good idea to note down everything in your road. Markdown supported!"
+          :placeholder="notePlaceholder"
           rows="4"
         />
       </div>
@@ -114,6 +114,8 @@ const emits = defineEmits<AddNoteFinalStageModalEmits>();
 
 const feelingItems = getFeelingRadioItems();
 const badOpinionItems = getBadOpinionRadioItems();
+const notePlaceholder =
+  'Always a good idea to note down everything in your road. Markdown supported!';
 
 const { validate, errorsBag, reset } =
   useValidation<AddFinalStageNote>(addFinalStageNote);
@@ -124,7 +126,7 @@ const form = ref<AddFinalStageNote>({
   stageId: props.stage.id,
   userId: props.journeyItem.userId,
   journeyItemId: props.journeyItem.id,
-  feeling: 'good',
+  feeling: 'neutral',
   feelingNote: '',
   opinion: '',
   opinionNote: '',

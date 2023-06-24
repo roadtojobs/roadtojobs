@@ -5,9 +5,6 @@
     item-key="stage-companies"
     tag="div"
     class="flex flex-row gap-2 relative flex-wrap"
-    :class="{
-      'border-2 border-rose-300 rounded border-dashed py-2': isDragging,
-    }"
     :options="{
       group: 'stage-companies',
       disabled: disabledDragDrop,
