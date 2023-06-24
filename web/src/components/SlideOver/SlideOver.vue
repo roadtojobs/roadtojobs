@@ -69,7 +69,7 @@
                       <slot />
                     </div>
                   </div>
-                  <div class="flex flex-shrink-0 justify-end px-4 py-4">
+                  <div class="flex flex-shrink-0 gap-2 justify-end px-4 py-4">
                     <slot name="bottom-buttons" />
                   </div>
                 </div>
