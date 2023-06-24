@@ -28,6 +28,16 @@ export const useGlobalStages = defineStore('stages', () => {
 
   const activeStages = computed(() => stages.value.filter(isNotArchived));
   const archivedStages = computed(() => stages.value.filter(isArchived));
+  const finalStages = computed(() =>
+    stages.value.filter((stage) => stage.isFinalStage)
+  );
 
-  return { stages, loadStages, comboboxStages, activeStages, archivedStages };
+  return {
+    stages,
+    loadStages,
+    comboboxStages,
+    activeStages,
+    archivedStages,
+    finalStages,
+  };
 });

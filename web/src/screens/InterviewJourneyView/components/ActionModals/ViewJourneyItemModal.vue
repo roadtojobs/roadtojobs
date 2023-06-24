@@ -69,6 +69,13 @@
         />
       </div>
     </div>
+    <AddNoteFinalStageModal
+      v-if="isOpenFinalStageNoteModal && finalNoteStage && finalNoteJourneyItem"
+      :is-open="isOpenFinalStageNoteModal"
+      :stage="finalNoteStage"
+      :journey-item="finalNoteJourneyItem"
+      @added-note="addedCompanyNote"
+    />
   </Modal>
 </template>
 
@@ -88,6 +95,9 @@ import {
   useEditJourneyItem,
 } from '@/screens/InterviewJourneyView/composables/useEditJourneyItem';
 import { StrictJourneyItem } from '@/screens/InterviewJourneyView/composables/useViewJourneyItemModal';
+import { useFinalStageNote } from '@/screens/InterviewJourneyView/composables/useFinalStageNote';
+import AddNoteFinalStageModal from '@/screens/InterviewJourneyView/components/ActionModals/AddNoteFinalStageModal.vue';
+import { useGlobalStages } from '@/stores/useGlobalStages';
 
 type ViewCompanyModalProps = {
   journey: Journey;
@@ -103,6 +113,17 @@ type ViewCompanyModalEmits = {
 
 const props = defineProps<ViewCompanyModalProps>();
 const emits = defineEmits<ViewCompanyModalEmits>();
+
+const { finalStages } = useGlobalStages();
+
+// Add note for final stage
+const {
+  isOpenFinalStageNoteModal,
+  openFinalStageNoteModal,
+  finalNoteStage,
+  finalNoteJourneyItem,
+  addedCompanyNote,
+} = useFinalStageNote({ journeyItems: ref([props.journeyItem]) });
 
 const journeyActivities = ref<JourneyItemActivity[]>([]);
 
@@ -124,6 +145,18 @@ const onActivityCreatedWithArchived = (stageId: string) => {
 };
 
 const onUpdatedJourneyItem = (updatedValues: EditJourneyItem) => {
+  const updatedStageId = updatedValues.stageId;
+  const isMovingForwardToFinalStage =
+    finalStages.some((stage) => stage.id === updatedStageId) &&
+    props.journeyItem.stageId !== updatedStageId;
+
+  if (isMovingForwardToFinalStage) {
+    openFinalStageNoteModal({
+      journeyItemId: props.journeyItem.id,
+      wantedStageId: updatedValues.stageId,
+    });
+  }
+
   emits('journey-item-updated', props.journeyItem.id, updatedValues);
   loadAllActivities();
 };
