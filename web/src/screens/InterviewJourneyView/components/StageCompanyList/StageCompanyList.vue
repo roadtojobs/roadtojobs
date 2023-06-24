@@ -26,7 +26,7 @@
       </div>
       <span
         v-if="isDragging"
-        class="absolute top-2 left-1/2 text-center z-0"
+        class="absolute top-0 right-5 text-center z-0"
       >
         {{ stage.name }}
       </span>
