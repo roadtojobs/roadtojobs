@@ -1,11 +1,8 @@
 <template>
   <AppPage
     header-title="Companies"
-    description="Your companies list 🏢"
+    description="Manage your companies list 🏢"
   >
-    <template #right-buttons>
-      <CreateNewJourney />
-    </template>
     <table class="min-w-full">
       <thead class="bg-white">
         <tr
@@ -112,7 +109,6 @@ import {
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/outline';
 import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
-import CreateNewJourney from '@/screens/InterviewJourneysList/components/CreateNewJourney.vue';
 import { Company } from 'shared';
 import { companyRepo } from '@/repositories/company.repo';
 import ViewCompanySlideOver from '@/screens/Companies/components/ViewCompanySlideOver.vue';
