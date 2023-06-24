@@ -7,6 +7,7 @@ import {
   JourneyTable,
   interviewJourneyTableToInterviewJourney,
 } from 'shared/entities/journey.entity';
+import { UnknownRecord } from '@/types';
 
 export type UpdateJourney = Omit<
   Journey,
@@ -124,5 +125,26 @@ export const journeyRepo = {
     } catch (e) {
       return;
     }
+  },
+
+  async getTotalJourneys(userId: string, year?: number): Promise<number> {
+    const [result] = await dbClient.query<UnknownRecord[][]>(
+      `
+       SELECT
+         count() as total
+       FROM ${TABLES.JOURNEY}
+       WHERE
+           user = $user
+           ${year ? 'AND time::year(created_at) = $year' : ''}
+       GROUP ALL
+    `,
+      { user: userId, year }
+    );
+
+    if (result.status === 'ERR') {
+      return 0;
+    }
+
+    return Number(result.result[0].total) || 0;
   },
 };
