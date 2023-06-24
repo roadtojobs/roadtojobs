@@ -1,7 +1,7 @@
 <template>
   <AppPage
     header-title="Companies"
-    description="Your Companies List 🏢"
+    description="Your companies list 🏢"
   >
     <template #right-buttons>
       <CreateNewJourney />
@@ -80,12 +80,12 @@
             />
           </td>
         </tr>
-        <tr v-if="!interviewJourneys.length">
+        <tr v-if="!companies.length">
           <td
             colspan="6"
             class="text-sm text-gray-500 py-4 text-center"
           >
-            No journey here, let's create one 🚀
+            No company👀
           </td>
         </tr>
       </tbody>
@@ -96,9 +96,7 @@
 <script setup lang="ts">
 import AppPage from '@/components/AppPage/AppPage.vue';
 import { setPageTitle } from '@/libraries/pageTitle';
-import { journeyRepo } from '@/repositories/journey.repo';
 import {
-  CellContext,
   createColumnHelper,
   FlexRender,
   getCoreRowModel,
@@ -106,55 +104,45 @@ import {
   SortingState,
   useVueTable,
 } from '@tanstack/vue-table';
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/outline';
-import Button from '@/components/Button/Button.vue';
 import { useRouter } from 'vue-router';
-import { VNode, ref, onMounted, h } from 'vue';
+import { ref, onMounted } from 'vue';
 import CreateNewJourney from '@/screens/InterviewJourneysList/components/CreateNewJourney.vue';
-import { pickThingId } from '@/utils/surrealThing';
-import { Journey } from 'shared/entities/journey.entity';
-import ArchiveJourneyButton from '@/screens/Shared/components/ArchiveJourneyButton.vue';
+import { Company } from 'shared';
+import { companyRepo } from '@/repositories/company.repo';
 
-setPageTitle('Interview Journeys');
+setPageTitle('Companies');
 
 const router = useRouter();
-const interviewJourneys = ref<Journey[]>([]);
+const companies = ref<Company[]>([]);
 const sorting = ref<SortingState>([]);
 
-const columnHelper = createColumnHelper<Journey>();
+const columnHelper = createColumnHelper<Company>();
 
-const table = useVueTable<Journey>({
+const pageCount = 20;
+
+const table = useVueTable<Company>({
+  pageCount,
   columns: [
     columnHelper.accessor('name', {
       id: 'name',
-      header: 'Journey Name',
+      header: 'Company Name',
     }),
-    columnHelper.accessor('totalJourneyItems', {
-      header: 'Num. of Companies',
+    columnHelper.accessor('homepage', {
+      header: 'Home page',
+      enableSorting: false,
     }),
-    columnHelper.accessor('startedAt', {
-      header: 'Started At',
-      cell: (info) => dayjs(info.getValue()).format(DATE_FORMAT),
-    }),
-    columnHelper.accessor('endedAt', {
-      header: 'Ended At',
-      cell: (info) =>
-        info.getValue() ? dayjs(info.getValue()).format(DATE_FORMAT) : '-',
-    }),
-    columnHelper.accessor('createdAt', {
-      header: 'Created At',
-      cell: (info) => dayjs(info.getValue()).format(DATE_FORMAT),
+    columnHelper.accessor('countryCode', {
+      header: 'Country',
     }),
     columnHelper.display({
       id: 'actions',
       header: '',
-      cell: (info) => renderActionItems(info),
+      cell: (info) => null,
     }),
   ],
   get data() {
-    return interviewJourneys.value;
+    return companies.value;
   },
   state: {
     get sorting() {
@@ -162,6 +150,7 @@ const table = useVueTable<Journey>({
     },
   },
   onSortingChange: (updaterOrValue) => {
+    console.log(sorting.value);
     sorting.value =
       typeof updaterOrValue === 'function'
         ? updaterOrValue(sorting.value)
@@ -171,48 +160,23 @@ const table = useVueTable<Journey>({
   getSortedRowModel: getSortedRowModel(),
 });
 
-const loadAllJourneys = async () => {
-  const journeys = await journeyRepo.getAll(true);
-  interviewJourneys.value = [...journeys];
+const page = ref(1);
+
+const loadCompanies = async () => {
+  const orderBy =
+    sorting.value?.[0]?.id === 'countryCode' ? 'country_code' : 'name';
+  const orderDirection = sorting.value?.[0]?.desc || false ? 'DESC' : 'ASC';
+
+  const remoteCompanies = await companyRepo.getWithPagination({
+    keyword: '',
+    limit: pageCount,
+    page: page.value,
+    orderBy,
+    orderDirection,
+  });
+
+  companies.value = [...remoteCompanies];
 };
 
-onMounted(loadAllJourneys);
-
-function renderActionItems(info: CellContext<Journey, unknown>): VNode {
-  const journey = info.row.original;
-
-  const viewButton = h(
-    Button,
-    {
-      onClick: () =>
-        router.push({
-          name: 'interview-journey-view',
-          params: { id: pickThingId(journey.id) },
-        }),
-    },
-    () => [h('span', 'View')]
-  );
-
-  const canArchive = !journey.archivedAt;
-
-  return h({
-    functional: true,
-    render() {
-      return h(
-        'div',
-        {
-          className: 'flex gap-1',
-        },
-        [
-          viewButton,
-          canArchive &&
-            h(ArchiveJourneyButton, {
-              journey,
-              onArchived: loadAllJourneys,
-            }),
-        ]
-      );
-    },
-  });
-}
+onMounted(loadCompanies);
 </script>

@@ -5,10 +5,64 @@ import {
   CompanyTable,
   companyTableToCompany,
 } from 'shared/entities/company.entity';
+import { UnknownRecord } from '@/types';
 
 type CreateCompany = Omit<Company, 'id' | 'source'>;
 
 export const companyRepo = {
+  async getWithPagination({
+    keyword,
+    limit,
+    page,
+    orderBy = 'name',
+    orderDirection = 'ASC',
+  }: {
+    keyword: string;
+    limit: number;
+    page: number;
+    orderBy: 'name' | 'country_code';
+    orderDirection: 'ASC' | 'DESC';
+  }) {
+    let whereClause = '';
+    if (keyword.length) {
+      whereClause = `
+        WHERE
+          (string::lowercase(name)) CONTAINS string::lowercase($keyword)
+          OR
+          (string::lowercase(country_code)) CONTAINS string::lowercase($keyword)
+      `;
+    }
+
+    const parsedLimit = Number(limit) || 0;
+    const parsedPage = Number(page) || 0;
+    const offset = (parsedPage - 1) * parsedLimit;
+
+    if (!['name', 'country_code'].includes(orderBy)) {
+      orderBy = 'name';
+    }
+
+    if (!['ASC', 'DESC'].includes(orderDirection)) {
+      orderDirection = 'ASC';
+    }
+
+    const [result] = await dbClient.query<CompanyTable[][]>(
+      `
+      SELECT *
+      FROM ${TABLES.COMPANY}
+      ${whereClause}
+      ORDER BY ${orderBy} ${orderDirection}
+      LIMIT ${parsedLimit} START ${offset}
+    `,
+      { keyword }
+    );
+
+    if (result.status === 'ERR') {
+      return [];
+    }
+
+    return result.result.map(companyTableToCompany);
+  },
+
   async getByKeyword(keyword: string): Promise<Company[]> {
     const [result] = await dbClient.query<CompanyTable[][]>(
       `
@@ -28,7 +82,7 @@ export const companyRepo = {
 
   async create(values: CreateCompany): Promise<Company | undefined> {
     try {
-      const [result] = await dbClient.create<CreateCompany>(
+      const [result] = await dbClient.create<UnknownRecord>(
         TABLES.COMPANY,
         values
       );

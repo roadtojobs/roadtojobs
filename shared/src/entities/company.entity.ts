@@ -4,6 +4,7 @@ export type CompanyTable = {
   description: string;
   source: string;
   homepage: string;
+  country_code: string;
 };
 
 export type Company = {
@@ -12,8 +13,10 @@ export type Company = {
   description: string;
   source: string;
   homepage: string;
+  countryCode: string;
 };
 
 export const companyTableToCompany = (record: CompanyTable): Company => ({
   ...record,
+  countryCode: record.country_code,
 });

@@ -12,6 +12,7 @@ export default async function seedCompanies() {
         name: getCompanyName()[i - 1],
         description: faker.commerce.productDescription(),
         homepage: faker.internet.url({ protocol: 'https' }),
+        country_code: faker.location.countryCode('alpha-2'),
       })
     );
   }
