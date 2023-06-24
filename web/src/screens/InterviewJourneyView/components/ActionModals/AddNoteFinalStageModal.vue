@@ -1,6 +1,6 @@
 <template>
   <Modal
-    title="Final Stage Information"
+    :title="`Final Stage of ${journeyItem.company?.name}`"
     width-size="xl"
     :is-open="true"
     :wants-close-on-click-outside="false"
@@ -11,11 +11,17 @@
       <div class="text-sm prose text-black">
         <p v-if="stage.isGoodStage">
           Congrats to moving forward to the
-          <strong>{{ stage.name }}</strong> stage 🥳! You rock!
+          <strong>{{ stage.name }}</strong> stage for the
+          <strong>{{ journeyItem.company?.name }}</strong> company 🥳.
+          <br />
+          You rock!
         </p>
         <p v-else-if="stage.isBadStage">
           It is too bad that you arrived to the
-          <strong>{{ stage.name }}</strong> stage 😥!
+          <strong>{{ stage.name }}</strong> stage for the
+          <strong>{{ journeyItem.company?.name }}</strong> company 😥.
+          <br />
+          Let's smile and keep moving forward 💪.
         </p>
         <p>Let's add some information for your future references ✌️</p>
       </div>
