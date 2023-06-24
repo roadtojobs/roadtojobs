@@ -15,8 +15,12 @@
       >
         <span v-if="!stat.isLoaded"> - </span>
         <IncreasingNumber
+          v-else-if="isNumber(stat.value)"
+          :number="stat.value"
+        />
+        <span
           v-else
-          :number="stat.value || 0"
+          v-text="stat.value"
         />
       </dd>
     </div>
@@ -33,6 +37,7 @@ import {
   StatisticInfo,
 } from '@/screens/Analytics/components/YearSummary.methods';
 import { journeyItemRepo } from '@/repositories/journeyItem.repo';
+import { isNumber } from 'lodash-es';
 
 type YearSummaryProps = {
   year?: number;

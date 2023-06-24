@@ -95,6 +95,12 @@
             placeholder="https://"
             :error="addCompanyErrors.get('homepage')"
           />
+          <Input
+            v-model="addCompanyForm.countryCode"
+            label="Country Code (Optional)"
+            placeholder="US, AU,..."
+            :error="addCompanyErrors.get('countryCode')"
+          />
         </form>
       </TransitionRoot>
     </div>

@@ -14,11 +14,11 @@ type IncreasingNumberProps = {
 
 const props = defineProps<IncreasingNumberProps>();
 
-const span = ref<HTMLElement>(null);
+const span = ref<HTMLElement | null>(null);
 
 onMounted(() => {
   setTimeout(() => {
-    span.value.style.setProperty('--number', String(props.number));
+    span?.value?.style.setProperty('--number', String(props.number));
   }, 200);
 });
 </script>

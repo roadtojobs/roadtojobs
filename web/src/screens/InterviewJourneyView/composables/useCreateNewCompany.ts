@@ -11,6 +11,7 @@ const createCompany = z.object({
   name: z.string().min(1, 'Company name is required'),
   description: z.string().default(''),
   homepage: z.string().default(''),
+  countryCode: z.string().default(''),
   userId: z.string().min(1),
 });
 
@@ -28,6 +29,7 @@ export const useCreateNewCompany = (onAdded: (company: Company) => void) => {
     name: '',
     description: '',
     homepage: '',
+    countryCode: '',
     userId,
   });
 

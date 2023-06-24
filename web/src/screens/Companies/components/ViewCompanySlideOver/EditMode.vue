@@ -58,7 +58,7 @@ type EditModeProps = {
   homepage?: string;
   description?: string;
   countryCode?: string;
-  errorsBag: Map<keyof EditCompany, string>;
+  errorsBag: Map<keyof EditCompany, string | undefined>;
 };
 
 type EditModeEmits = {
