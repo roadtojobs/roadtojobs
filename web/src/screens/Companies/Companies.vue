@@ -91,6 +91,10 @@
       </tbody>
     </table>
   </AppPage>
+  <ViewCompanySlideOver
+    :company="viewingCompany"
+    @close="viewingCompany = null"
+  />
 </template>
 
 <script setup lang="ts">
@@ -110,16 +114,20 @@ import { ref, onMounted } from 'vue';
 import CreateNewJourney from '@/screens/InterviewJourneysList/components/CreateNewJourney.vue';
 import { Company } from 'shared';
 import { companyRepo } from '@/repositories/company.repo';
+import ViewCompanySlideOver from '@/screens/Companies/components/ViewCompanySlideOver.vue';
+import { getActionButton } from '@/screens/Companies/Companies.methods';
 
 setPageTitle('Companies');
 
 const router = useRouter();
+
+const viewingCompany = ref<Company | null>(null);
+
 const companies = ref<Company[]>([]);
 const sorting = ref<SortingState>([]);
-
 const columnHelper = createColumnHelper<Company>();
-
 const pageCount = 20;
+const page = ref(1);
 
 const table = useVueTable<Company>({
   pageCount,
@@ -138,7 +146,7 @@ const table = useVueTable<Company>({
     columnHelper.display({
       id: 'actions',
       header: '',
-      cell: (info) => null,
+      cell: (info) => getActionButton(info, onClickViewCompany),
     }),
   ],
   get data() {
@@ -160,8 +168,6 @@ const table = useVueTable<Company>({
   getSortedRowModel: getSortedRowModel(),
 });
 
-const page = ref(1);
-
 const loadCompanies = async () => {
   const orderBy =
     sorting.value?.[0]?.id === 'countryCode' ? 'country_code' : 'name';
@@ -176,6 +182,10 @@ const loadCompanies = async () => {
   });
 
   companies.value = [...remoteCompanies];
+};
+
+const onClickViewCompany = (company: Company) => {
+  viewingCompany.value = { ...company };
 };
 
 onMounted(loadCompanies);
