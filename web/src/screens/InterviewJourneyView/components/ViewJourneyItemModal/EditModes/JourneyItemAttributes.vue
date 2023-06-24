@@ -21,7 +21,7 @@
         {{ ' ' }}
       </li>
       <li
-        v-if="!journeyItem?.attributes?.length"
+        v-if="!journeyItem.attributes?.length"
         class="text-sm font-medium"
       >
         Empty

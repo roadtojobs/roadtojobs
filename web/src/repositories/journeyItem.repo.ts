@@ -129,6 +129,18 @@ export const journeyItemRepo = {
     }
   },
 
+  async moveStage(id: string, stage: string): Promise<string | undefined> {
+    try {
+      const [result] = await dbClient.merge(id, {
+        stage,
+      });
+
+      return result.id;
+    } catch (e) {
+      return undefined;
+    }
+  },
+
   async getOfferedItemsOfJourney(journeyId: string): Promise<JourneyItem[]> {
     // TODO: use stage.is_good_stage = true && stage.is_final_stage
     const [result] = await dbClient.query<JourneyItemTable[][]>(

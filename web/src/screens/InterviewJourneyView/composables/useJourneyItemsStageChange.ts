@@ -16,9 +16,10 @@ export const useJourneyItemsStageChange = (
     wantedStageId,
   }: JourneyItemAdvancedStage) => {
     // change state
-    const updateStateStatus = await journeyItemRepo.update(journeyItemId, {
-      stageId: wantedStageId,
-    });
+    const updateStateStatus = await journeyItemRepo.moveStage(
+      journeyItemId,
+      wantedStageId
+    );
 
     await refreshJourneyItems().then(rerenderTable);
 

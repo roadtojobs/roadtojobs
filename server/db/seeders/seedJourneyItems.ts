@@ -57,6 +57,8 @@ async function seedJourneyItemsForJourney(
           'NodeJS',
           'Vue',
           'React',
+          'Rust',
+          'Go',
         ]),
       },
       {
@@ -66,9 +68,14 @@ async function seedJourneyItemsForJourney(
           '~$70k/annually',
           '~$80k/annually',
           '~$90k/annually',
+          '~$100k/annually',
+          '~$110k/annually',
+          '~$120k/annually',
           '~$8k/monthly',
           '~$9k/monthly',
           '~$10k/monthly',
+          '~$11k/monthly',
+          '~$12k/monthly',
         ]),
       },
     ];
