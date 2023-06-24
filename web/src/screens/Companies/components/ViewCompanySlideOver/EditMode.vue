@@ -6,6 +6,7 @@
         <Input
           label=""
           :model-value="name"
+          :error="errorsBag.get('name')"
           @update:model-value="(value) => $emit('update:name', value)"
         />
       </dd>
@@ -16,6 +17,7 @@
         <Input
           label=""
           :model-value="countryCode"
+          :error="errorsBag.get('countryCode')"
           @update:model-value="(value) => $emit('update:countryCode', value)"
         />
       </dd>
@@ -26,6 +28,7 @@
         <Input
           label=""
           :model-value="homepage"
+          :error="errorsBag.get('homepage')"
           @update:model-value="(value) => $emit('update:homepage', value)"
         />
       </dd>
@@ -35,9 +38,10 @@
       <dd class="mt-1 prose-sm prose-ul:list-disc prose-ol:list-decimal">
         <Textarea
           label=""
-          :model-value="description"
-          @update:model-value="(value) => $emit('update:description', value)"
           rows="8"
+          :model-value="description"
+          :error="errorsBag.get('description')"
+          @update:model-value="(value) => $emit('update:description', value)"
         />
       </dd>
     </div>
@@ -47,19 +51,21 @@
 <script setup lang="ts">
 import Input from '@/components/Input/Input.vue';
 import Textarea from '@/components/Textarea/Textarea.vue';
+import { EditCompany } from '@/screens/Companies/Companies.models';
 
 type EditModeProps = {
-  name: string;
-  homepage: string;
-  description: string;
-  countryCode: string;
+  name?: string;
+  homepage?: string;
+  description?: string;
+  countryCode?: string;
+  errorsBag: Map<keyof EditCompany, string>;
 };
 
 type EditModeEmits = {
-  (e: 'update:name', value: string): void;
-  (e: 'update:homepage', value: string): void;
-  (e: 'update:description', value: string): void;
-  (e: 'update:countryCode', value: string): void;
+  (e: 'update:name', value: string | undefined): void;
+  (e: 'update:homepage', value: string | undefined): void;
+  (e: 'update:description', value: string | undefined): void;
+  (e: 'update:countryCode', value: string | undefined): void;
 };
 
 defineProps<EditModeProps>();

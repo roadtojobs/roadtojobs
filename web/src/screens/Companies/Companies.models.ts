@@ -1,7 +1,11 @@
 import { z } from 'zod';
 
 export const editCompany = z.object({
-  name: z.string().min(1, 'Company name is required'),
+  name: z
+    .string({
+      required_error: 'Company name is required',
+    })
+    .min(1, 'Company name is required'),
   homepage: z.string().default(''),
   countryCode: z
     .string()

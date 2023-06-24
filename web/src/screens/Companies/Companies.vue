@@ -94,6 +94,7 @@
   <ViewCompanySlideOver
     :company="viewingCompany"
     @close="viewingCompany = null"
+    @updated="reloadCompanies"
   />
 </template>
 
@@ -185,7 +186,15 @@ const loadCompanies = async () => {
 };
 
 const onClickViewCompany = (company: Company) => {
-  viewingCompany.value = { ...company };
+  viewingCompany.value = company;
+};
+
+const reloadCompanies = (company: Company) => {
+  loadCompanies();
+  viewingCompany.value = {
+    ...viewingCompany.value,
+    ...company,
+  };
 };
 
 onMounted(loadCompanies);

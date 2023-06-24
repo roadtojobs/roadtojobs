@@ -8,6 +8,7 @@ import {
 import { UnknownRecord } from '@/types';
 
 type CreateCompany = Omit<Company, 'id' | 'source'>;
+type UpdateCompany = Omit<Company, 'id' | 'source'>;
 
 export const companyRepo = {
   async getWithPagination({
@@ -86,6 +87,22 @@ export const companyRepo = {
         TABLES.COMPANY,
         values
       );
+
+      return companyTableToCompany(result as CompanyTable);
+    } catch (e) {
+      return undefined;
+    }
+  },
+
+  async update(
+    id: string,
+    values: UpdateCompany
+  ): Promise<Company | undefined> {
+    try {
+      const [result] = await dbClient.merge<UnknownRecord>(id, {
+        ...values,
+        country_code: values.countryCode,
+      });
 
       return companyTableToCompany(result as CompanyTable);
     } catch (e) {
