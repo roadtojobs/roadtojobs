@@ -3,13 +3,23 @@
     header-title="Analytics"
     description="Check your performance across all journeys"
   >
-    <h2 class="text-2xl mt-2 mb-6 font-medium">
-      Performance of {{ thisYear }} 💪
-    </h2>
+    <div class="mt-2 mb-6 flex gap-3 flex-col">
+      <h2 class="text-2xl mt-2 font-medium">
+        Performance of {{ thisYear }} 💪
+      </h2>
+      <p class="text-md text-gray-600">
+        Let's see how far have you gone in {{ thisYear }} 🚀
+      </p>
+    </div>
     <YearSummary :year="thisYear" />
 
-    <h2 class="text-2xl my-6 font-medium">Overall Performance ⚡️</h2>
+    <div class="my-6 flex gap-3 flex-col">
+      <h2 class="text-2xl font-medium">Overall Performance ⚡️</h2>
+      <p class="text-md text-gray-600">Sum up everything from the start 🔥</p>
+    </div>
     <YearSummary />
+
+    <div class="pb-32"></div>
   </AppPage>
 </template>
 

@@ -32,6 +32,7 @@ import {
   getInitStatisticInfo,
   StatisticInfo,
 } from '@/screens/Analytics/components/YearSummary.methods';
+import { journeyItemRepo } from '@/repositories/journeyItem.repo';
 
 type YearSummaryProps = {
   year?: number;
@@ -47,6 +48,21 @@ onMounted(() => {
   journeyRepo.getTotalJourneys(userId, props.year).then((total) => {
     stats.value.totalJourneys.value = total;
     stats.value.totalJourneys.isLoaded = true;
+  });
+
+  journeyItemRepo.countTotalOffers(userId, props.year).then((total) => {
+    stats.value.totalOffers.value = total;
+    stats.value.totalOffers.isLoaded = true;
+  });
+
+  journeyItemRepo.countTotalRejected(userId, props.year).then((total) => {
+    stats.value.totalRejected.value = total;
+    stats.value.totalRejected.isLoaded = true;
+  });
+
+  journeyItemRepo.countTotalFailed(userId, props.year).then((total) => {
+    stats.value.totalFailed.value = total;
+    stats.value.totalFailed.isLoaded = true;
   });
 });
 </script>

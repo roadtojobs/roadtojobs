@@ -33,6 +33,51 @@ export default async function seedJourneys() {
     );
   }
 
+  // previous year journey
+  promises.push(
+    userAdminDbClient.create(`${TABLES.JOURNEY}:last_year`, {
+      user: userId,
+      name: `The 2022 of awesome job`,
+      description: faker.lorem.paragraphs(
+        faker.helpers.rangeToNumber({
+          min: 2,
+          max: 5,
+        })
+      ),
+      note: faker.lorem.paragraphs(
+        faker.helpers.rangeToNumber({
+          min: 2,
+          max: 5,
+        })
+      ),
+      started_at: new Date(`2022-05-05`),
+      ended_at: new Date(`2022-07-07`),
+    })
+  );
+
+  // archived journey
+  promises.push(
+    userAdminDbClient.create(`${TABLES.JOURNEY}:archived_journey`, {
+      user: userId,
+      name: `The archived journey`,
+      description: faker.lorem.paragraphs(
+        faker.helpers.rangeToNumber({
+          min: 2,
+          max: 5,
+        })
+      ),
+      note: faker.lorem.paragraphs(
+        faker.helpers.rangeToNumber({
+          min: 2,
+          max: 5,
+        })
+      ),
+      started_at: new Date(`2022-05-06`),
+      archived_at: new Date(`2022-05-06`),
+      archived_reason: `Rethinking again, also set up an **1:1** call with EM to see if he can fulfil my requests.`,
+    })
+  );
+
   await Promise.all(promises);
   console.log(`Created ${total} interview journey.`);
 }

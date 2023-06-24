@@ -6,6 +6,7 @@ import {
   journeyItemTableToJourneyItem,
 } from 'shared/entities/journeyItem.entity';
 import { CreateOutcomes } from '@/types/db';
+import { UnknownRecord } from '@/types';
 
 type CreateJourneyItem = Omit<
   JourneyItem,
@@ -142,14 +143,14 @@ export const journeyItemRepo = {
   },
 
   async getOfferedItemsOfJourney(journeyId: string): Promise<JourneyItem[]> {
-    // TODO: use stage.is_good_stage = true && stage.is_final_stage
     const [result] = await dbClient.query<JourneyItemTable[][]>(
       `
       SELECT *
       FROM ${TABLES.JOURNEY_ITEM}
       WHERE
         journey = $journey AND
-        stage = stage:accepted_offer
+        stage.is_good_stage = true AND
+        stage.is_final_stage = true
     `,
       { journey: journeyId }
     );
@@ -159,5 +160,75 @@ export const journeyItemRepo = {
     }
 
     return result.result.map(journeyItemTableToJourneyItem);
+  },
+
+  async countTotalOffers(userId: string, year?: number): Promise<number> {
+    const [result] = await dbClient.query<UnknownRecord[][]>(
+      `
+      SELECT count() as total
+      FROM ${TABLES.JOURNEY_ITEM}
+      WHERE
+        user = $user AND
+        stage.is_good_stage = true AND
+        stage.is_final_stage = true
+        ${
+          year ? 'AND time::year(journey.started_at) = type::number($year)' : ''
+        }
+      GROUP ALL
+    `,
+      { user: userId, year }
+    );
+
+    if (result.status === 'ERR' || !result.result[0]) {
+      return 0;
+    }
+
+    return Number(result.result[0].total) || 0;
+  },
+
+  async countTotalRejected(userId: string, year?: number): Promise<number> {
+    const [result] = await dbClient.query<UnknownRecord[][]>(
+      `
+      SELECT count() as total
+      FROM ${TABLES.JOURNEY_ITEM}
+      WHERE
+        user = $user AND
+        stage = stage:rejected_offer
+        ${
+          year ? 'AND time::year(journey.started_at) = type::number($year)' : ''
+        }
+      GROUP ALL
+    `,
+      { user: userId, year }
+    );
+
+    if (result.status === 'ERR' || !result.result[0]) {
+      return 0;
+    }
+
+    return Number(result.result[0].total) || 0;
+  },
+
+  async countTotalFailed(userId: string, year?: number): Promise<number> {
+    const [result] = await dbClient.query<UnknownRecord[][]>(
+      `
+      SELECT count() as total
+      FROM ${TABLES.JOURNEY_ITEM}
+      WHERE
+        user = $user AND
+        stage = stage:failed
+        ${
+          year ? 'AND time::year(journey.started_at) = type::number($year)' : ''
+        }
+      GROUP ALL
+    `,
+      { user: userId, year }
+    );
+
+    if (result.status === 'ERR' || !result.result[0]) {
+      return 0;
+    }
+
+    return Number(result.result[0].total) || 0;
   },
 };

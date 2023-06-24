@@ -99,6 +99,7 @@
         </tr>
       </tbody>
     </table>
+    <div class="pb-32"></div>
   </AppPage>
 </template>
 

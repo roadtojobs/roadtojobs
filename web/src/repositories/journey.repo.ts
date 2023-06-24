@@ -135,13 +135,13 @@ export const journeyRepo = {
        FROM ${TABLES.JOURNEY}
        WHERE
            user = $user
-           ${year ? 'AND time::year(created_at) = $year' : ''}
+           ${year ? 'AND time::year(started_at) = type::number($year)' : ''}
        GROUP ALL
     `,
       { user: userId, year }
     );
 
-    if (result.status === 'ERR') {
+    if (result.status === 'ERR' || !result.result[0]) {
       return 0;
     }
 
