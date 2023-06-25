@@ -1,3 +1,6 @@
+#!/bin/bash
+set -e
+
 # This .sh file need to be run in the root folder
 
 ROOT_DIR=$(pwd)
