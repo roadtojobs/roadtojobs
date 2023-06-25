@@ -73,6 +73,11 @@
         :journey="interviewJourney"
         @archived="onArchivedJourney"
       />
+      <UnarchiveJourneyButton
+        v-else
+        :journey="interviewJourney"
+        @unarchived="onArchivedJourney"
+      />
     </div>
   </div>
 </template>
@@ -89,6 +94,7 @@ import { useCurrentJourney } from '@/stores/useCurrentJourney';
 import { useLoading } from '@/composable/useLoading';
 import ArchiveJourneyButton from '@/screens/Shared/components/ArchiveJourneyButton.vue';
 import { useInfoViewRenderItems } from '@/screens/InterviewJourneyView/composables/useInfoViewRenderItems';
+import UnarchiveJourneyButton from '@/screens/Shared/components/UnarchiveJourneyButton.vue';
 
 type InfoViewProps = {
   interviewJourney: Journey;

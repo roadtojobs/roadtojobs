@@ -73,7 +73,7 @@ export const journeyItemActivityTableToJourneyItem = (
   ),
   companyNoteId: parseNullableThingId(record.company_note),
   companyNote: parseNullableThing<CompanyNoteTable, CompanyNote>(
-    record.company,
+    record.company_note,
     companyNoteTableToCompanyNote
   ),
   createdAt: record.created_at,

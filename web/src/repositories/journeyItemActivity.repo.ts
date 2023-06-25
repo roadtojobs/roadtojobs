@@ -32,7 +32,7 @@ export const journeyItemActivityRepo = {
       FROM ${TABLES.JOURNEY_ITEM_ACTIVITY}
       WHERE journey_item = $id
       ORDER BY created_at ASC
-      FETCH stage, user, company
+      FETCH stage, user, company, company_note
     `,
       {
         id: journeyCompanyId,
