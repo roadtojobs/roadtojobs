@@ -14,6 +14,11 @@ import {
   parseThing,
   parseThingId,
 } from '../utils/surreal';
+import {
+  CompanyNote,
+  CompanyNoteTable,
+  companyNoteTableToCompanyNote,
+} from './companyNote.entity';
 
 export type JourneyItemActivityTable = {
   id: string;
@@ -22,6 +27,7 @@ export type JourneyItemActivityTable = {
   user: string | UserTable;
   stage: string | StageTable | undefined;
   company: string | CompanyTable | undefined;
+  company_note: string | CompanyNoteTable | undefined;
   comment: string;
   attributes: DynamicAttributes;
   created_at: Date;
@@ -39,6 +45,8 @@ export type JourneyItemActivity = {
   stage?: Stage;
   companyId: string | null;
   company?: Company;
+  companyNoteId: string | null;
+  companyNote?: CompanyNote;
   comment: string;
   attributes: DynamicAttributes;
   createdAt: Date;
@@ -62,6 +70,11 @@ export const journeyItemActivityTableToJourneyItem = (
   company: parseNullableThing<CompanyTable, Company>(
     record.company,
     companyTableToCompany
+  ),
+  companyNoteId: parseNullableThingId(record.company_note),
+  companyNote: parseNullableThing<CompanyNoteTable, CompanyNote>(
+    record.company,
+    companyNoteTableToCompanyNote
   ),
   createdAt: record.created_at,
   updatedAt: record.updated_at,
