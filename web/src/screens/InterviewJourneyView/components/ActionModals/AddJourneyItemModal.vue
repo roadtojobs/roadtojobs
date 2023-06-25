@@ -50,6 +50,32 @@
               </div>
             </template>
           </ComboboxApi>
+          <div
+            v-if="form.company"
+            class="text-sm"
+          >
+            <span
+              v-if="form.company.mode === 'green'"
+              class="text-green-600"
+            >
+              Cool, you haven't interviewed with this company before, let's get
+              started!
+            </span>
+            <span
+              v-else-if="form.company.mode === 'yellow'"
+              class="text-yellow-600"
+            >
+              You have interviewed with this company before, check out the
+              previous notes:
+            </span>
+            <span
+              v-else
+              class="text-red-600"
+            >
+              Uh oh, this company is in your <strong>Avoid-list ❌</strong>,
+              check out the previous notes:
+            </span>
+          </div>
           <Textarea
             v-model="form.description"
             label="Description"
@@ -273,6 +299,7 @@ const {
   form.value.company = {
     text: company.name,
     value: company.id,
+    mode: 'green',
   };
 });
 </script>
