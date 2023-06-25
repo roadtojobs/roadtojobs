@@ -15,7 +15,10 @@
     @end="draggingState.markAsDropped"
   >
     <template #header>
-      <div v-if="!journeyItems.length && !isDragging">
+      <div
+        v-if="!journeyItems.length && !isDragging"
+        class="select-none"
+      >
         <span> No company here 👀</span>
         <span
           v-if="!journey.archivedAt && !journey.endedAt"

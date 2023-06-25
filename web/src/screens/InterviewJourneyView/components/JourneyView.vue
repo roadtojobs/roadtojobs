@@ -10,13 +10,13 @@
             <tr class="divide-x divide-gray-200">
               <th
                 scope="col"
-                class="py-3.5 md:w-56 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                class="py-3.5 md:w-56 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-0 select-none"
               >
                 Stage
               </th>
               <th
                 scope="col"
-                class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900"
+                class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900 select-none"
               >
                 Companies
               </th>

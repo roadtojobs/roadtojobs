@@ -192,10 +192,7 @@ const { isLoading, startLoading, stopLoading } = useLoading();
 
 const form = ref<{
   stageId: string;
-  company: {
-    value: string;
-    text: string;
-  } | null;
+  company: ComboboxItem | null;
   description: string;
   color: string;
 }>({

@@ -3,13 +3,13 @@
     <a
       href="javascript:void(0)"
       @click="openModal"
-      class="flex-1"
+      class="flex-1 select-none"
     >
       {{ stage.name }}
     </a>
     <span
       v-if="!interviewJourney.endedAt && isDesktop"
-      class="add-company hidden"
+      class="add-company hidden select-none"
       @click="$emit('add-company', stage)"
     >
       <PlusIcon class="w-4 h-4" /> Add
