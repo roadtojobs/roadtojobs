@@ -126,6 +126,7 @@ import { Journey } from 'shared/entities/journey.entity';
 import ArchiveJourneyButton from '@/screens/Shared/components/ArchiveJourneyButton.vue';
 import ToggleButton from '@/components/ToggleButton/ToggleButton.vue';
 import { getDisplayDate } from '@/utils/date';
+import UnarchiveJourneyButton from '@/screens/Shared/components/UnarchiveJourneyButton.vue';
 
 setPageTitle('Interview Journeys');
 
@@ -219,6 +220,11 @@ function renderActionItems(info: CellContext<Journey, unknown>): VNode {
             h(ArchiveJourneyButton, {
               journey,
               onArchived: () => loadAllJourneys(isIncludingArchive.value),
+            }),
+          !canArchive &&
+            h(UnarchiveJourneyButton, {
+              journey,
+              onUnarchived: () => loadAllJourneys(isIncludingArchive.value),
             }),
         ]
       );
