@@ -27,6 +27,7 @@
           href="javascript:void(0);"
           class="font-medium text-gray-900"
           title="Click to view"
+          @click="isOpenModal = true"
         >
           Final Note 📝
         </a>
@@ -35,6 +36,13 @@
       </div>
     </div>
   </div>
+  <ViewFinalNoteModal
+    v-if="activity.companyNote"
+    :is-open="isOpenModal"
+    :company-note="activity.companyNote"
+    :journey-item="journeyItem"
+    @close="isOpenModal = false"
+  />
 </template>
 
 <script setup lang="ts">
@@ -42,12 +50,17 @@ import { UserCircleIcon } from '@heroicons/vue/24/outline';
 import { computed } from 'vue';
 import { getFromAgoTime } from '@/utils/date';
 import { JourneyItemActivity } from 'shared/entities/journeyItemActivity.entity';
+import ViewFinalNoteModal from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/Utils/ViewFinalNoteModal.vue';
+import { JourneyItem } from 'shared/entities';
 
 const props = defineProps<{
   activity: JourneyItemActivity;
+  journeyItem: JourneyItem;
 }>();
 
 const createdDateText = computed(() =>
   getFromAgoTime(props.activity.createdAt)
 );
+
+const isOpenModal = ref(false);
 </script>

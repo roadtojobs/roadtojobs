@@ -8,7 +8,7 @@ DEFINE EVENT final_note_activity ON company_note
     CREATE journey_item_activity CONTENT {
       journey_item: $value.journey_item,
       user: $value.user,
-      company_note: $value.company_note,
+      company_note: $value.id,
       type: 'ADDED_FINAL_NOTE'
     }
   );

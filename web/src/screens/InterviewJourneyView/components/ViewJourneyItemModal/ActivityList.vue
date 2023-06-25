@@ -40,6 +40,7 @@
             />
             <ActivityAddedFinalNote
               v-else-if="activity.type === 'ADDED_FINAL_NOTE'"
+              :journey-item="journeyItem"
               :activity="activity"
             />
           </div>

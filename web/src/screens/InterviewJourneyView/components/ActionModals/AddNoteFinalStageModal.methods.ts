@@ -1,8 +1,10 @@
 import { RadioItem } from '@/components/RadioGroup/RadioGroup.methods';
 import { z } from 'zod';
+import { feelingLabelMap } from '@/constants/feeling';
+import { opinionLabelMap } from '@/constants/opinion';
 
 export const addFinalStageNote = z.object({
-  note: z.string(),
+  note: z.string().default(''),
   feeling: z.union([
     z.literal('good'),
     z.literal('bad'),
@@ -21,51 +23,15 @@ export const addFinalStageNote = z.object({
 export type AddFinalStageNote = z.infer<typeof addFinalStageNote>;
 
 export const getFeelingRadioItems = (): RadioItem[] => {
-  return [
-    {
-      text: 'Good 😆',
-      value: 'good',
-    },
-    {
-      text: 'Neutral 😀',
-      value: 'neutral',
-    },
-    {
-      text: 'Bad 😞',
-      value: 'bad',
-    },
-    {
-      text: 'Disappointed 😡',
-      value: 'disappointed',
-    },
-  ];
+  return Object.entries(feelingLabelMap).map(([key, label]) => ({
+    text: label,
+    value: key,
+  }));
 };
 
 export const getBadOpinionRadioItems = (): RadioItem[] => {
-  return [
-    {
-      text: 'Will try again 👀',
-      value: 'will_try_again',
-    },
-    {
-      text: 'Underwhelming Offer 🥲',
-      value: 'unmatched-offer',
-    },
-    {
-      text: 'Avoid-list ❌',
-      value: 'avoid-list',
-    },
-    {
-      text: 'Unprofessional 😖',
-      value: 'unprofessional',
-    },
-    {
-      text: 'Took too long ⏰',
-      value: 'took_too_long',
-    },
-    {
-      text: 'Other ✍️',
-      value: 'other',
-    },
-  ];
+  return Object.entries(opinionLabelMap).map(([key, label]) => ({
+    text: label,
+    value: key,
+  }));
 };
