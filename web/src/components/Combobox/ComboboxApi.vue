@@ -72,10 +72,20 @@
             </span>
           </li>
         </ComboboxOption>
-        <ComboboxOption v-if="flexibleItems.length <= 0 && !query.length">
+        <ComboboxOption v-if="flexibleItems.length <= 0">
           <div class="my-2">
-            <span class="text-gray-900 ml-3 truncate text-sm select-none">
+            <span
+              v-if="!query.length"
+              class="text-gray-900 ml-3 truncate text-sm select-none"
+            >
               Hit some keywords to search 👀
+            </span>
+            <span
+              v-else-if="query.length < minSearchLength"
+              class="text-gray-900 ml-3 truncate text-sm select-none"
+            >
+              Please input at least {{ minSearchLength }} characters to search
+              ✌️
             </span>
           </div>
         </ComboboxOption>
@@ -88,7 +98,11 @@
           </div>
         </ComboboxOption>
         <ComboboxOption
-          v-if="!isLoading && flexibleItems.length <= 0 && query.length"
+          v-if="
+            !isLoading &&
+            flexibleItems.length <= 0 &&
+            query.length >= minSearchLength
+          "
         >
           <template v-if="$slots['empty-record']">
             <slot
@@ -138,13 +152,16 @@ type ComboboxApiProps = {
   modelValue: ComboboxItem | null;
   apiRequest: (keyword: string) => Promise<ComboboxItem[]>;
   error?: string;
+  minSearchLength?: number;
 };
 
 type ComboboxApiEmits = {
   (e: 'update:modelValue', value: ComboboxItem | undefined): void;
 };
 
-const props = defineProps<ComboboxApiProps>();
+const props = withDefaults(defineProps<ComboboxApiProps>(), {
+  minSearchLength: 3,
+});
 const emits = defineEmits<ComboboxApiEmits>();
 
 const { isLoading, startLoading, stopLoading } = useLoading();
@@ -166,7 +183,7 @@ const selectItem = (item: ComboboxItem) => {
 const resetItems = () => (flexibleItems.value = []);
 
 const debouncedApiRequest = debounce(() => {
-  if (!query.value) {
+  if (!query.value || query.value.length < props.minSearchLength) {
     stopLoading();
     return resetItems();
   }
@@ -184,7 +201,7 @@ const retrieveItems = async (keyword: string) => {
   startLoading();
 
   query.value = keyword;
-  if (!query.value) {
+  if (!query.value || query.value.length < props.minSearchLength) {
     stopLoading();
     return resetItems();
   }
