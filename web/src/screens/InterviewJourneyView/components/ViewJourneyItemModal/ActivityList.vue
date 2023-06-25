@@ -38,6 +38,10 @@
               v-else-if="activity.type === 'ADVANCED_TO_STAGE'"
               :activity="activity"
             />
+            <ActivityAddedFinalNote
+              v-else-if="activity.type === 'ADDED_FINAL_NOTE'"
+              :activity="activity"
+            />
           </div>
         </div>
       </li>
@@ -94,6 +98,7 @@ import { JourneyItemActivity } from 'shared/entities/journeyItemActivity.entity'
 import { JourneyItem } from 'shared/entities/journeyItem.entity';
 import { useCurrentJourney } from '@/stores/useCurrentJourney';
 import { computed } from 'vue';
+import ActivityAddedFinalNote from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/ActivityItems/ActivityAddedFinalNote.vue';
 
 type ActivityListProps = {
   journeyItem: JourneyItem;
