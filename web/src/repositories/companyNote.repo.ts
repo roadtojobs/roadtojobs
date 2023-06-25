@@ -25,7 +25,11 @@ export const companyNoteRepo = {
       `
       SELECT *
       FROM $ids
-      FETCH journey_item.id, journey_item.journey, stage
+      FETCH
+        journey_item,
+        journey_item.journey,
+        journey_item.company,
+        stage
     `,
       { ids }
     );

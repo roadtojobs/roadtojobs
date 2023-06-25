@@ -37,7 +37,7 @@
           <a
             href="#"
             class="text-sky-500 hover:text-rose-600 font-semibold"
-            @click="true"
+            @click="onClickViewFinalNote(note)"
           >
             [View]
           </a>
@@ -47,13 +47,21 @@
       </ul>
     </div>
   </div>
+  <ViewFinalNoteModal
+    v-if="viewingNote?.journeyItem"
+    :is-open="isOpenModal"
+    :company-note="viewingNote"
+    :journey-item="viewingNote.journeyItem"
+    @close="isOpenModal = false"
+  />
 </template>
 
 <script setup lang="ts">
 import { CompanyComboboxItem } from '@/screens/InterviewJourneyView/components/ActionModals/AddJourneyItemModal.methods';
-import { onMounted, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { CompanyNote } from 'shared/entities';
 import { companyNoteRepo } from '@/repositories/companyNote.repo';
+import ViewFinalNoteModal from '@/screens/InterviewJourneyView/components/ViewJourneyItemModal/Utils/ViewFinalNoteModal.vue';
 
 type CompanyNoteInformationProps = {
   company: CompanyComboboxItem;
@@ -62,8 +70,11 @@ type CompanyNoteInformationProps = {
 const props = defineProps<CompanyNoteInformationProps>();
 
 const isLoaded = ref(false);
+const isOpenModal = ref(false);
 
 const companyNotes = ref<CompanyNote[]>([]);
+
+const viewingNote = ref<CompanyNote>();
 
 watch(
   () => props.company,
@@ -82,4 +93,9 @@ watch(
     immediate: true,
   }
 );
+
+const onClickViewFinalNote = (note: CompanyNote) => {
+  viewingNote.value = note;
+  isOpenModal.value = true;
+};
 </script>
