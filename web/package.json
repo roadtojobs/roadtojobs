@@ -9,7 +9,7 @@
     "start": "npm run dev",
     "tsc": "tsc",
     "lint": "eslint --ext .jsx --ext .js 'src/**'",
-    "type-check": "vue-tsc --noEmit --composite false"
+    "type-check": "tsc && vue-tsc --noEmit --composite false"
   },
   "dependencies": {
     "@kyvg/vue3-notification": "^2.9.1",
