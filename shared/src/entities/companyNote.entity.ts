@@ -59,7 +59,7 @@ export const companyNoteTableToCompanyNote = (
     companyTableToCompany
   ),
   stageId: parseThingId(record.stage),
-  stage: parseThing<StageTable, Stage>(record.journey_item, stageTableToStage),
+  stage: parseThing<StageTable, Stage>(record.stage, stageTableToStage),
   feeling: record.feeling,
   feelingNote: record.feeling_note,
   opinion: record.opinion,

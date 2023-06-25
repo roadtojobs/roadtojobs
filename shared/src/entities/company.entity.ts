@@ -1,3 +1,10 @@
+import { CompanyNoteTable } from '../../build';
+import {
+  CompanyNote,
+  companyNoteTableToCompanyNote,
+} from './companyNote.entity';
+import { parseThing } from '../utils/surreal';
+
 export type CompanyTable = {
   id: string;
   name: string;
@@ -6,6 +13,7 @@ export type CompanyTable = {
   homepage: string;
   country_code: string;
   opinions?: string[];
+  company_notes?: CompanyNoteTable[];
 };
 
 export type Company = {
@@ -16,9 +24,24 @@ export type Company = {
   homepage: string;
   countryCode: string;
   opinions?: string[];
+  companyNotes?: CompanyNote[];
 };
 
-export const companyTableToCompany = (record: CompanyTable): Company => ({
-  ...record,
-  countryCode: record.country_code,
-});
+export const companyTableToCompany = (record: CompanyTable): Company => {
+  const companyNotes = record.company_notes?.map(
+    (companyNote): CompanyNote =>
+      <CompanyNote>(
+        parseThing<CompanyNoteTable, CompanyNote>(
+          companyNote,
+          companyNoteTableToCompanyNote
+        )
+      )
+  );
+
+  return {
+    ...record,
+    countryCode: record.country_code,
+    companyNotes,
+    opinions: companyNotes?.map((note) => note.opinion),
+  };
+};

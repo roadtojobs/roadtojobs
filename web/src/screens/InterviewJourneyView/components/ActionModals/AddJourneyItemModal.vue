@@ -50,32 +50,10 @@
               </div>
             </template>
           </ComboboxApi>
-          <div
+          <CompanyNoteInformation
             v-if="form.company"
-            class="text-sm"
-          >
-            <span
-              v-if="form.company.mode === 'green'"
-              class="text-green-600"
-            >
-              Cool, you haven't interviewed with this company before, let's get
-              started!
-            </span>
-            <span
-              v-else-if="form.company.mode === 'yellow'"
-              class="text-yellow-600"
-            >
-              You have interviewed with this company before, check out the
-              previous notes:
-            </span>
-            <span
-              v-else
-              class="text-red-600"
-            >
-              Uh oh, this company is in your <strong>Avoid-list ❌</strong>,
-              check out the previous notes:
-            </span>
-          </div>
+            :company="form.company"
+          />
           <Textarea
             v-model="form.description"
             label="Description"
@@ -173,10 +151,10 @@ import Textarea from '@/components/Textarea/Textarea.vue';
 import { useGlobalStages } from '@/stores/useGlobalStages';
 import Dropdown from '@/components/Dropdown/Dropdown.vue';
 import ComboboxApi from '@/components/Combobox/ComboboxApi.vue';
-import { ComboboxItem } from '@/components/Combobox/Combobox.types';
 import { companyRepo } from '@/repositories/company.repo';
 import useValidation from '@/composable/useValidation';
 import {
+  CompanyComboboxItem,
   createJourneyItem,
   CreateJourneyItem,
   getMode,
@@ -191,6 +169,7 @@ import { PlusIcon } from '@heroicons/vue/24/outline';
 import { useCreateNewCompany } from '@/screens/InterviewJourneyView/composables/useCreateNewCompany';
 import { TransitionRoot } from '@headlessui/vue';
 import Input from '@/components/Input/Input.vue';
+import CompanyNoteInformation from '@/screens/InterviewJourneyView/components/AddJourneyItemModal/CompanyNoteInformation.vue';
 
 type AddCompanyModalProps = {
   stage: Stage;
@@ -218,7 +197,7 @@ const { isLoading, startLoading, stopLoading } = useLoading();
 
 const form = ref<{
   stageId: string;
-  company: ComboboxItem | null;
+  company: CompanyComboboxItem | null;
   description: string;
   color: string;
 }>({
@@ -228,12 +207,18 @@ const form = ref<{
   color: 'rose',
 });
 
-const findCompanies = async (keyword: string): Promise<ComboboxItem[]> => {
-  return (await companyRepo.getByKeyword(keyword)).map((company) => ({
-    text: company.name,
-    value: company.id,
-    mode: getMode(company),
-  }));
+const findCompanies = async (
+  keyword: string
+): Promise<CompanyComboboxItem[]> => {
+  return (await companyRepo.getByKeyword(keyword)).map(
+    (company): CompanyComboboxItem => ({
+      text: company.name,
+      value: company.id,
+      mode: getMode(company),
+      companyNotes: company.companyNotes,
+      opinions: company.opinions,
+    })
+  );
 };
 
 const onClickSubmit = async () => {

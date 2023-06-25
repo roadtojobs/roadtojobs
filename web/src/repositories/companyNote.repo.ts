@@ -20,6 +20,23 @@ type CreateCompanyNote = Pick<
 >;
 
 export const companyNoteRepo = {
+  async getByIds(ids: string[]): Promise<CompanyNote[]> {
+    const [result] = await dbClient.query<CompanyNoteTable[][]>(
+      `
+      SELECT *
+      FROM $ids
+      FETCH journey_item.id, journey_item.journey, stage
+    `,
+      { ids }
+    );
+
+    if (result.status === 'ERR') {
+      return [];
+    }
+
+    return result.result.map(companyNoteTableToCompanyNote);
+  },
+
   async getByJourneyItemId(
     journeyItemId: string,
     latest?: boolean,

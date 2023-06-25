@@ -2,6 +2,11 @@ import { Company, CompanyTable, companyTableToCompany } from './company.entity';
 import { Stage, StageTable, stageTableToStage } from './stage.entity';
 import { User, UserTable, userTableToUser } from './user.entity';
 import { parseThing, parseThingId } from '../utils/surreal';
+import {
+  interviewJourneyTableToInterviewJourney,
+  Journey,
+  JourneyTable,
+} from './journey.entity';
 
 export type DynamicAttributes = {
   color: string;
@@ -26,6 +31,7 @@ export type JourneyItem = {
   id: string;
   reference: number;
   journeyId: string;
+  journey?: Journey;
   userId: string;
   user?: User;
   companyId: string;
@@ -45,7 +51,11 @@ export const journeyItemTableToJourneyItem = (
 ): JourneyItem => ({
   id: record.id,
   reference: record.reference,
-  journeyId: record.journey,
+  journeyId: parseThingId(record.journey),
+  journey: parseThing<JourneyTable, Journey>(
+    record.journey,
+    interviewJourneyTableToInterviewJourney
+  ),
   companyId: parseThingId(record.company),
   company: parseThing<CompanyTable, Company>(
     record.company,

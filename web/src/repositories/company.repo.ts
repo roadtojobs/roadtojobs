@@ -69,7 +69,7 @@ export const companyRepo = {
       `
       SELECT
         *,
-        ->notes->(company_note WHERE opinion != NONE).opinion as opinions
+        ->notes->(company_note WHERE opinion != NONE).* AS company_notes
       FROM ${TABLES.COMPANY}
       WHERE
         (string::lowercase(name)) CONTAINS string::lowercase($keyword)

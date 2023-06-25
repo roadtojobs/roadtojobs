@@ -1,6 +1,9 @@
 import { z } from 'zod';
-import { Company } from 'shared/entities';
-import { ComboboxItemMode } from '@/components/Combobox/Combobox.types';
+import { Company, CompanyNote } from 'shared/entities';
+import {
+  ComboboxItem,
+  ComboboxItemMode,
+} from '@/components/Combobox/Combobox.types';
 import { avoidListOpinion } from '@/constants/opinion';
 
 /**
@@ -20,6 +23,11 @@ export const createJourneyItem = z.object({
 });
 
 export type CreateJourneyItem = z.infer<typeof createJourneyItem>;
+
+export type CompanyComboboxItem = ComboboxItem & {
+  companyNotes?: CompanyNote[];
+  opinions?: string[];
+};
 
 export const getMode = (company: Company): ComboboxItemMode => {
   if (company.opinions?.includes(avoidListOpinion)) {
