@@ -153,6 +153,7 @@ import useValidation from '@/composable/useValidation';
 import {
   createJourneyItem,
   CreateJourneyItem,
+  getMode,
 } from '@/screens/InterviewJourneyView/components/ActionModals/AddJourneyItemModal.methods';
 import { notify } from '@kyvg/vue3-notification';
 import { journeyItemRepo } from '@/repositories/journeyItem.repo';
@@ -208,7 +209,7 @@ const findCompanies = async (keyword: string): Promise<ComboboxItem[]> => {
   return (await companyRepo.getByKeyword(keyword)).map((company) => ({
     text: company.name,
     value: company.id,
-    active: true,
+    mode: getMode(company),
   }));
 };
 

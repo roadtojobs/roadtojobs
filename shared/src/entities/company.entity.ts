@@ -5,6 +5,7 @@ export type CompanyTable = {
   source: string;
   homepage: string;
   country_code: string;
+  opinions?: string[];
 };
 
 export type Company = {
@@ -14,6 +15,7 @@ export type Company = {
   source: string;
   homepage: string;
   countryCode: string;
+  opinions?: string[];
 };
 
 export const companyTableToCompany = (record: CompanyTable): Company => ({

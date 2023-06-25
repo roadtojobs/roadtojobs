@@ -1,7 +1,10 @@
+export const avoidListOpinion = 'avoid_list';
+export type AvoidListOpinionType = typeof avoidListOpinion;
+
 export type Opinion =
   | 'will_try_again'
   | 'unmatched_offer'
-  | 'avoid_list'
+  | AvoidListOpinionType
   | 'unprofessional'
   | 'took_too_long'
   | 'other';

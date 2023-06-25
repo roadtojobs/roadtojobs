@@ -39,15 +39,17 @@
           <li
             :class="[
               'relative cursor-default select-none py-2 pl-3 pr-9',
-              active ? 'bg-indigo-600 text-white' : 'text-gray-900',
+              active ? 'bg-rose-200 text-white' : 'text-gray-900',
             ]"
           >
             <div class="flex items-center">
               <span
-                v-if="typeof item.active !== 'undefined'"
+                v-if="typeof item.mode !== 'undefined'"
                 :class="[
                   'inline-block h-2 w-2 flex-shrink-0 rounded-full',
-                  item.active ? 'bg-green-400' : 'bg-gray-200',
+                  item.mode === 'green' ? 'bg-green-400' : '',
+                  item.mode === 'red' ? 'bg-red-600' : '',
+                  item.mode === 'yellow' ? 'bg-yellow-400' : '',
                 ]"
                 aria-hidden="true"
               />

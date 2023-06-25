@@ -67,9 +67,12 @@ export const companyRepo = {
   async getByKeyword(keyword: string): Promise<Company[]> {
     const [result] = await dbClient.query<CompanyTable[][]>(
       `
-      SELECT *
+      SELECT
+        *,
+        ->notes->(company_note WHERE opinion != NONE).opinion as opinions
       FROM ${TABLES.COMPANY}
-      WHERE (string::lowercase(name)) CONTAINS string::lowercase($keyword)
+      WHERE
+        (string::lowercase(name)) CONTAINS string::lowercase($keyword)
     `,
       { keyword }
     );
