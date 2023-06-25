@@ -21,13 +21,16 @@ type CreateCompanyNote = Pick<
 
 export const companyNoteRepo = {
   async getByJourneyItemId(
-    journeyItemId: string
+    journeyItemId: string,
+    latest?: boolean
   ): Promise<CompanyNote | undefined> {
     const [result] = await dbClient.query<CompanyNoteTable[][]>(
       `
       SELECT *
       FROM ${TABLES.COMPANY_NOTE}
       WHERE journey_item = $journeyItemId
+      ${latest ? 'ORDER BY created_at DESC' : ''}
+      LIMIT 1
     `,
       { journeyItemId }
     );
@@ -39,11 +42,7 @@ export const companyNoteRepo = {
     return companyNoteTableToCompanyNote(result.result[0] as CompanyNoteTable);
   },
 
-  async upsert(values: CreateCompanyNote): Promise<CompanyNote | undefined> {
-    const oldRecord = await companyNoteRepo.getByJourneyItemId(
-      values.journeyItemId
-    );
-
+  async create(values: CreateCompanyNote): Promise<CompanyNote | undefined> {
     const persistValues: Partial<CompanyNoteTable> = {
       journey_item: values.journeyItemId,
       user: values.userId,
@@ -57,9 +56,10 @@ export const companyNoteRepo = {
     };
 
     try {
-      const [result] = oldRecord
-        ? await dbClient.merge(oldRecord.id, persistValues)
-        : await dbClient.create(TABLES.COMPANY_NOTE, persistValues);
+      const [result] = await dbClient.create(
+        TABLES.COMPANY_NOTE,
+        persistValues
+      );
 
       return companyNoteTableToCompanyNote(result as CompanyNoteTable);
     } catch (error) {

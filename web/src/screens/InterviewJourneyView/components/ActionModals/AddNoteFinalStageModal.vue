@@ -157,7 +157,7 @@ const onClickAddNote = async () => {
   }
 
   const parsed = validateResult.parsedObject;
-  const addNoteResult = await companyNoteRepo.upsert(parsed);
+  const addNoteResult = await companyNoteRepo.create(parsed);
   if (!addNoteResult) {
     return notify({
       type: 'error',
