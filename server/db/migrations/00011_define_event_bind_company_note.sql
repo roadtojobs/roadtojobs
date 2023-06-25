@@ -1,4 +1,4 @@
-DEFINE TABLE company_notes SCHEMALESS
+DEFINE TABLE notes SCHEMALESS
   PERMISSIONS
     FOR delete NONE
     FOR select, create, update WHERE $auth.id = user;
