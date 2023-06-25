@@ -12,7 +12,7 @@
     "rootDirs": ["./src/"],
     "paths": {
       "@/*": ["./src/*"],
-      "shared/*": ["./node_modules/shared/build/*"]
+      "shared/*": ["../shared/src/*"]
     }
   },
   "include": [

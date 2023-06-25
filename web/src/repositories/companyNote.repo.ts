@@ -22,24 +22,26 @@ type CreateCompanyNote = Pick<
 export const companyNoteRepo = {
   async getByJourneyItemId(
     journeyItemId: string,
-    latest?: boolean
-  ): Promise<CompanyNote | undefined> {
+    latest?: boolean,
+    firstOnly?: boolean
+  ): Promise<CompanyNote[]> {
     const [result] = await dbClient.query<CompanyNoteTable[][]>(
       `
       SELECT *
       FROM ${TABLES.COMPANY_NOTE}
-      WHERE journey_item = $journeyItemId
+      WHERE
+        journey_item = $journeyItemId
       ${latest ? 'ORDER BY created_at DESC' : ''}
-      LIMIT 1
+      ${firstOnly ? 'LIMIT 1' : ''}
     `,
       { journeyItemId }
     );
 
-    if (result.status === 'ERR' || !result.result[0]) {
-      return;
+    if (result.status === 'ERR') {
+      return [];
     }
 
-    return companyNoteTableToCompanyNote(result.result[0] as CompanyNoteTable);
+    return result.result.map(companyNoteTableToCompanyNote);
   },
 
   async create(values: CreateCompanyNote): Promise<CompanyNote | undefined> {

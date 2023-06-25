@@ -20,6 +20,8 @@ export type CreateNoteJourneyItemActivity = Omit<
   | 'user'
   | 'attributes'
   | 'journeyItem'
+  | 'companyNote'
+  | 'companyNoteId'
 >;
 
 export const journeyItemActivityRepo = {

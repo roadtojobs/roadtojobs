@@ -52,13 +52,14 @@
 import Input from '@/components/Input/Input.vue';
 import Textarea from '@/components/Textarea/Textarea.vue';
 import { EditCompany } from '@/screens/Companies/Companies.models';
+import { CreateCompany } from '@/screens/InterviewJourneyView/composables/useCreateNewCompany';
 
 type EditModeProps = {
   name?: string;
   homepage?: string;
   description?: string;
   countryCode?: string;
-  errorsBag: Map<keyof EditCompany, string | undefined>;
+  errorsBag: Map<keyof CreateCompany, string | undefined>;
 };
 
 type EditModeEmits = {
