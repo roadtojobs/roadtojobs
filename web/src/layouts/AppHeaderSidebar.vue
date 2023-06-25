@@ -116,13 +116,14 @@ import {
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import DesktopSidebar from '@/layouts/DesktopSidebar.vue';
 import MobileSidebar from '@/layouts/MobileSidebar.vue';
 import { MenuItem } from '@/types/layout';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter();
+const route = useRoute();
 const sidebarOpen = ref(false);
 
 const activeMenuItem = ref<MenuItem | null>(null);
@@ -170,6 +171,20 @@ onMounted(async () => {
     onSelectedMenuItem(menuItem);
   });
 });
+
+watch(
+  () => route.name,
+  (newRouteName) => {
+    const menuItem = menuItems.value.find(
+      (menu) => menu.routeName === newRouteName
+    );
+    if (!menuItem) {
+      return;
+    }
+
+    onSelectedMenuItem(menuItem);
+  }
+);
 
 const onSelectedMenuItem = (menuItem: MenuItem) => {
   activeMenuItem.value = {
