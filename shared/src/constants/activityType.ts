@@ -4,4 +4,5 @@ export type ActivityType =
   | 'ADDED_NOTE'
   | 'ADDED_ATTRIBUTES'
   | 'REMOVED_ATTRIBUTES'
-  | 'ADVANCED_TO_STAGE';
+  | 'ADVANCED_TO_STAGE'
+  | 'ADDED_FINAL_NOTE';

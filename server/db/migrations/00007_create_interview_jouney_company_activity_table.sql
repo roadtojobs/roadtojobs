@@ -19,7 +19,6 @@ DEFINE FIELD stage ON TABLE journey_item_activity
 DEFINE FIELD company ON TABLE journey_item_activity
   TYPE record (company);
 
-
 DEFINE FIELD comment ON TABLE journey_item_activity
   TYPE string;
 
