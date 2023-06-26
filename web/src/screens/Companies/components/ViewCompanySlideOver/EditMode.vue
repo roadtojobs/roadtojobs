@@ -5,6 +5,7 @@
       <dd class="mt-1 sm:mt-2">
         <Input
           label=""
+          placeholder="The company name"
           :model-value="name"
           :error="errorsBag.get('name')"
           @update:model-value="(value) => $emit('update:name', value)"
@@ -12,10 +13,11 @@
       </dd>
     </div>
     <div class="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
-      <dt class="text-sm font-medium leading-6 text-gray-900">Country</dt>
+      <dt class="text-sm font-medium leading-6 text-gray-900">Country Code</dt>
       <dd class="mt-1 sm:mt-2">
         <Input
           label=""
+          placeholder="Origin Country of the Company"
           :model-value="countryCode"
           :error="errorsBag.get('countryCode')"
           @update:model-value="(value) => $emit('update:countryCode', value)"
@@ -27,6 +29,7 @@
       <dd class="mt-1 sm:mt-2">
         <Input
           label=""
+          placeholder="Website of the Company"
           :model-value="homepage"
           :error="errorsBag.get('homepage')"
           @update:model-value="(value) => $emit('update:homepage', value)"
@@ -39,6 +42,7 @@
         <Textarea
           label=""
           rows="8"
+          placeholder="The information of this company. Markdown supported"
           :model-value="description"
           :error="errorsBag.get('description')"
           @update:model-value="(value) => $emit('update:description', value)"
@@ -51,7 +55,6 @@
 <script setup lang="ts">
 import Input from '@/components/Input/Input.vue';
 import Textarea from '@/components/Textarea/Textarea.vue';
-import { EditCompany } from '@/screens/Companies/Companies.models';
 import { CreateCompany } from '@/screens/InterviewJourneyView/composables/useCreateNewCompany';
 
 type EditModeProps = {

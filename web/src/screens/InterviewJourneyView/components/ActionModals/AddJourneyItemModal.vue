@@ -86,12 +86,11 @@
             label="Company Name"
             :error="addCompanyErrors.get('name')"
           />
-          <Textarea
-            v-model="addCompanyForm.description"
-            label="Description (Optional)"
-            placeholder="Markdown supported"
-            rows="6"
-            :error="addCompanyErrors.get('description')"
+          <Input
+            v-model="addCompanyForm.countryCode"
+            label="Country Code"
+            placeholder="US, AU,..."
+            :error="addCompanyErrors.get('countryCode')"
           />
           <Input
             v-model="addCompanyForm.homepage"
@@ -99,11 +98,12 @@
             placeholder="https://"
             :error="addCompanyErrors.get('homepage')"
           />
-          <Input
-            v-model="addCompanyForm.countryCode"
-            label="Country Code (Optional)"
-            placeholder="US, AU,..."
-            :error="addCompanyErrors.get('countryCode')"
+          <Textarea
+            v-model="addCompanyForm.description"
+            label="Description (Optional)"
+            placeholder="Markdown supported"
+            rows="6"
+            :error="addCompanyErrors.get('description')"
           />
         </form>
       </TransitionRoot>

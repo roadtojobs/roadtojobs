@@ -41,8 +41,8 @@
           >
             [View]
           </a>
-          From <strong>{{ note.journeyItem.journey.name }}</strong> - Stage:
-          {{ note.stage.name }}
+          From <strong>{{ note.journeyItem?.journey?.name }}</strong> - Stage:
+          {{ note.stage?.name }}
         </li>
       </ul>
     </div>
@@ -79,7 +79,7 @@ const viewingNote = ref<CompanyNote>();
 watch(
   () => props.company,
   async (company) => {
-    const ids = company.companyNotes.map((note) => note.id);
+    const ids = company.companyNotes?.map((note) => note.id) ?? [];
     if (!ids.length) {
       isLoaded.value = false;
       return;
