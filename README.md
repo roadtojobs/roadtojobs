@@ -1,4 +1,4 @@
-# Road To Jobs - The open-source Interview Tracking app
+# 📝👀 Road To Jobs - The open-source Interview Tracking app 👀📝
 
 [![CI (Lint, TypeCheck, Build)](https://github.com/roadtojobs/roadtojobs/actions/workflows/ci.yml/badge.svg)](https://github.com/roadtojobs/roadtojobs/actions/workflows/ci.yml)
 
@@ -10,7 +10,7 @@ Every journey has its meaning, the same goes for your Interview & Road to your n
 
 Note: this is still heavily under development. Stays tuned!!!
 
-## Features
+## Key Features 🚀
 
 Road To Jobs helps you to:
 
@@ -23,7 +23,7 @@ Road To Jobs helps you to:
 
 We are all human, and we can't remember everything from the past, so we should have an appropriate platform to assist us.
 
-Road To Jobs aims to be your companion, helping you document every detail of your job-seeking journey.
+Road To Jobs helps you to write & note every detail of your job-seeking journey.
 
 Road To Jobs is an OSS application for single & self-hosted usage.
 
@@ -43,7 +43,7 @@ RoadToJobs follows the monorepo strategy, each folder would contain their own RE
 
 ## Documentation
 
-Check out [RoadToJobs Documentation](https://docs.roadtojobs.io) for: Installation & Deployment.
+Check out [RoadToJobs Documentation](https://docs.roadto.jobs) for: Installation & Deployment.
 
 ## Contributing
 Thank you for considering contributing to the RoadToJobs! 
