@@ -1,6 +1,6 @@
-import { CompanyNoteTable } from '../../build';
 import {
   CompanyNote,
+  CompanyNoteTable,
   companyNoteTableToCompanyNote,
 } from './companyNote.entity';
 import { parseThing } from '../utils/surreal';
