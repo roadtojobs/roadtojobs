@@ -1,4 +1,4 @@
-# 📝👀 Road To Jobs - The open-source Interview Tracking app 👀📝
+# RoadToJobs - The open-source Interview Tracking app 👀📝
 
 [![CI (Lint, TypeCheck, Build)](https://github.com/roadtojobs/roadtojobs/actions/workflows/ci.yml/badge.svg)](https://github.com/roadtojobs/roadtojobs/actions/workflows/ci.yml)
 
@@ -8,7 +8,7 @@
 
 Every journey has its meaning, the same goes for your Interview & Road to your new Jobs.
 
-Note: this is still heavily under development. Stays tuned!!!
+Note: ready for stable release!!
 
 ## Key Features 🚀
 
