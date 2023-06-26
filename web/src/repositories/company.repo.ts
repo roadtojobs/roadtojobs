@@ -9,6 +9,20 @@ import { UnknownRecord } from '@/types';
 
 type CreateCompany = Omit<Company, 'id' | 'source'>;
 type UpdateCompany = Omit<Company, 'id' | 'source'>;
+type CompanyGetWithPagination = {
+  keyword: string;
+  limit: number;
+  page: number;
+  orderBy: 'name' | 'country_code';
+  orderDirection: 'ASC' | 'DESC';
+};
+
+const SEARCH_BY_KEYWORD_WHERE_CLAUSE = `
+  WHERE
+    (string::lowercase(name)) CONTAINS string::lowercase($keyword)
+    OR
+    (string::lowercase(country_code)) CONTAINS string::lowercase($keyword)
+`;
 
 export const companyRepo = {
   async getWithPagination({
@@ -17,22 +31,8 @@ export const companyRepo = {
     page,
     orderBy = 'name',
     orderDirection = 'ASC',
-  }: {
-    keyword: string;
-    limit: number;
-    page: number;
-    orderBy: 'name' | 'country_code';
-    orderDirection: 'ASC' | 'DESC';
-  }) {
-    let whereClause = '';
-    if (keyword.length) {
-      whereClause = `
-        WHERE
-          (string::lowercase(name)) CONTAINS string::lowercase($keyword)
-          OR
-          (string::lowercase(country_code)) CONTAINS string::lowercase($keyword)
-      `;
-    }
+  }: CompanyGetWithPagination): Promise<Company[]> {
+    const whereClause = keyword.length ? SEARCH_BY_KEYWORD_WHERE_CLAUSE : '';
 
     const parsedLimit = Number(limit) || 0;
     const parsedPage = Number(page) || 0;
@@ -62,6 +62,30 @@ export const companyRepo = {
     }
 
     return result.result.map(companyTableToCompany);
+  },
+
+  async countForPagination(keyword: string): Promise<number> {
+    const whereClause = keyword.length ? SEARCH_BY_KEYWORD_WHERE_CLAUSE : '';
+
+    const [result] = await dbClient.query<
+      {
+        total: number;
+      }[][]
+    >(
+      `
+      SELECT count() as total
+      FROM ${TABLES.COMPANY}
+      ${whereClause}
+      GROUP ALL
+    `,
+      { keyword }
+    );
+
+    if (result.status === 'ERR' || !result.result[0]) {
+      return 0;
+    }
+
+    return result.result[0].total;
   },
 
   async getByKeyword(keyword: string): Promise<Company[]> {

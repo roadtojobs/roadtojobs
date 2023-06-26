@@ -90,6 +90,17 @@
         </tr>
       </tbody>
     </table>
+    <Pagination
+      :total="totalRecords"
+      :from="page * perPage + 1"
+      :to="
+        (page + 1) * perPage < totalRecords
+          ? (page + 1) * perPage
+          : totalRecords
+      "
+      @next="table.nextPage()"
+      @prev="table.previousPage()"
+    />
   </AppPage>
   <ViewCompanySlideOver
     :company="viewingCompany"
@@ -105,7 +116,7 @@ import {
   createColumnHelper,
   FlexRender,
   getCoreRowModel,
-  getSortedRowModel,
+  PaginationState,
   SortingState,
   useVueTable,
 } from '@tanstack/vue-table';
@@ -117,6 +128,7 @@ import { companyRepo } from '@/repositories/company.repo';
 import ViewCompanySlideOver from '@/screens/Companies/components/ViewCompanySlideOver.vue';
 import { getActionButton } from '@/screens/Companies/Companies.methods';
 import AddCompanySlideOver from '@/screens/Companies/components/AddCompanySlideOver.vue';
+import Pagination from '@/components/Pagination/Pagination.vue';
 
 setPageTitle('Companies');
 
@@ -125,13 +137,20 @@ const router = useRouter();
 const viewingCompany = ref<Company | null>(null);
 
 const companies = ref<Company[]>([]);
-const sorting = ref<SortingState>([]);
 const columnHelper = createColumnHelper<Company>();
-const pageCount = 20;
-const page = ref(1);
+const pageCount = ref(0);
+const totalRecords = ref(0);
+const perPage = ref(20);
+const page = ref(0);
+const sorting = ref<SortingState>([]);
+const paginating = ref<PaginationState>({
+  pageIndex: page.value,
+  pageSize: perPage.value,
+});
 
 const table = useVueTable<Company>({
-  pageCount,
+  manualPagination: true,
+  manualSorting: true,
   columns: [
     columnHelper.accessor('name', {
       id: 'name',
@@ -157,16 +176,31 @@ const table = useVueTable<Company>({
     get sorting() {
       return sorting.value;
     },
+    get pagination() {
+      return paginating.value;
+    },
   },
   onSortingChange: (updaterOrValue) => {
-    console.log(sorting.value);
     sorting.value =
       typeof updaterOrValue === 'function'
         ? updaterOrValue(sorting.value)
         : updaterOrValue;
+
+    loadCompanies();
   },
   getCoreRowModel: getCoreRowModel(),
-  getSortedRowModel: getSortedRowModel(),
+  get pageCount() {
+    return pageCount.value;
+  },
+  onPaginationChange(updaterOrValue) {
+    paginating.value =
+      typeof updaterOrValue === 'function'
+        ? updaterOrValue(paginating.value)
+        : updaterOrValue;
+
+    page.value = paginating.value.pageIndex;
+    loadCompanies();
+  },
 });
 
 const loadCompanies = async () => {
@@ -176,13 +210,18 @@ const loadCompanies = async () => {
 
   const remoteCompanies = await companyRepo.getWithPagination({
     keyword: '',
-    limit: pageCount,
-    page: page.value,
+    limit: perPage.value,
+    page: page.value + 1,
     orderBy,
     orderDirection,
   });
 
   companies.value = [...remoteCompanies];
+};
+
+const countForPagination = async () => {
+  totalRecords.value = await companyRepo.countForPagination('');
+  pageCount.value = Math.ceil(totalRecords.value / perPage.value);
 };
 
 const onClickViewCompany = (company: Company) => {
@@ -197,5 +236,8 @@ const reloadCompanies = (company: Company) => {
   };
 };
 
-onMounted(loadCompanies);
+onMounted(async () => {
+  await countForPagination();
+  await loadCompanies();
+});
 </script>
