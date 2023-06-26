@@ -175,8 +175,13 @@ onMounted(async () => {
 watch(
   () => route.name,
   (newRouteName) => {
+    const resolvedRouteName =
+      newRouteName === 'interview-journey-view'
+        ? 'interview-journey'
+        : newRouteName;
+
     const menuItem = menuItems.value.find(
-      (menu) => menu.routeName === newRouteName
+      (menu) => menu.routeName === resolvedRouteName
     );
     if (!menuItem) {
       return;

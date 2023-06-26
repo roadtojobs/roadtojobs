@@ -48,7 +48,9 @@ export const companyRepo = {
 
     const [result] = await dbClient.query<CompanyTable[][]>(
       `
-      SELECT *
+      SELECT
+        *,
+        ->notes->company_note.* AS company_notes
       FROM ${TABLES.COMPANY}
       ${whereClause}
       ORDER BY ${orderBy} ${orderDirection}

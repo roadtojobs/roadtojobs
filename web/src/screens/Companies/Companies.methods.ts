@@ -6,13 +6,33 @@ import { Company } from 'shared';
 
 export const getActionButton = (
   info: CellContext<Company, unknown>,
-  onClick: (company: Company) => void
+  onClickViewCompany: (company: Company) => void,
+  onClickViewNote: (company: Company) => void
 ): VueComponent => {
-  return h(
+  const company = info.row.original;
+
+  const viewButton = h(
     Button,
     {
-      onClick: () => onClick(info.row.original),
+      onClick: () => onClickViewCompany(company),
     },
     () => [h('span', 'View')]
+  );
+
+  const noteButton = h(
+    Button,
+    {
+      type: 'neutral',
+      onClick: () => onClickViewNote(company),
+    },
+    () => [h('span', 'My Notes')]
+  );
+
+  return h(
+    'div',
+    {
+      className: 'flex gap-1',
+    },
+    [viewButton, company.companyNotes?.length ? noteButton : null]
   );
 };

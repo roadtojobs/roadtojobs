@@ -29,6 +29,10 @@
     @close="viewingCompany = null"
     @updated="reloadCompanies"
   />
+  <ViewCompanyFinalNotesSlideOver
+    :company="viewingCompanyNote"
+    @close="viewingCompanyNote = null"
+  />
 </template>
 
 <script setup lang="ts">
@@ -52,12 +56,14 @@ import { getActionButton } from '@/screens/Companies/Companies.methods';
 import AddCompanySlideOver from '@/screens/Companies/components/AddCompanySlideOver.vue';
 import Pagination from '@/components/Pagination/Pagination.vue';
 import AppTable from '@/components/AppTable/AppTable.vue';
+import ViewCompanyFinalNotesSlideOver from '@/screens/Companies/components/ViewCompanyFinalNotesSlideOver.vue';
 
 setPageTitle('Companies');
 
 const router = useRouter();
 
 const viewingCompany = ref<Company | null>(null);
+const viewingCompanyNote = ref<Company | null>(null);
 
 const companies = ref<Company[]>([]);
 const columnHelper = createColumnHelper<Company>();
@@ -89,7 +95,8 @@ const table = useVueTable<Company>({
     columnHelper.display({
       id: 'actions',
       header: '',
-      cell: (info) => getActionButton(info, onClickViewCompany),
+      cell: (info) =>
+        getActionButton(info, onClickViewCompany, onClickViewNotes),
     }),
   ],
   get data() {
@@ -149,6 +156,10 @@ const countForPagination = async () => {
 
 const onClickViewCompany = (company: Company) => {
   viewingCompany.value = company;
+};
+
+const onClickViewNotes = (company: Company) => {
+  viewingCompanyNote.value = company;
 };
 
 const reloadCompanies = (company: Company) => {

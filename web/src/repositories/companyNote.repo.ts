@@ -25,6 +25,7 @@ export const companyNoteRepo = {
       `
       SELECT *
       FROM $ids
+      ORDER BY created_at DESC
       FETCH
         journey_item,
         journey_item.journey,
