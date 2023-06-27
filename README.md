@@ -25,13 +25,15 @@ We are all human, and we can't remember everything from the past, so we should h
 
 Road To Jobs helps you to write & note every detail of your job-seeking journey.
 
-Road To Jobs is an OSS application for single & self-hosted usage.
+Road To Jobs is an OSS application for single & self-hosted usage. 
 
 ## Technology
 - NodeJS 18 x TypeScript
 - [SurrealDB](https://surrealdb.com/)
 - Vue 3 x TypeScript
 - TailwindCSS for UI/UX
+
+A simple VPS from $5 (Vultr/DigitalOcean) can run RoadToJobs just lovely fine 🥹❤️.
 
 ## Project Structure
 RoadToJobs follows the monorepo strategy, each folder would contain their own README file.
