@@ -20,7 +20,12 @@
       />
     </div>
     <template #bottom-buttons>
-      <Button @click="onSubmitCreate">Create</Button>
+      <Button
+        id="create-company-submit"
+        @click="onSubmitCreate"
+      >
+        Create
+      </Button>
       <Button
         type="secondary"
         @click="onClose"

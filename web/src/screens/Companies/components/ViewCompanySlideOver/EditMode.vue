@@ -4,6 +4,7 @@
       <dt class="text-sm font-medium leading-6 text-gray-900">Company Name</dt>
       <dd class="mt-1 sm:mt-2">
         <Input
+          id="company_name"
           label=""
           placeholder="The company name"
           :model-value="name"
@@ -17,6 +18,7 @@
       <dd class="mt-1 sm:mt-2">
         <Input
           label=""
+          id="company_country_code"
           placeholder="Origin Country of the Company"
           :model-value="countryCode"
           :error="errorsBag.get('countryCode')"
@@ -29,6 +31,7 @@
       <dd class="mt-1 sm:mt-2">
         <Input
           label=""
+          id="company_homepage"
           placeholder="Website of the Company"
           :model-value="homepage"
           :error="errorsBag.get('homepage')"
