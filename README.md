@@ -33,7 +33,7 @@ Road To Jobs is an OSS application for single & self-hosted usage.
 - Vue 3 x TypeScript
 - TailwindCSS for UI/UX
 
-A simple VPS from $5 (Vultr/DigitalOcean) can run RoadToJobs just lovely fine 🥹❤️.
+A simple VPS from **$5** (Vultr/DigitalOcean) can run RoadToJobs just lovely fine 🥹❤️. You don't need the NASA-server.
 
 ## Project Structure
 RoadToJobs follows the monorepo strategy, each folder would contain their own README file.
@@ -49,13 +49,13 @@ Check out [RoadToJobs Documentation](https://docs.roadto.jobs) for: Installation
 
 ## Contributing
 Thank you for considering contributing to the RoadToJobs! 
-The contribution guide can be found in the [Contribution Documentation](./README.md)
+The contribution guide can be found in the [Contribution Documentation](https://docs.roadto.jobs/contributions)
 
 ## Code of Conduct
 In order to ensure that the RoadToJobs community is welcoming to all, please review and abide by the Code of Conduct.
 
 ## Security Vulnerabilities
-If you discover a security vulnerability within RoadToJobs, please send an e-mail to Seth Phat via [security@sethphat.com](security@sethphat.com). 
+If you discover a security vulnerability within RoadToJobs, please send an e-mail to Seth Phat via [security@roadto.jobs](security@roadto.jobs). 
 All security vulnerabilities will be promptly addressed.
 
 ## License
