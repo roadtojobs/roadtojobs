@@ -30,7 +30,7 @@ jobs:
       - name: Install & Start SurrealDB
         run: |
           curl -sSf https://install.surrealdb.com | sh
-          surreal start --log trace --user root --pass root file://"$(ROOT_DIR)/server/db/local.db"
+          surreal start --log trace --user root --pass root memory &
 
       - name: Run migrations & seeders
         run: |
