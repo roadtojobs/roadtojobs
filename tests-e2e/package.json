@@ -2,5 +2,14 @@
   "name": "road-to-jobs-e2e",
   "version": "1.0.0",
   "author": "Seth Phat (me@sethphat.com)",
-  "dependencies": {}
+  "devDependencies": {
+    "@playwright/test": "^1.35.1"
+  },
+  "scripts": {
+    "start": "npx playwright test",
+    "start:ci": "CI=true npx playwright test"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  }
 }

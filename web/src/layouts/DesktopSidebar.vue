@@ -12,10 +12,19 @@
         />
       </div>
       <nav class="flex flex-1 flex-col">
-        <ul role="list" class="flex flex-1 flex-col gap-y-7">
+        <ul
+          role="list"
+          class="flex flex-1 flex-col gap-y-7"
+        >
           <li>
-            <ul role="list" class="-mx-2 space-y-1">
-              <li v-for="item in menuItems" :key="item.id">
+            <ul
+              role="list"
+              class="-mx-2 space-y-1"
+            >
+              <li
+                v-for="item in menuItems"
+                :key="item.id"
+              >
                 <a
                   href="javascript:void(0)"
                   :class="[
@@ -24,6 +33,7 @@
                       : 'text-gray-700 hover:text-rose-600 hover:bg-gray-50',
                     'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
                   ]"
+                  :data-testid="item.id"
                   @click="onMenuItemClick(item)"
                 >
                   <component

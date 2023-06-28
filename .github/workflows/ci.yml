@@ -1,4 +1,4 @@
-name: CI (Lint, TypeCheck, Build)
+name: CI (Lint, TypeCheck, E2E Tests)
 
 on:
   pull_request:
@@ -25,5 +25,11 @@ jobs:
           sh ./bin/bootstrap.sh
           sh ./bin/type-check.sh
         name: Install dependencies & Run CI checks
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run E2E tests for RoadToJobs
+        run: cd tests-e2e && npx playwright test
 
 

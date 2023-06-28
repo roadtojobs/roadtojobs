@@ -1,5 +1,10 @@
 <template>
-  <Button @click="onClickOpen">Add new Company</Button>
+  <Button
+    :icon="PlusIcon"
+    @click="onClickOpen"
+  >
+    Create new Company
+  </Button>
   <SlideOver
     title="Add new Company"
     :is-open="isOpen"
@@ -41,6 +46,7 @@ import {
   getBlankCreateCompany,
 } from '@/screens/InterviewJourneyView/composables/useCreateNewCompany';
 import { useCurrentUser } from '@/stores/useCurrentUser';
+import { PlusIcon } from '@heroicons/vue/24/outline';
 
 type ViewCompanySlideOverEmits = {
   (e: 'added', company: Company): void;
