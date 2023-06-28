@@ -24,6 +24,7 @@
       />
       <Textarea
         v-model="interviewJourney.description"
+        id="journey_description"
         label="Journey Description"
         placeholder="Give the journey some details. Markdown supported"
         rows="6"
@@ -31,19 +32,26 @@
       />
       <Input
         v-model="startDateComputed"
+        id="journey_date"
         type="date"
         label="Journey Start Date"
         :error="errorsBag.get('startDate')"
       />
       <Textarea
         v-model="interviewJourney.note"
+        id="journey_goal"
         label="Personal Goal/Note (Optional)"
         placeholder="Always a good idea to note down the desired goals, notes. Markdown supported"
         rows="6"
       />
     </form>
     <template #bottom-buttons>
-      <Button @click="onClickSubmit">Create</Button>
+      <Button
+        id="create-journey-submit"
+        @click="onClickSubmit"
+      >
+        Create
+      </Button>
       <Button
         type="secondary"
         @click="onClickCloseModal"
@@ -74,7 +82,7 @@ import { pickThingId } from '@/utils/surrealThing';
 import { notify } from '@kyvg/vue3-notification';
 import { getServerDateNow } from '@/utils/date';
 
-const { userId } = useCurrentUser();
+const currentUser = useCurrentUser();
 const router = useRouter();
 
 const {
@@ -120,7 +128,7 @@ const onClickCloseModal = () => {
 const onClickSubmit = async () => {
   const validationResult = validate({
     ...interviewJourney.value,
-    user: userId,
+    user: currentUser.userId,
   });
 
   if (!validationResult.success) {

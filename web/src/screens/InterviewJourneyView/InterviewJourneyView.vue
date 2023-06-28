@@ -56,6 +56,7 @@ import { Journey } from 'shared/entities/journey.entity';
 import { useCurrentJourney } from '@/stores/useCurrentJourney';
 import ArchivedJourneyView from '@/screens/InterviewJourneyView/components/ArchivedJourneyView.vue';
 import { getDisplayDate } from '@/utils/date';
+import { setPageTitle } from '@/libraries/pageTitle';
 
 const route = useRoute();
 const { loadStages } = useGlobalStages();
@@ -90,6 +91,7 @@ onMounted(async () => {
   }
 
   currentJourney.setJourney(record);
+  setPageTitle(`Journey: ${record.name}`);
 });
 
 const formattedStartDate = computed(() =>

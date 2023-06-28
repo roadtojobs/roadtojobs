@@ -117,7 +117,7 @@ watch(
   async (company) => {
     isOpenSlideOver.value = !!company;
 
-    const ids = company.companyNotes?.map((note) => note.id) ?? [];
+    const ids = company?.companyNotes?.map((note) => note.id) ?? [];
     if (!ids.length) {
       isLoaded.value = false;
       return;

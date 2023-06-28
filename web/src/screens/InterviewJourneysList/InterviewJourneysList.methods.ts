@@ -3,8 +3,16 @@ import dayjs from 'dayjs';
 
 export const createInterviewJourney = z.object({
   user: z.string(),
-  name: z.string().min(1, 'Journey Name is required'),
-  description: z.string().min(1, 'Description is required'),
+  name: z
+    .string({
+      required_error: 'Journey Name is required',
+    })
+    .min(1, 'Journey Name is required'),
+  description: z
+    .string({
+      required_error: 'Description is required',
+    })
+    .min(1, 'Description is required'),
   startDate: z.date({
     required_error: 'A journey need to have a start date',
   }),
