@@ -48,6 +48,14 @@ RoadToJobs follows the monorepo strategy, each folder would contain their own RE
 
 Check out [RoadToJobs Documentation](https://docs.roadto.jobs)
 
+## Testing
+
+We are following 2 kinds of testing:
+
+- E2E test cases
+- [Manual test cases](https://docs.google.com/spreadsheets/d/1-7WR0pX-1RL8smjf7smPmHRPCdwjq6R0tqWQWfvxzsg/edit?usp=sharing)
+    - We'll try our best to make them automated (save time & life 😉)
+
 ## Contributing
 Thank you for considering contributing to the RoadToJobs! 
 The contribution guide can be found in the [Contribution Documentation](https://docs.roadto.jobs/contributions)
