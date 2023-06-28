@@ -47,6 +47,7 @@ import {
 } from '@/screens/InterviewJourneyView/composables/useCreateNewCompany';
 import { useCurrentUser } from '@/stores/useCurrentUser';
 import { PlusIcon } from '@heroicons/vue/24/outline';
+import { storeToRefs } from 'pinia';
 
 type ViewCompanySlideOverEmits = {
   (e: 'added', company: Company): void;
@@ -56,15 +57,16 @@ const emits = defineEmits<ViewCompanySlideOverEmits>();
 
 const isOpen = ref(false);
 
-const { userId } = useCurrentUser();
+const currentUser = useCurrentUser();
+const { userId } = storeToRefs(currentUser);
 const { validate, reset, errorsBag } =
   useValidation<CreateCompany>(createCompany);
-const createForm = ref<CreateCompany>(getBlankCreateCompany(userId));
+const createForm = ref<CreateCompany>(getBlankCreateCompany(userId.value));
 
 const onClickOpen = () => {
   isOpen.value = true;
   createForm.value = {
-    ...getBlankCreateCompany(userId),
+    ...getBlankCreateCompany(userId.value),
   };
 };
 
