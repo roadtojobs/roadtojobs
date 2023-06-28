@@ -42,6 +42,7 @@ jobs:
       - name: Run web-app
         run: |
           cd $ROOT_DIR/web
+          npm run build
           npm run preview &
 
       - name: Install Playwright Browsers
