@@ -18,7 +18,6 @@
     <AppTable
       :records="interviewJourneys"
       :table="table"
-      first-column-id="name"
       empty-label="No journey here, let's create one 🚀"
     />
     <div class="pb-32"></div>

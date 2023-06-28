@@ -39,3 +39,34 @@ test('Can create a new company', async ({ page }) => {
   await expect(page.getByText(companyName)).toBeVisible();
   await expect(page.getByText(companyHomePage)).toBeVisible();
 });
+
+test('Can view a company in slideover', async ({ page }) => {
+  await page.goto('/companies');
+
+  await page.getByTestId('view-company-0').click();
+
+  await expect(page.getByText('Viewing Company:')).toBeVisible();
+  await expect(
+    page.getByRole('button', { name: 'Edit', exact: true })
+  ).toBeVisible();
+  await expect(
+    page.getByRole('button', { name: 'Close', exact: true })
+  ).toBeVisible();
+});
+
+test('Can edit a company in slideover', async ({ page }) => {
+  await page.goto('/companies');
+
+  await page.getByTestId('view-company-0').click();
+
+  await expect(page.getByText('Viewing Company:')).toBeVisible();
+
+  await page.getByRole('button', { name: 'Edit', exact: true }).click();
+
+  await expect(
+    page.getByRole('button', { name: 'Submit', exact: true })
+  ).toBeVisible();
+  await expect(
+    page.getByRole('button', { name: 'Cancel', exact: true })
+  ).toBeVisible();
+});

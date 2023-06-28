@@ -9,7 +9,6 @@
     <AppTable
       :table="table"
       :records="companies"
-      first-column-id="name"
       empty-label="No company 👀"
     />
     <Pagination

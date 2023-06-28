@@ -6,7 +6,7 @@
         :key="headerGroup.id"
       >
         <th
-          v-for="header in headerGroup.headers"
+          v-for="(header, headerIndex) in headerGroup.headers"
           :key="header.id"
           :colspan="header.colSpan"
           :class="[
@@ -39,11 +39,11 @@
             </span>
           </div>
           <div
-            v-if="header.id === firstColumnId"
+            v-if="headerIndex === 0"
             class="absolute inset-y-0 right-full -z-10 w-screen border-b border-b-gray-200"
           />
           <div
-            v-if="header.id === firstColumnId"
+            v-if="headerIndex === 0"
             class="absolute inset-y-0 left-0 -z-10 w-screen border-b border-b-gray-200"
           />
         </th>
@@ -92,7 +92,6 @@ import { FlexRender, Table } from '@tanstack/vue-table';
 type AppTableProps = {
   records: T[];
   table: Table<T>;
-  firstColumnId: keyof T;
   emptyLabel?: string;
 };
 

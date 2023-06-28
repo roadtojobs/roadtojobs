@@ -24,6 +24,7 @@
     >
       <Button @click="onClickEdit">Edit</Button>
       <Button
+        id="close-view-company-button"
         type="secondary"
         @click="onClose"
       >

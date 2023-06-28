@@ -14,6 +14,7 @@ export const getActionButton = (
   const viewButton = h(
     Button,
     {
+      'data-testid': `view-company-${info.row.index}`,
       onClick: () => onClickViewCompany(company),
     },
     () => [h('span', 'View')]

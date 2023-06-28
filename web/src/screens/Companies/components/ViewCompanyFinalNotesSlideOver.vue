@@ -24,7 +24,7 @@
                       $router.push({
                         name: 'interview-journey-view',
                         params: {
-                          id: pickThingId(note.journeyItem?.journeyId),
+                          id: pickThingId(note.journeyItem?.journeyId || ''),
                         },
                       })
                     "
