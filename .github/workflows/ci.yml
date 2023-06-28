@@ -44,7 +44,7 @@ jobs:
           cd $ROOT_DIR/web
           npm run build
           npm run preview &
-          sleep 2
+          sleep 5
           curl http://localhost:3000
 
       - name: Install Playwright Browsers
