@@ -6,13 +6,13 @@
     <img src="https://raw.githubusercontent.com/roadtojobs/roadtojobs/main/web/src/assets/images/logo.png" />
 </p>
 
-Every journey has its meaning, the same goes for your Interview & Road to your new Jobs.
+Just as every journey holds significance, the same can be said for the numerous interview journeys throughout your lifetime 🌊.
 
-Note: ready for stable release!!
+Make it a point to diligently record and monitor every aspect of your interview journey with each company 🔥.
 
 ## Key Features 🚀
 
-Road To Jobs helps you to:
+RoadToJobs helps you to:
 
 - Create a journey for every interview period in your life.
 - Mark a goal for the journey and start to tackle it.
@@ -23,9 +23,9 @@ Road To Jobs helps you to:
 
 We are all human, and we can't remember everything from the past, so we should have an appropriate platform to assist us.
 
-Road To Jobs helps you to write & note every detail of your job-seeking journey.
+RoadToJobs helps you to write & note every detail of your job-seeking journey.
 
-Road To Jobs is an OSS application for single & self-hosted usage. 
+RoadToJobs is an OSS application for single & self-hosted usage. 
 
 ## Technology
 - NodeJS 18 x TypeScript
@@ -33,7 +33,8 @@ Road To Jobs is an OSS application for single & self-hosted usage.
 - Vue 3 x TypeScript
 - TailwindCSS for UI/UX
 
-A simple VPS from **$5** (Vultr/DigitalOcean) can run RoadToJobs just lovely fine 🥹❤️. You don't need the NASA-server.
+A simple VPS from **$5** (Vultr/DigitalOcean) can run RoadToJobs just lovely fine 🥹❤️. 
+You don't need the NASA-server specs.
 
 ## Project Structure
 RoadToJobs follows the monorepo strategy, each folder would contain their own README file.
@@ -45,7 +46,7 @@ RoadToJobs follows the monorepo strategy, each folder would contain their own RE
 
 ## Documentation
 
-Check out [RoadToJobs Documentation](https://docs.roadto.jobs) for: Installation & Deployment.
+Check out [RoadToJobs Documentation](https://docs.roadto.jobs)
 
 ## Contributing
 Thank you for considering contributing to the RoadToJobs! 
