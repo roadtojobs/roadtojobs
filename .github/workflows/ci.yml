@@ -1,5 +1,8 @@
 name: CI (Lint, TypeCheck, E2E Tests)
 
+env:
+  ROOT_DIR: "/home/runner/work/roadtojobs/roadtojobs"
+
 on:
   pull_request:
     branches:
@@ -25,7 +28,6 @@ jobs:
         run: |
           sh ./bin/bootstrap.sh
           sh ./bin/type-check.sh
-          ROOT_DIR=$(pwd)
 
       - name: Install & Start SurrealDB
         run: |
@@ -34,7 +36,13 @@ jobs:
 
       - name: Run migrations & seeders
         run: |
-          cd $ROOT_DIR/server && npm run dev:fresh
+          cd $ROOT_DIR/server
+          npm run dev:fresh
+
+      - name: Run web-app
+        run: |
+          cd $ROOT_DIR/web
+          npm run preview &
 
       - name: Install Playwright Browsers
         run: |
