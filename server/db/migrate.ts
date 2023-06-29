@@ -13,51 +13,63 @@ type MigrationFile = {
 
 const args = process.argv.slice(2);
 
-readDirectory(migrationFolderPath, async (err, files) => {
-  console.log('Running migration...');
+export default async function runMigration(
+  shouldCloseConnection = true
+): Promise<void> {
+  await new Promise((resolve, reject) =>
+    readDirectory(migrationFolderPath, async (err, files) => {
+      console.log('Running migration...');
 
-  if (err) {
-    console.error('Error reading migration folder:', err);
-    return;
-  }
+      if (err) {
+        console.error('Error reading migration folder:', err);
+        return reject();
+      }
 
-  await initSurrealDbRootConnection();
-  await createMigrationTable();
+      await initSurrealDbRootConnection();
+      await createMigrationTable();
 
-  // Filter out non-SQL files and sort them by filename
-  const sqlFiles = files
-    .filter((file) => path.extname(file) === '.sql')
-    .sort()
-    .map<MigrationFile>((file) => ({
-      filename: file,
-      fullPath: path.join(migrationFolderPath, file),
-    }));
+      // Filter out non-SQL files and sort them by filename
+      const sqlFiles = files
+        .filter((file) => path.extname(file) === '.sql')
+        .sort()
+        .map<MigrationFile>((file) => ({
+          filename: file,
+          fullPath: path.join(migrationFolderPath, file),
+        }));
 
-  let total = 0;
-  for (const sqlFile of sqlFiles) {
-    const isMigrated = await isAlreadyMigrated(sqlFile);
-    if (isMigrated) {
-      continue;
-    }
+      let total = 0;
+      for (const sqlFile of sqlFiles) {
+        const isMigrated = await isAlreadyMigrated(sqlFile);
+        if (isMigrated) {
+          continue;
+        }
 
-    console.log('Migrating ' + sqlFile.filename);
-    await migrate(sqlFile);
-    console.log('Migrated ' + sqlFile.filename);
+        console.log('Migrating ' + sqlFile.filename);
+        await migrate(sqlFile);
+        console.log('Migrated ' + sqlFile.filename);
 
-    total++;
-  }
+        total++;
+      }
 
-  if (total > 0) {
-    console.log('Migration is done. Closing the db connection...');
-  } else {
-    console.log('Nothing to migrate. Closing the db connection...');
-  }
+      if (total > 0) {
+        console.log('Migration is done.');
+      } else {
+        console.log('Nothing to migrate.');
+      }
 
-  await db.close();
+      if (shouldCloseConnection) {
+        console.log('Closing DB connection...');
 
-  console.log('DB closed.');
-  console.log('Migration finished.');
-});
+        await db.close();
+
+        console.log('DB closed.');
+      }
+
+      resolve('');
+      console.log('Migration finished.');
+    })
+  );
+}
 
 async function createMigrationTable() {
   let additionalSql = '';

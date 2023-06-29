@@ -3,10 +3,16 @@ import env from '../env';
 
 export const db = new Surreal(env.surrealDbEndpoint);
 
+let isInitialized = false;
+
 /**
  * Full power root user
  */
 export const initSurrealDbRootConnection = async (): Promise<void> => {
+  if (isInitialized) {
+    return;
+  }
+
   await db.signin({
     user: env.surrealDbUser,
     pass: env.surrealDbPass,
@@ -16,4 +22,6 @@ export const initSurrealDbRootConnection = async (): Promise<void> => {
     ns: env.surrealDbNamespace,
     db: env.surrealDbName,
   });
+
+  isInitialized = true;
 };

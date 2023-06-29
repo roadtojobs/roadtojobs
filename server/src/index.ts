@@ -1,5 +1,6 @@
 import { initSurrealDbRootConnection } from '@db';
 import initServer from './server';
+import runMigration from '../db/migrate';
 
 async function main(): Promise<void> {
   console.log(
@@ -13,6 +14,8 @@ async function main(): Promise<void> {
   console.info('\x1b[33mConnecting to DB...');
   await initSurrealDbRootConnection();
   console.info('\x1b[32mDB connected.');
+
+  await runMigration(false);
 
   console.info('\x1b[33mStarting Express Server...');
   await initServer();
