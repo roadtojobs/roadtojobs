@@ -13,6 +13,12 @@ type MigrationFile = {
 
 const args = process.argv.slice(2);
 
+// to know if we are running this script directly
+// if yes, trigger the migration then stop.
+if (process.mainModule?.filename.includes('migrate.ts')) {
+  runMigration();
+}
+
 export default async function runMigration(
   shouldCloseConnection = true
 ): Promise<void> {

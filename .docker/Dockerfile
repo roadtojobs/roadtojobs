@@ -1,20 +1,18 @@
-FROM node:18.16-alpine
+FROM node:18.16-bullseye-slim
 
-RUN set -uex; \
-    apk update; \
-    apk add py-pip; \
-    pip install supervisor supervisor-stdout; \
-    apk add nginx;
+RUN apt update && apt install -y nginx supervisor curl bash
 
 # Install surrealDB
 RUN curl -sSf https://install.surrealdb.com | sh
+
+RUN mkdir -p /var/log/supervisor/
 
 WORKDIR /home/app
 
 COPY . .
 
 # Init all monorepos
-RUN bash ./bin/bootstrap.sh
+# RUN bash ./bin/bootstrap.sh
 
 # Build Web
 WORKDIR /home/app/web
@@ -26,7 +24,9 @@ COPY ./.docker/roadtojobs-vhost.conf /etc/nginx/conf.d/default.conf
 
 WORKDIR /home/app
 
-EXPOSE 80 8000 3553
+RUN chmod -R 777 /home/app/server/start.sh
+
+EXPOSE 80 8000 3333
 
 # Start ALL services
-CMD ["/usr/local/bin/supervisord", "-n"]
+CMD ["/usr/bin/supervisord", "-n"]
