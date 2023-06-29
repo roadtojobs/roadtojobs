@@ -74,7 +74,7 @@
       :is-open="isOpenFinalStageNoteModal"
       :stage="finalNoteStage"
       :journey-item="finalNoteJourneyItem"
-      @added-note="addedCompanyNote"
+      @added-note="onAddedFinalNote"
     />
   </Modal>
 </template>
@@ -158,6 +158,11 @@ const onUpdatedJourneyItem = (updatedValues: EditJourneyItem) => {
   }
 
   emits('journey-item-updated', props.journeyItem.id, updatedValues);
+  loadAllActivities();
+};
+
+const onAddedFinalNote = () => {
+  addedCompanyNote();
   loadAllActivities();
 };
 
