@@ -45,6 +45,7 @@
         <Textarea
           label=""
           rows="8"
+          id="company_description"
           placeholder="The information of this company. Markdown supported"
           :model-value="description"
           :error="errorsBag.get('description')"

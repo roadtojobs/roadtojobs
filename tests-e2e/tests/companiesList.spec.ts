@@ -69,4 +69,35 @@ test('Can edit a company in slideover', async ({ page }) => {
   await expect(
     page.getByRole('button', { name: 'Cancel', exact: true })
   ).toBeVisible();
+
+  // fill and real edit
+  await page.locator('#company_name').fill('A new name begin');
+  await page.locator('#company_country_code').fill(`VN`);
+  await page.locator('#company_homepage').fill('https://new-homepage.com');
+  await page.locator('#company_description').fill('I think, I believe');
+
+  await page.getByRole('button', { name: 'Submit', exact: true }).click();
+
+  await page.getByTestId('view-company-name').waitFor();
+
+  // assert behaviour
+  await expect(
+    await page.getByTestId('view-company-name').textContent()
+  ).toEqual('A new name begin');
+  await expect(
+    await page.getByTestId('view-company-country-code').textContent()
+  ).toContain('VN');
+  await expect(
+    await page.getByTestId('view-company-homepage').textContent()
+  ).toContain('https://new-homepage.com');
+  await expect(
+    await page.getByTestId('view-company-description').textContent()
+  ).toContain('I think, I believe');
+
+  await expect(
+    page.getByRole('button', { name: 'Edit', exact: true })
+  ).toBeVisible();
+  await expect(
+    page.getByRole('button', { name: 'Close', exact: true })
+  ).toBeVisible();
 });
