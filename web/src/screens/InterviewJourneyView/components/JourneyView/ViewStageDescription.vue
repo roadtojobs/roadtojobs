@@ -8,7 +8,9 @@
       {{ stage.name }}
     </a>
     <span
-      v-if="!interviewJourney.endedAt && isDesktop"
+      v-if="
+        !interviewJourney.endedAt && !interviewJourney.archivedAt && isDesktop
+      "
       class="add-company hidden select-none"
       @click="$emit('add-company', stage)"
     >
@@ -64,7 +66,11 @@ const isOpen = ref(false);
 const { isDesktop, isMobile } = useViewingMode();
 
 const openModal = () => {
-  if (isMobile.value) {
+  if (
+    isMobile.value &&
+    !props.interviewJourney.endedAt &&
+    !props.interviewJourney.archivedAt
+  ) {
     return emits('add-company', props.stage);
   }
 
