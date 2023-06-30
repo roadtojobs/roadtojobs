@@ -26,7 +26,7 @@ WORKDIR /home/app
 
 RUN chmod -R 777 /home/app/server/start.sh
 
-EXPOSE 80 8000 3333
+EXPOSE 80 8000 3553
 
 # Start ALL services
 CMD ["/usr/bin/supervisord", "-n"]
