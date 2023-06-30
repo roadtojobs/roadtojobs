@@ -19,8 +19,8 @@ WORKDIR /home/app/web
 RUN npm run build && rm -rf node_modules
 
 # Final configs
-COPY ./.docker/roadtojobs-workers.conf /etc/supervisor/conf.d/
-COPY ./.docker/roadtojobs-vhost.conf /etc/nginx/conf.d/default.conf
+COPY ./.docker/supervisord/roadtojobs-workers.conf /etc/supervisor/conf.d/
+COPY ./.docker/nginx/roadtojobs-vhost.conf /etc/nginx/conf.d/default.conf
 RUN rm /etc/nginx/sites-enabled/default
 
 WORKDIR /home/app
