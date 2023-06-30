@@ -9,7 +9,10 @@
     </a>
     <span
       v-if="
-        !interviewJourney.endedAt && !interviewJourney.archivedAt && isDesktop
+        !disabledAdd &&
+        !interviewJourney.endedAt &&
+        !interviewJourney.archivedAt &&
+        isDesktop
       "
       class="add-company hidden select-none"
       @click="$emit('add-company', stage)"
@@ -52,6 +55,7 @@ import { useViewingMode } from '@/composable/useViewingMode';
 type ViewStageDescriptionProps = {
   interviewJourney: Journey;
   stage: Stage;
+  disabledAdd?: boolean;
 };
 
 type ViewStageDescriptionEmits = {

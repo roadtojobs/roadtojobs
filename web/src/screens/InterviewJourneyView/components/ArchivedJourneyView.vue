@@ -31,6 +31,7 @@
                 <ViewStageDescription
                   :interview-journey="journey"
                   :stage="stage"
+                  disabled-add
                   @add-company="true"
                 />
               </td>
