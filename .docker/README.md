@@ -11,6 +11,10 @@ We are utilizing `supervisord` (process manager) to run & manage the 3 processes
 - `8000`: surrealDB
 - `3553`: server
 
+## Volume
+
+- SurrealDB filesystem: `/home/app/server/db/local.db`
+
 ## Getting started
 
 ```bash
@@ -20,6 +24,7 @@ docker run \
   -p 80:80 \
   -p 8000:8000 \
   -p 3553:3553 \
+  -v ./db:/home/app/server/db/local.db
   roadtojobs:latest
 ```
 
