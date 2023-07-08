@@ -10,6 +10,8 @@ Just as every journey holds significance, the same can be said for the numerous 
 
 Make it a point to diligently record and monitor every aspect of your interview journey with each company 🔥.
 
+![RoadToJob's Journey Management](./.github/imgs/demo.gif)
+
 ## Key Features 🚀
 
 RoadToJobs helps you to:
