@@ -25,39 +25,17 @@ jobs:
             username: ${{ github.actor }}
             password: ${{ secrets.GITHUB_TOKEN }}
 
-      -   name: Extract metadata (tags, labels) for Normal Image
+      -   name: Extract metadata (tags, labels)
           id: meta
           uses: docker/metadata-action@v2
           with:
             images: ${{ env.REGISTRY }}/${{ env.IMAGE }}
 
-      -   name: Extract metadata (tags, labels) for Octane Image
-          id: octanemeta
-          uses: docker/metadata-action@v2
-          with:
-            images: ${{ env.REGISTRY }}/${{ env.OCTANE_IMAGE }}
-
-      -   name: Setup PHP with coverage driver
-          uses: shivammathur/setup-php@v2
-          with:
-            php-version: 8.2
-            coverage: pcov
-
-      -   name: Setup Node 16
+      -   name: Setup Node 18
           uses: actions/setup-node@v3
           with:
-            node-version: 16
+            node-version: 18
             cache: 'npm'
-
-      -   name: Setup & Build
-          if: success()
-          run: |
-            composer install --no-interaction
-            echo "$DEV_IMAGE_ENV" > .env
-            touch docking.sqlite
-            php artisan key:generate
-
-            npm ci && npm run build
 
       -   name: Build and push to GitHub Registry
           uses: docker/build-push-action@v4
