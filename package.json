@@ -1,7 +1,7 @@
 {
   "name": "road-to-jobs",
-  "version": "0.0.1",
-  "author": "Seth Phat (me@sethphat.com)",
+  "version": "1.0.0",
+  "author": "Seth Phat (admin@sethphat.com)",
   "scripts": {
     "bootstrap": "sh ./bin/bootstrap.sh",
     "format": "npx prettier --write './server' './web' './shared'"
