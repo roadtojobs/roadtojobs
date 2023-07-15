@@ -1,8 +1,8 @@
 import vue from '@vitejs/plugin-vue';
-import { fileURLToPath, URL } from 'node:url';
 import AutoImport from 'unplugin-auto-import/vite';
 import { defineConfig } from 'vite';
 import { version as pkgVersion } from './package.json';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 process.env.VITE_APP_VERSION = pkgVersion;
 if (process.env.NODE_ENV === 'production') {
@@ -11,6 +11,7 @@ if (process.env.NODE_ENV === 'production') {
 
 export default defineConfig({
   plugins: [
+    tsconfigPaths(),
     vue(),
     AutoImport({
       imports: ['vue', 'vue-router'],
@@ -20,10 +21,4 @@ export default defineConfig({
       },
     }),
   ],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-      shared: fileURLToPath(new URL('../shared/src', import.meta.url)),
-    },
-  },
 });

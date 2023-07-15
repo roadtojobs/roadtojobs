@@ -47,12 +47,15 @@ jobs:
           sleep 5
           curl http://localhost:3000
 
-      - name: Install Playwright Browsers
+      - name: Install Playwright Chromium
         run: |
-          npx playwright install --with-deps
+          cd $ROOT_DIR/tests-e2e
+          npx playwright install --with-deps chromium
+
 
       - name: Run E2E tests for RoadToJobs
         run: |
-          cd $ROOT_DIR/tests-e2e && npx playwright test
+          cd $ROOT_DIR/tests-e2e
+          npm run start:ci
 
 
