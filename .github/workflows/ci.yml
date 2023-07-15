@@ -49,12 +49,13 @@ jobs:
 
       - name: Install Playwright Chromium
         run: |
+          cd $ROOT_DIR/tests-e2e
           npx playwright install --with-deps chromium
-          npx playwright --version
-          npx playwright install
+
 
       - name: Run E2E tests for RoadToJobs
         run: |
-          cd $ROOT_DIR/tests-e2e && npm run start:ci
+          cd $ROOT_DIR/tests-e2e
+          npm run start:ci
 
 
