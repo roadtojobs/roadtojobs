@@ -1,6 +1,5 @@
 <template>
   <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-    <!-- Sidebar component, swap this element with another sidebar if you like -->
     <div
       class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6"
     >
@@ -52,6 +51,7 @@
             </ul>
           </li>
           <li class="-mx-6 mt-auto">
+            <LatestJourneyBox v-if="currentUser.isUserReady" />
             <a
               href="https://github.com/roadtojobs/roadtojobs"
               target="_blank"
@@ -74,7 +74,9 @@
 
 <script setup lang="ts">
 import { MenuItem } from '@/types/layout';
-import useMenuItemClick from '@/layouts/components/useMenuItemClick';
+import useMenuItemClick from '@/layouts/composables/useMenuItemClick';
+import LatestJourneyBox from '@/layouts/components/LatestJourneyBox.vue';
+import { useCurrentUser } from '@/stores/useCurrentUser';
 
 defineProps<{
   menuItems: MenuItem[];
@@ -84,6 +86,8 @@ defineProps<{
 const emit = defineEmits<{
   (e: 'selected', menuItem: MenuItem): void;
 }>();
+
+const currentUser = useCurrentUser();
 
 const { onMenuItemClick } = useMenuItemClick({
   onBeforeHandle(menuItem: MenuItem) {

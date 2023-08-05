@@ -8,10 +8,19 @@
       />
     </div>
     <nav class="flex flex-1 flex-col">
-      <ul role="list" class="flex flex-1 flex-col gap-y-7">
+      <ul
+        role="list"
+        class="flex flex-1 flex-col gap-y-7"
+      >
         <li>
-          <ul role="list" class="-mx-2 space-y-1">
-            <li v-for="item in menuItems" :key="item.id">
+          <ul
+            role="list"
+            class="-mx-2 space-y-1"
+          >
+            <li
+              v-for="item in menuItems"
+              :key="item.id"
+            >
               <a
                 href="javascript:void(0)"
                 :class="[
@@ -37,6 +46,9 @@
             </li>
           </ul>
         </li>
+        <li>
+          <LatestJourneyBox v-if="currentUser.isUserReady" />
+        </li>
       </ul>
     </nav>
   </div>
@@ -44,7 +56,9 @@
 
 <script setup lang="ts">
 import { MenuItem } from '@/types/layout';
-import useMenuItemClick from '@/layouts/components/useMenuItemClick';
+import useMenuItemClick from '@/layouts/composables/useMenuItemClick';
+import LatestJourneyBox from '@/layouts/components/LatestJourneyBox.vue';
+import { useCurrentUser } from '@/stores/useCurrentUser';
 
 defineProps<{
   menuItems: MenuItem[];
@@ -54,6 +68,8 @@ defineProps<{
 const emit = defineEmits<{
   (e: 'selected', menuItem: MenuItem): void;
 }>();
+
+const currentUser = useCurrentUser();
 
 const { onMenuItemClick } = useMenuItemClick({
   onBeforeHandle(menuItem: MenuItem) {

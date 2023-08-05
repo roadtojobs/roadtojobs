@@ -147,4 +147,22 @@ export const journeyRepo = {
 
     return Number(result.result[0].total) || 0;
   },
+
+  async getLatestActiveJourney(): Promise<Journey | undefined> {
+    const [result] = await dbClient.query<JourneyTable[][]>(`
+       SELECT *
+       FROM ${TABLES.JOURNEY}
+       WHERE
+         (archived_at = NONE OR archived_at = NULL) AND
+         (ended_at = NONE OR ended_at = NULL)
+       ORDER BY created_at DESC
+       LIMIT 1
+    `);
+
+    if (result.status === 'ERR' || !result.result[0]) {
+      return;
+    }
+
+    return interviewJourneyTableToInterviewJourney(result.result[0]);
+  },
 };
