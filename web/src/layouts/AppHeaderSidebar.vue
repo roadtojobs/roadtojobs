@@ -195,5 +195,7 @@ const onSelectedMenuItem = (menuItem: MenuItem) => {
   activeMenuItem.value = {
     ...menuItem,
   };
+
+  sidebarOpen.value = false;
 };
 </script>

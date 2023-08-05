@@ -20,6 +20,7 @@ export const useCurrentUser = defineStore('currentUser', () => {
   };
 
   const userId = computed(() => user.value.id);
+  const isUserReady = computed(() => !!user.value.id);
 
-  return { user, setUser, userId };
+  return { user, setUser, userId, isUserReady };
 });
