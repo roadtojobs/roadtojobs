@@ -51,6 +51,7 @@
       </div>
     </div>
   </div>
+  <FloatingAddJourneyItem @add="() => onClickAddCompany(activeStages[0])" />
   <AddJourneyItemModal
     v-if="addCompanyStage"
     :is-open="isShowAddCompanyModal"
@@ -91,6 +92,7 @@ import { useCurrentUser } from '@/stores/useCurrentUser';
 import { computed } from 'vue';
 import { useFinalStageNote } from '@/screens/InterviewJourneyView/composables/useFinalStageNote';
 import AddNoteFinalStageModal from '@/screens/InterviewJourneyView/components/ActionModals/AddNoteFinalStageModal.vue';
+import FloatingAddJourneyItem from '@/screens/InterviewJourneyView/components/FloatingAddJourneyItem/FloatingAddJourneyItem.vue';
 
 type JourneyViewProps = {
   interviewJourney: Journey;
