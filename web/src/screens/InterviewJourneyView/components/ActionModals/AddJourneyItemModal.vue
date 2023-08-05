@@ -154,6 +154,7 @@ import ComboboxApi from '@/components/Combobox/ComboboxApi.vue';
 import { companyRepo } from '@/repositories/company.repo';
 import useValidation from '@/composable/useValidation';
 import {
+  AddedJourneyItem,
   CompanyComboboxItem,
   createJourneyItem,
   CreateJourneyItem,
@@ -178,7 +179,7 @@ type AddCompanyModalProps = {
 
 type AddCompanyModalEmits = {
   (e: 'close'): void;
-  (e: 'created'): void;
+  (e: 'created', journey: AddedJourneyItem): void;
 };
 
 const props = defineProps<AddCompanyModalProps>();
@@ -266,7 +267,10 @@ const onClickSubmit = async () => {
     text: `Your journey item is created. Let's get started 🔥`,
   });
 
-  emits('created');
+  emits('created', {
+    journeyItemId: creationResult.id,
+    stageId: form.value.stageId,
+  });
 };
 
 //**********

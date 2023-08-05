@@ -40,3 +40,8 @@ export const getMode = (company: Company): ComboboxItemMode => {
 
   return 'green';
 };
+
+export type AddedJourneyItem = {
+  journeyItemId: string;
+  stageId: string;
+};

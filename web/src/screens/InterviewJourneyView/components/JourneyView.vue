@@ -124,8 +124,12 @@ const {
   onCloseAddCompany,
   onClickAddCompany,
   onCreatedJourneyItem,
-} = useAddCompany(async () => {
+} = useAddCompany(async (addedJourneyItem) => {
   await refreshJourneyItems().then(rerenderTable);
+  openFinalStageNoteModal({
+    journeyItemId: addedJourneyItem.journeyItemId,
+    wantedStageId: addedJourneyItem.stageId,
+  });
 });
 
 // View Journey Item Feature

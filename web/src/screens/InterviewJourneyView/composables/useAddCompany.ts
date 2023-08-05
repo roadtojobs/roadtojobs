@@ -1,6 +1,9 @@
 import { Stage } from 'shared/entities/stage.entity';
+import { AddedJourneyItem } from '@/screens/InterviewJourneyView/components/ActionModals/AddJourneyItemModal.methods';
 
-export const useAddCompany = (refreshJourneyItems: () => Promise<void>) => {
+export const useAddCompany = (
+  afterAdded: (addedJourneyItem: AddedJourneyItem) => Promise<void>
+) => {
   const addCompanyStage = ref<Stage | null>(null);
   const isShowAddCompanyModal = ref(false);
 
@@ -14,9 +17,9 @@ export const useAddCompany = (refreshJourneyItems: () => Promise<void>) => {
     isShowAddCompanyModal.value = false;
   };
 
-  const onCreatedJourneyItem = () => {
-    refreshJourneyItems();
+  const onCreatedJourneyItem = (addedJourneyItem: AddedJourneyItem) => {
     onCloseAddCompany();
+    afterAdded(addedJourneyItem);
   };
 
   return {
