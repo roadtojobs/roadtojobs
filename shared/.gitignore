@@ -6,4 +6,3 @@ auth.json
 npm-debug.log
 yarn-error.log
 dist
-tsconfig.tsbuildinfo
