@@ -7,12 +7,11 @@
       >
         Comment
       </label>
-      <Textarea
+      <MarkdownEditor
         v-model="form.comment"
-        label=""
         placeholder="Leave a note, comment for your journey item. Markdown supported!"
-        rows="4"
         :error="errorsBag.get('comment')"
+        :height="200"
       />
     </div>
     <div class="mt-6 flex items-center justify-end space-x-4">
@@ -38,7 +37,6 @@
 
 <script setup lang="ts">
 import { XCircleIcon, DocumentPlusIcon } from '@heroicons/vue/24/outline';
-import Textarea from '@/components/Textarea/Textarea.vue';
 import { JourneyItem } from 'shared/entities/journeyItem.entity';
 import { useLoading } from '@/composable/useLoading';
 import useValidation from '@/composable/useValidation';
@@ -53,6 +51,7 @@ import Button from '@/components/Button/Button.vue';
 import { journeyItemRepo } from '@/repositories/journeyItem.repo';
 import { useGlobalStages } from '@/stores/useGlobalStages';
 import { useCurrentJourney } from '@/stores/useCurrentJourney';
+import MarkdownEditor from '@/components/MarkdownEditor/MarkdownEditor.vue';
 
 type NoteCommentFormProps = {
   journeyItem: JourneyItem;
