@@ -12,6 +12,7 @@
         :height="height"
         :throttle-in-ms="500"
         :class="['markdown-editor']"
+        :placeholder="$attrs.placeholder"
         @update:modelValue="onInput"
       />
       <div

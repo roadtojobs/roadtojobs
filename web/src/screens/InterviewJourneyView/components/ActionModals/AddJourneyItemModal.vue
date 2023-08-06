@@ -57,7 +57,7 @@
           <MarkdownEditor
             v-model="form.description"
             label="Description"
-            placeholder="Write a really detailed information about this company. Markdown syntax supported..."
+            placeholder="Write a really detailed information about the position, the finding,..."
             :error="errorsBag.get('description')"
           />
           <ColorPicker

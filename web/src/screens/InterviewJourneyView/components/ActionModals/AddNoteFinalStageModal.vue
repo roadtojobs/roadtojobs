@@ -36,11 +36,10 @@
         />
       </div>
       <div class="mt-2">
-        <Textarea
+        <MarkdownEditor
           v-model="form.feelingNote"
           label="Feeling Note (Optional)"
           :placeholder="notePlaceholder"
-          rows="4"
         />
       </div>
       <div
@@ -60,19 +59,17 @@
         v-if="stage.isBadStage"
         class="mt-2"
       >
-        <Textarea
+        <MarkdownEditor
           v-model="form.opinionNote"
           label="Opinion Note (Optional)"
           :placeholder="notePlaceholder"
-          rows="4"
         />
       </div>
       <div class="mt-2">
-        <Textarea
+        <MarkdownEditor
           v-model="form.note"
           label="Other Notes (if any, optional)"
           :placeholder="notePlaceholder"
-          rows="4"
         />
       </div>
     </div>
@@ -97,13 +94,13 @@ import {
   getBadOpinionRadioItems,
   getFeelingRadioItems,
 } from '@/screens/InterviewJourneyView/components/ActionModals/AddNoteFinalStageModal.methods';
-import Textarea from '@/components/Textarea/Textarea.vue';
 import Button from '@/components/Button/Button.vue';
 import { useLoading } from '@/composable/useLoading';
 import { ref } from 'vue';
 import useValidation from '@/composable/useValidation';
 import { notify } from '@kyvg/vue3-notification';
 import { companyNoteRepo } from '@/repositories/companyNote.repo';
+import MarkdownEditor from '@/components/MarkdownEditor/MarkdownEditor.vue';
 
 type AddNoteFinalStageModalProps = {
   isOpen: boolean;
