@@ -3,10 +3,10 @@ import { Journey } from 'shared/entities/journey.entity';
 import { UpdateJourney } from '@/repositories/journey.repo';
 import Input from '@/components/Input/Input.vue';
 import MarkdownContent from '@/components/MarkdownContent/MarkdownContent.vue';
-import Textarea from '@/components/Textarea/Textarea.vue';
 import { getDisplayDate, parseServerDate } from '@/utils/date';
 import { VueComponent } from '@/types';
 import FinalizeJourneyButton from '@/screens/InterviewJourneyView/components/InfoView/FinalizeJourneyButton.vue';
+import MarkdownEditor from '@/components/MarkdownEditor/MarkdownEditor.vue';
 
 type Props = {
   journey: ComputedRef<Journey>;
@@ -56,9 +56,8 @@ export const useInfoViewRenderItems = ({
         Text: () => h(MarkdownContent, () => journey.value.description),
         key: 'description',
         EditComponent: () =>
-          h(Textarea, {
+          h(MarkdownEditor, {
             modelValue: editForm.value.description,
-            rows: 8,
             error: errorsBag.value.get('description'),
             'onUpdate:modelValue'(value: string | undefined) {
               editForm.value.description = value || '';
@@ -73,9 +72,8 @@ export const useInfoViewRenderItems = ({
             : h('span', { innerText: '-' }),
         key: 'note',
         EditComponent: () =>
-          h(Textarea, {
+          h(MarkdownEditor, {
             modelValue: editForm.value.note || '',
-            rows: 8,
             error: errorsBag.value.get('note'),
             'onUpdate:modelValue'(value: string | undefined) {
               editForm.value.note = value || '';

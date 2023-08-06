@@ -54,11 +54,10 @@
             v-if="form.company"
             :company="form.company"
           />
-          <Textarea
+          <MarkdownEditor
             v-model="form.description"
             label="Description"
-            rows="6"
-            placeholder="Write a really detailed information about this company. Markdown syntax supported..."
+            placeholder="Write a really detailed information about the position, the finding,..."
             :error="errorsBag.get('description')"
           />
           <ColorPicker
@@ -98,11 +97,10 @@
             placeholder="https://"
             :error="addCompanyErrors.get('homepage')"
           />
-          <Textarea
+          <MarkdownEditor
             v-model="addCompanyForm.description"
             label="Description (Optional)"
             placeholder="Markdown supported"
-            rows="6"
             :error="addCompanyErrors.get('description')"
           />
         </form>
@@ -147,7 +145,6 @@
 import { Stage } from 'shared/entities/stage.entity';
 import Modal from '@/components/Modal/Modal.vue';
 import Button from '@/components/Button/Button.vue';
-import Textarea from '@/components/Textarea/Textarea.vue';
 import { useGlobalStages } from '@/stores/useGlobalStages';
 import Dropdown from '@/components/Dropdown/Dropdown.vue';
 import ComboboxApi from '@/components/Combobox/ComboboxApi.vue';
@@ -171,6 +168,7 @@ import { useCreateNewCompany } from '@/screens/InterviewJourneyView/composables/
 import { TransitionRoot } from '@headlessui/vue';
 import Input from '@/components/Input/Input.vue';
 import CompanyNoteInformation from '@/screens/InterviewJourneyView/components/AddJourneyItemModal/CompanyNoteInformation.vue';
+import MarkdownEditor from '@/components/MarkdownEditor/MarkdownEditor.vue';
 
 type AddCompanyModalProps = {
   stage: Stage;

@@ -8,12 +8,11 @@
       <MarkdownContent>{{ journeyItem.description }}</MarkdownContent>
     </div>
     <div v-else>
-      <Textarea
-        label=""
+      <MarkdownEditor
         :model-value="modelValue"
-        @update:model-value="(value) => $emit('update:modelValue', value)"
-        rows="8"
         :error="error"
+        :height="450"
+        @update:model-value="(value) => $emit('update:modelValue', value)"
       />
     </div>
   </div>
@@ -22,7 +21,7 @@
 <script setup lang="ts">
 import MarkdownContent from '@/components/MarkdownContent/MarkdownContent.vue';
 import { JourneyItem } from 'shared/entities/journeyItem.entity';
-import Textarea from '@/components/Textarea/Textarea.vue';
+import MarkdownEditor from '@/components/MarkdownEditor/MarkdownEditor.vue';
 
 type JourneyItemDescriptionProps = {
   journeyItem: JourneyItem;

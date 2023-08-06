@@ -21,4 +21,15 @@ export default defineConfig({
       },
     }),
   ],
+  build: {
+    reportCompressedSize: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          sortablejs: ['sortablejs'],
+          editor: ['@wysimark/vue'],
+        },
+      },
+    },
+  },
 });

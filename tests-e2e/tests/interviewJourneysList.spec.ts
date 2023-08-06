@@ -11,6 +11,9 @@ test('Can visit interview journeys list', async ({ page }) => {
 test('Can create a new journey', async ({ page }) => {
   await page.goto('/interview-journeys');
 
+  const allMsgs = [];
+  page.on('console', (msg) => allMsgs.push(msg.text()));
+
   const openModalBtn = page.getByText('Create new Journey');
   await openModalBtn.waitFor();
   await openModalBtn.click();
@@ -26,12 +29,17 @@ test('Can create a new journey', async ({ page }) => {
 
   // input then submit
   await page.locator('#journey_name').fill(`Test journey at ${Date.now()}`);
-  await page.locator('#journey_description').fill(`This is a test journey`);
   await page.locator('#journey_date').fill('2023-01-02');
-  await page.locator('#journey_goal').fill('Increase income');
+  await page.locator('#journey_goal [role="textbox"]').type('Increase income');
+  await page
+    .locator('#journey_description [role="textbox"]')
+    .type(`This is a test journey`);
+
+  await page.waitForTimeout(2000);
 
   await page.getByRole('button', { name: 'Create' }).click({
     force: true,
+    clickCount: 2,
   });
 
   // redirect to new page

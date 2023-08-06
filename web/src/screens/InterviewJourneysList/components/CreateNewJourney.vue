@@ -22,12 +22,11 @@
         placeholder="Put a lovely name for a big inspiration"
         :error="errorsBag.get('name')"
       />
-      <Textarea
+      <MarkdownEditor
         v-model="interviewJourney.description"
         id="journey_description"
         label="Journey Description"
-        placeholder="Give the journey some details. Markdown supported"
-        rows="6"
+        placeholder="Give the journey some details."
         :error="errorsBag.get('description')"
       />
       <Input
@@ -37,12 +36,11 @@
         label="Journey Start Date"
         :error="errorsBag.get('startDate')"
       />
-      <Textarea
+      <MarkdownEditor
         v-model="interviewJourney.note"
         id="journey_goal"
         label="Personal Goal/Note (Optional)"
-        placeholder="Always a good idea to note down the desired goals, notes. Markdown supported"
-        rows="6"
+        placeholder="Always a good idea to note down the desired goals, notes."
       />
     </form>
     <template #bottom-buttons>
@@ -73,7 +71,6 @@ import {
   createInterviewJourney,
   CreateInterviewJourney,
 } from '@/screens/InterviewJourneysList/InterviewJourneysList.methods';
-import Textarea from '@/components/Textarea/Textarea.vue';
 import useValidation from '@/composable/useValidation';
 import { journeyRepo } from '@/repositories/journey.repo';
 import { useCurrentUser } from '@/stores/useCurrentUser';
@@ -81,6 +78,7 @@ import { useRouter } from 'vue-router';
 import { pickThingId } from '@/utils/surrealThing';
 import { notify } from '@kyvg/vue3-notification';
 import { getServerDateNow } from '@/utils/date';
+import MarkdownEditor from '@/components/MarkdownEditor/MarkdownEditor.vue';
 
 const currentUser = useCurrentUser();
 const router = useRouter();

@@ -58,4 +58,12 @@ jobs:
           cd $ROOT_DIR/tests-e2e
           npm run start:ci
 
+      - uses: actions/upload-artifact@v3
+        name: Store artifacts
+        if: always()
+        with:
+          name: playwright-report
+          path: /home/runner/work/roadtojobs/roadtojobs/tests-e2e/playwright-report/
+          retention-days: 3
+
 
