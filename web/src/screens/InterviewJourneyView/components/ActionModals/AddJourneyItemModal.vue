@@ -54,10 +54,9 @@
             v-if="form.company"
             :company="form.company"
           />
-          <Textarea
+          <MarkdownEditor
             v-model="form.description"
             label="Description"
-            rows="6"
             placeholder="Write a really detailed information about this company. Markdown syntax supported..."
             :error="errorsBag.get('description')"
           />
@@ -171,6 +170,7 @@ import { useCreateNewCompany } from '@/screens/InterviewJourneyView/composables/
 import { TransitionRoot } from '@headlessui/vue';
 import Input from '@/components/Input/Input.vue';
 import CompanyNoteInformation from '@/screens/InterviewJourneyView/components/AddJourneyItemModal/CompanyNoteInformation.vue';
+import MarkdownEditor from '@/components/MarkdownEditor/MarkdownEditor.vue';
 
 type AddCompanyModalProps = {
   stage: Stage;

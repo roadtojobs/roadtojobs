@@ -16,6 +16,7 @@
     "@tanstack/vue-table": "^8.9.1",
     "@types/dompurify": "^3.0.2",
     "@types/marked": "^5.0.0",
+    "@wysimark/vue": "^2.8.3",
     "dayjs": "^1.11.8",
     "dompurify": "^3.0.3",
     "marked": "^5.1.0",
