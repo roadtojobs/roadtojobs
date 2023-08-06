@@ -71,7 +71,6 @@ import {
   createInterviewJourney,
   CreateInterviewJourney,
 } from '@/screens/InterviewJourneysList/InterviewJourneysList.methods';
-import Textarea from '@/components/Textarea/Textarea.vue';
 import useValidation from '@/composable/useValidation';
 import { journeyRepo } from '@/repositories/journey.repo';
 import { useCurrentUser } from '@/stores/useCurrentUser';

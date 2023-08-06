@@ -3,7 +3,6 @@ import { Journey } from 'shared/entities/journey.entity';
 import { UpdateJourney } from '@/repositories/journey.repo';
 import Input from '@/components/Input/Input.vue';
 import MarkdownContent from '@/components/MarkdownContent/MarkdownContent.vue';
-import Textarea from '@/components/Textarea/Textarea.vue';
 import { getDisplayDate, parseServerDate } from '@/utils/date';
 import { VueComponent } from '@/types';
 import FinalizeJourneyButton from '@/screens/InterviewJourneyView/components/InfoView/FinalizeJourneyButton.vue';
