@@ -75,7 +75,8 @@ test('Can edit a company in slideover', async ({ page }) => {
   await page.locator('#company_country_code').fill(`VN`);
   await page.locator('#company_homepage').fill('https://new-homepage.com');
   await page
-    .locator('#company_description [role="textbox"]')
+    .locator('#company_description')
+    .getByRole('textbox')
     .fill('I think, I believe');
 
   await page.getByRole('button', { name: 'Submit', exact: true }).click();

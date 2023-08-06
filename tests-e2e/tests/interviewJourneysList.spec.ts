@@ -27,10 +27,14 @@ test('Can create a new journey', async ({ page }) => {
   // input then submit
   await page.locator('#journey_name').fill(`Test journey at ${Date.now()}`);
   await page
-    .locator('#journey_description [role="textbox"]')
+    .locator('#journey_description')
+    .getByRole('textbox')
     .fill(`This is a test journey`);
   await page.locator('#journey_date').fill('2023-01-02');
-  await page.locator('#journey_goal').fill('Increase income');
+  await page
+    .locator('#journey_goal')
+    .getByRole('textbox')
+    .fill('Increase income');
 
   await page.getByRole('button', { name: 'Create' }).click({
     force: true,
