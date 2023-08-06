@@ -42,9 +42,7 @@
     <div class="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
       <dt class="text-sm font-medium leading-6 text-gray-900">Description</dt>
       <dd class="mt-1 prose-sm prose-ul:list-disc prose-ol:list-decimal">
-        <Textarea
-          label=""
-          rows="8"
+        <MarkdownEditor
           id="company_description"
           placeholder="The information of this company. Markdown supported"
           :model-value="description"
@@ -58,8 +56,8 @@
 
 <script setup lang="ts">
 import Input from '@/components/Input/Input.vue';
-import Textarea from '@/components/Textarea/Textarea.vue';
 import { CreateCompany } from '@/screens/InterviewJourneyView/composables/useCreateNewCompany';
+import MarkdownEditor from '@/components/MarkdownEditor/MarkdownEditor.vue';
 
 type EditModeProps = {
   name?: string;

@@ -145,7 +145,6 @@
 import { Stage } from 'shared/entities/stage.entity';
 import Modal from '@/components/Modal/Modal.vue';
 import Button from '@/components/Button/Button.vue';
-import Textarea from '@/components/Textarea/Textarea.vue';
 import { useGlobalStages } from '@/stores/useGlobalStages';
 import Dropdown from '@/components/Dropdown/Dropdown.vue';
 import ComboboxApi from '@/components/Combobox/ComboboxApi.vue';
