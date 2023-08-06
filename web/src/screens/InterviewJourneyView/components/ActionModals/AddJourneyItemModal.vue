@@ -97,11 +97,10 @@
             placeholder="https://"
             :error="addCompanyErrors.get('homepage')"
           />
-          <Textarea
+          <MarkdownEditor
             v-model="addCompanyForm.description"
             label="Description (Optional)"
             placeholder="Markdown supported"
-            rows="6"
             :error="addCompanyErrors.get('description')"
           />
         </form>
