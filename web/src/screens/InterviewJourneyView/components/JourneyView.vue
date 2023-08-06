@@ -51,7 +51,10 @@
       </div>
     </div>
   </div>
-  <FloatingAddJourneyItem @add="() => onClickAddCompany(activeStages[0])" />
+  <FloatingAddJourneyItem
+    v-if="!interviewJourney.archivedAt && !interviewJourney.endedAt"
+    @add="() => onClickAddCompany(activeStages[0])"
+  />
   <AddJourneyItemModal
     v-if="addCompanyStage"
     :is-open="isShowAddCompanyModal"
