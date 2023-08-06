@@ -9,11 +9,11 @@
       <Suspense>
         <wysimark
           :id="id"
-          :model-value="modelValue"
+          :model-value="modelValue || ''"
           :height="height"
           :throttle-in-ms="500"
           :class="['markdown-editor']"
-          :placeholder="$attrs.placeholder"
+          :placeholder="String($attrs.placeholder || '') || undefined"
           @update:modelValue="onInput"
         />
         <template #fallback> Loading... </template>
