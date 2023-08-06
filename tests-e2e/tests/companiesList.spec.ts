@@ -79,6 +79,12 @@ test('Can edit a company in slideover', async ({ page }) => {
   await page.locator('#company_name').fill('A new name begin');
   await page.locator('#company_country_code').fill(`VN`);
   await page.locator('#company_homepage').fill('https://new-homepage.com');
+  await page
+    .locator('#company_description')
+    .getByRole('textbox')
+    .type('A new description about Seth Phat');
+
+  await page.waitForTimeout(2000);
 
   await page.getByRole('button', { name: 'Submit', exact: true }).click();
 
@@ -94,6 +100,9 @@ test('Can edit a company in slideover', async ({ page }) => {
   await expect(
     await page.getByTestId('view-company-homepage').textContent()
   ).toContain('https://new-homepage.com');
+  await expect(
+    await page.getByTestId('view-company-description').textContent()
+  ).toContain('A new description about Seth Phat');
 
   await expect(
     page.getByRole('button', { name: 'Edit', exact: true })
