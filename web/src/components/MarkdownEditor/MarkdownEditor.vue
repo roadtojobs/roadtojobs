@@ -6,15 +6,18 @@
       :for="id"
     />
     <div class="relative mt-2 rounded-md shadow-sm">
-      <wysimark
-        :id="id"
-        :model-value="modelValue"
-        :height="height"
-        :throttle-in-ms="500"
-        :class="['markdown-editor']"
-        :placeholder="$attrs.placeholder"
-        @update:modelValue="onInput"
-      />
+      <Suspense>
+        <wysimark
+          :id="id"
+          :model-value="modelValue"
+          :height="height"
+          :throttle-in-ms="500"
+          :class="['markdown-editor']"
+          :placeholder="$attrs.placeholder"
+          @update:modelValue="onInput"
+        />
+        <template #fallback> Loading... </template>
+      </Suspense>
       <div
         v-if="error"
         class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
@@ -36,7 +39,7 @@
 
 <script setup lang="ts">
 import { ExclamationCircleIcon } from '@heroicons/vue/24/outline';
-import Wysimark from '@wysimark/vue';
+import { defineAsyncComponent } from 'vue';
 
 type MarkdownEditorProps = {
   id?: string;
@@ -46,16 +49,17 @@ type MarkdownEditorProps = {
   height?: number;
 };
 
-withDefaults(defineProps<MarkdownEditorProps>(), {
-  id: () => `markdown-editor-${Math.random()}`,
-  height: () => 300,
-});
-
 type MarkdownEditorEmits = {
   (e: 'update:modelValue', value: string | undefined): void;
 };
 
+withDefaults(defineProps<MarkdownEditorProps>(), {
+  id: () => `markdown-editor-${Math.random()}`,
+  height: () => 300,
+});
 const emits = defineEmits<MarkdownEditorEmits>();
+
+const Wysimark = defineAsyncComponent(() => import('@wysimark/vue'));
 
 const onInput = (value: string) => emits('update:modelValue', value);
 </script>
