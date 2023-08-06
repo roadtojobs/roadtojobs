@@ -26,7 +26,9 @@ test('Can create a new journey', async ({ page }) => {
 
   // input then submit
   await page.locator('#journey_name').fill(`Test journey at ${Date.now()}`);
-  await page.locator('#journey_description').fill(`This is a test journey`);
+  await page
+    .locator('#journey_description [role="textbox"]')
+    .fill(`This is a test journey`);
   await page.locator('#journey_date').fill('2023-01-02');
   await page.locator('#journey_goal').fill('Increase income');
 

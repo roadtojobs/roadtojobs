@@ -36,7 +36,9 @@
               leave-from="translate-x-0"
               leave-to="translate-x-full"
             >
-              <DialogPanel class="pointer-events-auto w-screen max-w-md">
+              <DialogPanel
+                class="pointer-events-auto w-screen max-w-[100%] md:max-w-[40rem]"
+              >
                 <div
                   class="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl"
                 >
