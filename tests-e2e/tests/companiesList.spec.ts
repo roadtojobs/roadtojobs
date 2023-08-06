@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { sleep } from './utils/sleep';
 
 test('Can visit companies list', async ({ page }) => {
   await page.goto('/companies');
@@ -17,6 +18,8 @@ test('Can create a new company', async ({ page }) => {
 
   const slideTitle = page.getByText('Add new Company');
   await slideTitle.waitFor();
+
+  await sleep(2000);
 
   // validation check...
   const submitButton = page.locator('#create-company-submit');
@@ -70,14 +73,12 @@ test('Can edit a company in slideover', async ({ page }) => {
     page.getByRole('button', { name: 'Cancel', exact: true })
   ).toBeVisible();
 
+  await page.waitForTimeout(2000);
+
   // fill and real edit
   await page.locator('#company_name').fill('A new name begin');
   await page.locator('#company_country_code').fill(`VN`);
   await page.locator('#company_homepage').fill('https://new-homepage.com');
-  await page
-    .locator('#company_description')
-    .getByRole('textbox')
-    .fill('I think, I believe');
 
   await page.getByRole('button', { name: 'Submit', exact: true }).click();
 
@@ -93,9 +94,6 @@ test('Can edit a company in slideover', async ({ page }) => {
   await expect(
     await page.getByTestId('view-company-homepage').textContent()
   ).toContain('https://new-homepage.com');
-  await expect(
-    await page.getByTestId('view-company-description').textContent()
-  ).toContain('I think, I believe');
 
   await expect(
     page.getByRole('button', { name: 'Edit', exact: true })

@@ -13,6 +13,7 @@ export default defineConfig({
     baseURL: process.env.WEB_APP_URL,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
   },
   projects: [
     {
