@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "author": "Seth Phat (me@sethphat.com)",
   "scripts": {
-    "dev": "vite --port=3000",
-    "build": "vite build",
-    "preview": "vite preview --port=3000",
+    "dev": "vite --port=3000 --config vite.config.ts",
+    "build": "vite build --config vite.config.ts",
+    "preview": "vite preview --port=3000 --config vite.config.ts",
     "start": "npm run dev",
     "tsc": "tsc",
     "lint": "eslint --ext .jsx --ext .js 'src/**'",
