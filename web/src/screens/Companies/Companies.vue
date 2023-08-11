@@ -6,21 +6,32 @@
     <template #right-buttons>
       <AddCompanySlideOver @added="loadCompanies" />
     </template>
+    <div class="flex items-center md:justify-end gap-2 mt-2 mb-4">
+      <Input
+        v-model="keyword"
+        label=""
+        placeholder="Input keyword to search"
+        class="w-[20rem]"
+        @keyup.enter="triggerSearch"
+      />
+      <Button
+        class="mt-2"
+        @click="triggerSearch"
+      >
+        Search
+      </Button>
+    </div>
     <AppTable
       :table="table"
       :records="companies"
+      :is-loading="isLoading"
       empty-label="No company 👀"
     />
     <Pagination
-      :total="totalRecords"
-      :from="page * perPage + 1"
-      :to="
-        (page + 1) * perPage < totalRecords
-          ? (page + 1) * perPage
-          : totalRecords
-      "
-      @next="table.nextPage()"
-      @prev="table.previousPage()"
+      :total-pages="pageCount"
+      :total-records="totalRecords"
+      :current="page + 1"
+      @go-to-page="(toPage) => table.setPageIndex(toPage - 1)"
     />
   </AppPage>
   <ViewCompanySlideOver
@@ -39,14 +50,11 @@ import AppPage from '@/components/AppPage/AppPage.vue';
 import { setPageTitle } from '@/libraries/pageTitle';
 import {
   createColumnHelper,
-  FlexRender,
   getCoreRowModel,
   PaginationState,
   SortingState,
   useVueTable,
 } from '@tanstack/vue-table';
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/outline';
-import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import { Company } from 'shared';
 import { companyRepo } from '@/repositories/company.repo';
@@ -56,14 +64,16 @@ import AddCompanySlideOver from '@/screens/Companies/components/AddCompanySlideO
 import Pagination from '@/components/Pagination/Pagination.vue';
 import AppTable from '@/components/AppTable/AppTable.vue';
 import ViewCompanyFinalNotesSlideOver from '@/screens/Companies/components/ViewCompanyFinalNotesSlideOver.vue';
+import { useLoading } from '@/composable/useLoading';
+import Input from '@/components/Input/Input.vue';
+import Button from '@/components/Button/Button.vue';
 
 setPageTitle('Companies');
-
-const router = useRouter();
 
 const viewingCompany = ref<Company | null>(null);
 const viewingCompanyNote = ref<Company | null>(null);
 
+const { startLoading, stopLoading, isLoading } = useLoading();
 const companies = ref<Company[]>([]);
 const columnHelper = createColumnHelper<Company>();
 const pageCount = ref(0);
@@ -75,6 +85,7 @@ const paginating = ref<PaginationState>({
   pageIndex: page.value,
   pageSize: perPage.value,
 });
+const keyword = ref('');
 
 const table = useVueTable<Company>({
   manualPagination: true,
@@ -132,24 +143,46 @@ const table = useVueTable<Company>({
   },
 });
 
+const triggerSearch = () => {
+  if (isLoading.value) {
+    return;
+  }
+
+  page.value = 0;
+  loadCompanies();
+};
+
 const loadCompanies = async () => {
+  if (isLoading.value) {
+    return;
+  }
+
+  startLoading();
+
   const orderBy =
     sorting.value?.[0]?.id === 'countryCode' ? 'country_code' : 'name';
   const orderDirection = sorting.value?.[0]?.desc || false ? 'DESC' : 'ASC';
 
-  const remoteCompanies = await companyRepo.getWithPagination({
-    keyword: '',
-    limit: perPage.value,
-    page: page.value + 1,
-    orderBy,
-    orderDirection,
-  });
+  const [remoteCompanies] = await Promise.all([
+    companyRepo.getWithPagination({
+      keyword: keyword.value || '',
+      limit: perPage.value,
+      page: page.value + 1,
+      orderBy,
+      orderDirection,
+    }),
+    countForPagination(),
+  ]);
 
   companies.value = [...remoteCompanies];
+
+  stopLoading();
 };
 
 const countForPagination = async () => {
-  totalRecords.value = await companyRepo.countForPagination('');
+  totalRecords.value = await companyRepo.countForPagination(
+    keyword.value || ''
+  );
   pageCount.value = Math.ceil(totalRecords.value / perPage.value);
 };
 
@@ -169,8 +202,7 @@ const reloadCompanies = (company: Company) => {
   };
 };
 
-onMounted(async () => {
-  await countForPagination();
-  await loadCompanies();
+onMounted(() => {
+  loadCompanies();
 });
 </script>
