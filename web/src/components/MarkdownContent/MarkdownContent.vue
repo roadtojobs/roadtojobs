@@ -1,6 +1,12 @@
 <template>
   <div
-    class="prose-sm prose-ul:list-disc prose-ol:list-decimal"
+    :class="[
+      'w-full prose-sm',
+      'prose-ul:list-disc prose-ol:list-decimal',
+      'prose-a:text-rose-600',
+      'prose-blockquote:border-l-4',
+      'prose-pre:border prose-pre:p-4 prose-code:rounded',
+    ]"
     v-html="renderedMarkdownContent"
   />
 </template>
@@ -15,8 +21,18 @@ const slots = useSlots();
 const renderedMarkdownContent = computed(() => {
   const content = slots.default?.()[0].children;
 
-  return DOMPurify.sanitize(
-    marked(content as string, { mangle: false, headerIds: false })
-  );
+  marked.use({
+    renderer: {
+      link(href, title, text) {
+        const legitTitle = title || 'RoadToJobs';
+        return `<a href="${href}" title="${legitTitle}" target="_blank">${text}</a>`;
+      },
+    },
+  });
+
+  const markedDown = marked.parse(content as string);
+  return DOMPurify.sanitize(markedDown, {
+    ADD_ATTR: ['target'],
+  });
 });
 </script>
