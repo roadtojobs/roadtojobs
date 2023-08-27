@@ -1,6 +1,6 @@
 {
   "name": "road-to-jobs",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "Seth Phat (admin@sethphat.com)",
   "scripts": {
     "bootstrap": "sh ./bin/bootstrap.sh",
